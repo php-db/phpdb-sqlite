@@ -1,0 +1,78 @@
+{
+    "name": "laminas/laminas-db-adapter-sqlite",
+    "description": "SQLite support for laminas-db",
+    "license": "BSD-3-Clause",
+    "keywords": [
+        "laminas",
+        "sqlite",
+        "db"
+    ],
+    "homepage": "https://github.com/axleus/laminas-db-adapter-sqlite/discussions",
+    "support": {
+        "issues": "https://github.com/alxeus/laminas-db-adapter-sqlite/issues",
+        "source": "https://github.com/axleus/laminas-db-adapter-sqlite",
+        "forum": "https://github.com/axleus/laminas-db-adapter-sqlite/discussions"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "config": {
+        "sort-packages": true,
+        "platform": {
+            "php": "8.2.99"
+        },
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
+    },
+    "extra": {
+        "laminas": {
+            "component": "Laminas\\Db\\Sqlite",
+            "config-provider": "Laminas\\Db\\Sqlite\\ConfigProvider"
+        }
+    },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/axleus/laminas-db"
+        }
+    ],
+    "require": {
+        "php": "~8.2.0 || ~8.3.0 || ~8.4.0",
+        "laminas/laminas-db": "dev-adapter-migration-mysql",
+        "ext-pdo": "*",
+        "ext-pdo_sqlite": "*"
+    },
+    "require-dev": {
+        "laminas/laminas-coding-standard": "^3.0.1",
+        "phpunit/phpunit": "^11.5.15",
+        "psalm/plugin-phpunit": "^0.19.2",
+        "vimeo/psalm": "^6.8.8"
+    },
+    "suggest": {
+        "laminas/laminas-servicemanager": "Laminas\\ServiceManager component"
+    },
+    "autoload": {
+        "psr-4": {
+            "Laminas\\Db\\Sqlite\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "LaminasTest\\Db\\Sqlite\\": "test/unit/",
+            "LaminasIntegrationTest\\Db\\Sqlite\\": "test/integration/"
+        }
+    },
+    "scripts": {
+        "check": [
+            "@cs-check",
+            "@test"
+        ],
+        "cs-check": "phpcs",
+        "cs-fix": "phpcbf",
+        "test": "phpunit --colors=always --testsuite \"unit test\"",
+        "test-coverage": "phpunit --colors=always --coverage-clover clover.xml",
+        "test-integration": "phpunit --colors=always --testsuite \"integration test\"",
+        "static-analysis": "psalm --shepherd --stats",
+        "upload-coverage": "coveralls -v"
+    }
+}
