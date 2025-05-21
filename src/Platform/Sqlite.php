@@ -2,12 +2,13 @@
 
 namespace Laminas\Db\Sqlite\Platform;
 
-use Laminas\Db\Adapter\Driver\DriverInterface;
-use Laminas\Db\Adapter\Driver\Pdo;
 use Laminas\Db\Adapter\Exception;
+use Laminas\Db\Adapter\Driver\DriverInterface;
 use Laminas\Db\Adapter\Platform\AbstractPlatform;
 use Laminas\Db\Sql\Platform\PlatformDecoratorInterface;
 use Laminas\Db\Sql\Platform\Sqlite\Sqlite as SqlPlatformDecorator;
+use Laminas\Db\Sqlite\Driver\Pdo\Driver;
+use PDO;
 
 class Sqlite extends AbstractPlatform
 {
@@ -19,10 +20,10 @@ class Sqlite extends AbstractPlatform
      */
     protected $quoteIdentifierTo = '\'';
 
-    /** @var \PDO */
+    /** @var PDO */
     protected $resource;
 
-    /** @param null|Pdo\Pdo|\PDO $driver */
+    /** @param null|PDO $driver */
     public function __construct($driver = null)
     {
         if ($driver) {
@@ -31,23 +32,24 @@ class Sqlite extends AbstractPlatform
     }
 
     /**
-     * @param Pdo\Pdo|\PDO $driver
-     * @return $this Provides a fluent interface
+     * @param Driver|PDO $driver
      * @throws Exception\InvalidArgumentException
+     * @return $this Provides a fluent interface
      */
     public function setDriver($driver)
     {
         if (
             (
-                $driver instanceof \PDO
-                && $driver->getAttribute(\PDO::ATTR_DRIVER_NAME) === 'sqlite'
+                $driver instanceof PDO
+                && $driver->getAttribute(PDO::ATTR_DRIVER_NAME) === 'sqlite'
             )
             || (
-                $driver instanceof Pdo\Pdo
+                $driver instanceof Driver
                 && $driver->getDatabasePlatformName() === 'Sqlite'
             )
         ) {
             $this->resource = $driver;
+
             return $this;
         }
 
@@ -75,7 +77,7 @@ class Sqlite extends AbstractPlatform
             $resource = $resource->getConnection()->getResource();
         }
 
-        if ($resource instanceof \PDO) {
+        if ($resource instanceof PDO) {
             return $resource->quote($value);
         }
 
@@ -93,7 +95,7 @@ class Sqlite extends AbstractPlatform
             $resource = $resource->getConnection()->getResource();
         }
 
-        if ($resource instanceof \PDO) {
+        if ($resource instanceof PDO) {
             return $resource->quote($value);
         }
 

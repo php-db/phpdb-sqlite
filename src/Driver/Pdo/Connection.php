@@ -3,9 +3,9 @@
 namespace Laminas\Db\Sqlite\Driver\Pdo;
 
 use Laminas\Db\Adapter\Driver\Pdo\AbstractPdoConnection;
-use Laminas\Db\Adapter\Driver\Pdo\Statement;
 use Laminas\Db\Adapter\Driver\PdoDriverInterface;
 use Laminas\Db\Adapter\Driver\ResultInterface;
+use Laminas\Db\Adapter\Driver\StatementInterface;
 use Laminas\Db\Adapter\Exception;
 use Laminas\Db\Adapter\Exception\RunTimeException;
 use PDO;
@@ -318,10 +318,10 @@ class Connection extends AbstractPdoConnection
     /**
      * Prepare
      *
-     * @param string $sql
-     * @return Statement
+     * @param ?string $sql
+     * @return StatementInterface
      */
-    public function prepare(string $sql): Statement
+    public function prepare(?string $sql = null): StatementInterface
     {
         if (! $this->isConnected()) {
             $this->connect();

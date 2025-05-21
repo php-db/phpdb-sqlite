@@ -49,7 +49,7 @@ class CreateTableDecorator extends CreateTable implements PlatformDecoratorInter
      * @param string $sql
      * @return array
      */
-    protected function getSqlInsertOffsets($sql): array
+    protected function getSqlInsertOffsets(string $sql): array
     {
         $sqlLength   = strlen($sql);
         $insertStart = [];
@@ -82,7 +82,7 @@ class CreateTableDecorator extends CreateTable implements PlatformDecoratorInter
     /**
      * {@inheritDoc}
      */
-    protected function processColumns(?PlatformInterface $platform = null)
+    protected function processColumns(?PlatformInterface $adapterPlatform = null): ?array
     {
         if (! $this->columns) {
             return null;
@@ -91,7 +91,7 @@ class CreateTableDecorator extends CreateTable implements PlatformDecoratorInter
         $sqls = [];
 
         foreach ($this->columns as $i => $column) {
-            $sql           = $this->processExpression($column, $platform);
+            $sql           = $this->processExpression($column, $adapterPlatform);
             $insertStart   = $this->getSqlInsertOffsets($sql);
             $columnOptions = $column->getOptions();
 
@@ -120,7 +120,7 @@ class CreateTableDecorator extends CreateTable implements PlatformDecoratorInter
                         $j      = 1;
                         break;
                     case 'comment':
-                        $insert = ' COMMENT ' . $platform->quoteValue($coValue);
+                        $insert = ' COMMENT ' . $adapterPlatform->quoteValue($coValue);
                         $j      = 2;
                         break;
                     case 'columnformat':
@@ -154,7 +154,7 @@ class CreateTableDecorator extends CreateTable implements PlatformDecoratorInter
      * @param string $name
      * @return string
      */
-    private function normalizeColumnOption($name)
+    private function normalizeColumnOption(string $name): string
     {
         return strtolower(str_replace(['-', '_', ' '], '', $name));
     }
@@ -165,7 +165,7 @@ class CreateTableDecorator extends CreateTable implements PlatformDecoratorInter
      * @return int
      */
     // phpcs:ignore SlevomatCodingStandard.Classes.UnusedPrivateElements.UnusedMethod
-    private function compareColumnOptions($columnA, $columnB)
+    private function compareColumnOptions(string $columnA, string $columnB): int
     {
         $columnA = $this->normalizeColumnOption($columnA);
         $columnA = $this->columnOptionSortOrder[$columnA] ?? count($this->columnOptionSortOrder);

@@ -3,86 +3,28 @@
 namespace Laminas\Db\Sqlite\Driver\Pdo;
 
 use Laminas\Db\Adapter\Driver\DriverInterface;
-use Laminas\Db\Adapter\Driver\Feature\AbstractFeature;
 use Laminas\Db\Adapter\Driver\Feature\DriverFeatureInterface;
 use Laminas\Db\Adapter\Driver\Pdo\AbstractPdo;
-use Laminas\Db\Adapter\Driver\StatementInterface;
-use Laminas\Db\Adapter\Exception;
+use Laminas\Db\Adapter\Driver\Pdo\Result;
+use Laminas\Db\Adapter\Driver\Pdo\Statement;
 use Laminas\Db\Adapter\Profiler;
 use Laminas\Db\Sqlite\Driver\DatabasePlatformNameTrait;
-use PDO;
-use PDOStatement;
-
-use function extension_loaded;
-use function is_array;
-use function is_numeric;
-use function is_string;
-use function ltrim;
-use function preg_match;
-use function sprintf;
 
 class Driver extends AbstractPdo implements DriverInterface, DriverFeatureInterface, Profiler\ProfilerAwareInterface
 {
     use DatabasePlatformNameTrait;
 
-    /**
-     * @const
-     */
-    public const FEATURES_DEFAULT = 'default';
-
-    /**
-     * @internal
-     * @var Profiler\ProfilerInterface
-     */
-    public $profiler;
-
-    /** @var Connection */
-    protected $connection;
-
-    /** @var ?Statement */
-    protected $statementPrototype;
-
-    /** @var ?Result */
-    protected $resultPrototype;
-
-    /** @var array */
-    protected $features = [];
-
-    /**
-     * @return null|Profiler\ProfilerInterface
-     */
-    public function getProfiler(): ?Profiler\ProfilerInterface
-    {
-        return $this->profiler;
-    }
-
-    /**
-     * @return $this Provides a fluent interface
-     */
-    public function setProfiler(Profiler\ProfilerInterface $profiler): static
-    {
-        $this->profiler = $profiler;
-        if ($this->connection instanceof Profiler\ProfilerAwareInterface) {
-            $this->connection->setProfiler($profiler);
-        }
-        if ($this->statementPrototype instanceof Profiler\ProfilerAwareInterface) {
-            $this->statementPrototype->setProfiler($profiler);
+    public function __construct(
+        ?Connection $connection = null,
+        ?Statement $statementPrototype = null,
+        ?Result $resultPrototype = null,
+        $features = self::FEATURES_DEFAULT
+    ) {
+        if ($connection === null) {
+            $connection = new Connection();
         }
 
-        return $this;
-    }
-
-    /**
-     * Register connection
-     *
-     * @return $this Provides a fluent interface
-     */
-    public function registerConnection(Connection $connection): static
-    {
-        $this->connection = $connection;
-        $this->connection->setDriver($this);
-
-        return $this;
+        parent::__construct($connection, $statementPrototype, $resultPrototype, $features);
     }
 
     /**
@@ -90,8 +32,7 @@ class Driver extends AbstractPdo implements DriverInterface, DriverFeatureInterf
      */
     public function registerStatementPrototype(Statement $statementPrototype): void
     {
-        $this->statementPrototype = $statementPrototype;
-        $this->statementPrototype->setDriver($this);
+        $this->statementPrototype = $statementPrototype->setDriver($this);
     }
 
     /**
@@ -103,29 +44,11 @@ class Driver extends AbstractPdo implements DriverInterface, DriverFeatureInterf
     }
 
     /**
-     * Add feature
-     *
-     * @param string          $name
-     * @param AbstractFeature $feature
-     * @return $this Provides a fluent interface
-     */
-    public function addFeature($name, $feature): static
-    {
-        if ($feature instanceof AbstractFeature) {
-            $name = $feature->getName(); // overwrite the name, just in case
-            $feature->setDriver($this);
-        }
-        $this->features[$name] = $feature;
-
-        return $this;
-    }
-
-    /**
      * Setup the default features for Pdo
      *
      * @return $this Provides a fluent interface
      */
-    public function setupDefaultFeatures()
+    public function setupDefaultFeatures(): static
     {
         $this->addFeature(null, new Feature\SqliteRowCounter());
 
@@ -133,46 +56,24 @@ class Driver extends AbstractPdo implements DriverInterface, DriverFeatureInterf
     }
 
     /**
-     * Get feature
+     * Register connection
      *
-     * @param string $name
-     * @return AbstractFeature|false
+     * @return $this Provides a fluent interface
      */
-    public function getFeature($name)
+    public function registerConnection(Connection $connection): static
     {
-        if (isset($this->features[$name])) {
-            return $this->features[$name];
-        }
+        $this->connection = $connection->setDriver($this);
 
-        return false;
+        return $this;
     }
 
-    /**
-     * Check environment
-     */
-    public function checkEnvironment()
-    {
-        if (! extension_loaded('PDO')) {
-            throw new Exception\RuntimeException(
-                'The PDO extension is required for this adapter but the extension is not loaded'
-            );
-        }
-    }
-
-    /**
-     * @return Connection
-     */
-    public function getConnection()
-    {
-        return $this->connection;
-    }
-
+    #[\Override]
     /**
      * @param resource $resource
      * @param mixed    $context
-     * @return Result
+     * @return \Laminas\Db\Adapter\Driver\Pdo\Result
      */
-    public function createResult($resource, $context = null)
+    public function createResult($resource, $context = null): \Laminas\Db\Adapter\Driver\Pdo\Result
     {
         $result           = clone $this->resultPrototype;
         $sqliteRowCounter = $this->getFeature('SqliteRowCounter');
@@ -185,55 +86,5 @@ class Driver extends AbstractPdo implements DriverInterface, DriverFeatureInterf
         $result->initialize($resource, $this->connection->getLastGeneratedValue(), $rowCount);
 
         return $result;
-    }
-
-    /**
-     * @return string
-     */
-    public function getPrepareType(): string
-    {
-        return self::PARAMETERIZATION_NAMED;
-    }
-
-    /**
-     * @param string      $name
-     * @param string|null $type
-     * @return string
-     */
-    public function formatParameterName($name, $type = null)
-    {
-        if ($type === null && ! is_numeric($name) || $type === self::PARAMETERIZATION_NAMED) {
-            $name = ltrim($name, ':');
-            // @see https://bugs.php.net/bug.php?id=43130
-            if (preg_match('/[^a-zA-Z0-9_]/', $name)) {
-                throw new Exception\RuntimeException(sprintf(
-                    'The PDO param %s contains invalid characters.'
-                    . ' Only alphabetic characters, digits, and underscores (_)'
-                    . ' are allowed.',
-                    $name
-                ));
-            }
-
-            return ':' . $name;
-        }
-
-        return '?';
-    }
-
-    /**
-     * @param string|null $name
-     * @return string|null|false
-     */
-    public function getLastGeneratedValue($name = null)
-    {
-        return $this->connection->getLastGeneratedValue($name);
-    }
-
-    /**
-     * @return Result
-     */
-    public function getResultPrototype()
-    {
-        return $this->resultPrototype;
     }
 }

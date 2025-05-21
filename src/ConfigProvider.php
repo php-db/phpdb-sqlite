@@ -2,7 +2,6 @@
 
 namespace Laminas\Db\Sqlite;
 
-use Laminas\Db\Adapter\AbstractAdapterServiceFactory;
 use Laminas\Db\Adapter\AdapterInterface;
 use Laminas\Db\Adapter\Driver\DriverInterface;
 use Laminas\Db\Adapter\Platform\PlatformInterface;
