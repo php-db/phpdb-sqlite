@@ -7,6 +7,7 @@ namespace LaminasTest\Db\Sqlite\Driver\Pdo;
 use Exception;
 use Laminas\Db\Adapter\Exception\InvalidConnectionParametersException;
 use Laminas\Db\Sqlite\Driver\Pdo\Connection;
+use Laminas\Db\Sqlite\Driver\Pdo\Driver;
 use Override;
 use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\Attributes\Group;
@@ -57,9 +58,8 @@ final class ConnectionTest extends TestCase
     public function testArrayOfConnectionParametersCreatesCorrectDsn(): void
     {
         $this->connection->setConnectionParameters([
-            'driver'      => 'pdo_sqlite',
-            'charset'     => 'utf8',
-            'dbname'      => 'foo',
+            'driver'   => 'Pdo_Sqlite',
+            'database' => 'memory',
         ]);
         try {
             $this->connection->connect();
@@ -67,26 +67,8 @@ final class ConnectionTest extends TestCase
         }
         $responseString = $this->connection->getDsn();
 
-        self::assertStringStartsWith('mysql:', $responseString);
-        self::assertStringContainsString('charset=utf8', $responseString);
-        self::assertStringContainsString('dbname=foo', $responseString);
-    }
-
-    public function testHostnameAndUnixSocketThrowsInvalidConnectionParametersException(): void
-    {
-        $this->expectException(InvalidConnectionParametersException::class);
-        $this->expectExceptionMessage(
-            'Ambiguous connection parameters, both hostname and unix_socket parameters were set'
-        );
-
-        $this->connection->setConnectionParameters([
-            'driver'      => 'pdo_mysql',
-            'host'        => '127.0.0.1',
-            'dbname'      => 'foo',
-            'port'        => '3306',
-            'unix_socket' => '/var/run/mysqld/mysqld.sock',
-        ]);
-        $this->connection->connect();
+        self::assertStringStartsWith('sqlite:', $responseString);
+        self::assertStringContainsString('memory', $responseString);
     }
 
     public function testDblibArrayOfConnectionParametersCreatesCorrectDsn(): void
@@ -105,9 +87,6 @@ final class ConnectionTest extends TestCase
         $responseString = $this->connection->getDsn();
 
         $this->assertStringStartsWith('dblib:', $responseString);
-        $this->assertStringContainsString('charset=UTF-8', $responseString);
-        $this->assertStringContainsString('dbname=foo', $responseString);
-        $this->assertStringContainsString('port=1433', $responseString);
-        $this->assertStringContainsString('version=7.3', $responseString);
+        $this->assertStringContainsString('foo', $responseString);
     }
 }

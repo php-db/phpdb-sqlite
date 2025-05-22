@@ -2,6 +2,7 @@
 
 namespace Laminas\Db\Sqlite\Driver\Pdo;
 
+use Laminas\Db\Adapter\Driver\ConnectionInterface;
 use Laminas\Db\Adapter\Driver\Pdo\AbstractPdoConnection;
 use Laminas\Db\Adapter\Driver\PdoDriverInterface;
 use Laminas\Db\Adapter\Driver\ResultInterface;
@@ -19,7 +20,7 @@ use function str_replace;
 use function strtolower;
 use function substr;
 
-class Connection extends AbstractPdoConnection
+class Connection extends AbstractPdoConnection implements ConnectionInterface
 {
     /** @var PdoDriverInterface */
     protected PdoDriverInterface $driver;

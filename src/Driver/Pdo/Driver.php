@@ -2,26 +2,30 @@
 
 namespace Laminas\Db\Sqlite\Driver\Pdo;
 
+use Laminas\Db\Adapter\Driver\ConnectionInterface;
 use Laminas\Db\Adapter\Driver\DriverInterface;
 use Laminas\Db\Adapter\Driver\Feature\DriverFeatureInterface;
 use Laminas\Db\Adapter\Driver\Pdo\AbstractPdo;
-use Laminas\Db\Adapter\Driver\Pdo\Result;
 use Laminas\Db\Adapter\Driver\Pdo\Statement;
+use Laminas\Db\Adapter\Driver\ResultInterface;
+use Laminas\Db\Adapter\Driver\StatementInterface;
 use Laminas\Db\Adapter\Profiler;
 use Laminas\Db\Sqlite\Driver\DatabasePlatformNameTrait;
+use Override;
+use PDO;
 
 class Driver extends AbstractPdo implements DriverInterface, DriverFeatureInterface, Profiler\ProfilerAwareInterface
 {
     use DatabasePlatformNameTrait;
 
     public function __construct(
-        ?Connection $connection = null,
+        ConnectionInterface|PDO|array $connection,
         ?Statement $statementPrototype = null,
         ?Result $resultPrototype = null,
         $features = self::FEATURES_DEFAULT
     ) {
-        if ($connection === null) {
-            $connection = new Connection();
+        if (! $connection instanceof ConnectionInterface) {
+            $connection = new Connection($connection);
         }
 
         parent::__construct($connection, $statementPrototype, $resultPrototype, $features);
@@ -30,7 +34,7 @@ class Driver extends AbstractPdo implements DriverInterface, DriverFeatureInterf
     /**
      * Register statement prototype
      */
-    public function registerStatementPrototype(Statement $statementPrototype): void
+    public function registerStatementPrototype(StatementInterface $statementPrototype): void
     {
         $this->statementPrototype = $statementPrototype->setDriver($this);
     }
@@ -38,7 +42,7 @@ class Driver extends AbstractPdo implements DriverInterface, DriverFeatureInterf
     /**
      * Register result prototype
      */
-    public function registerResultPrototype(Result $resultPrototype): void
+    public function registerResultPrototype(ResultInterface $resultPrototype): void
     {
         $this->resultPrototype = $resultPrototype;
     }
@@ -60,14 +64,14 @@ class Driver extends AbstractPdo implements DriverInterface, DriverFeatureInterf
      *
      * @return $this Provides a fluent interface
      */
-    public function registerConnection(Connection $connection): static
+    public function registerConnection(PDO|ConnectionInterface $connection): static
     {
         $this->connection = $connection->setDriver($this);
 
         return $this;
     }
 
-    #[\Override]
+    #[Override]
     /**
      * @param resource $resource
      * @param mixed    $context

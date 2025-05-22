@@ -164,7 +164,10 @@ final class SqliteTest extends TestCase
             touch($filePath);
         }
 
-        $driver = new Driver(new Connection());
+        $driver = new Driver(new Connection([
+            'driver'   => 'Pdo_Sqlite',
+            'database' => 'memory',
+        ]));
 
         $this->platform->setDriver($driver);
 
