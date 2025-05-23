@@ -9,7 +9,7 @@ final class Module
     public function getConfig(): array
     {
         return [
-            'service_manager' => (new ConfigProvider())->getDependencyConfig(),
+            'service_manager' => (new ConfigProvider())->getDependencies(),
         ];
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace LaminasTest\Db\Sqlite\Platform;
+namespace LaminasTest\Db\Sqlite\Sqlite\Platform;
 
 use Laminas\Db\Sqlite\Driver\Pdo\Connection;
 use Laminas\Db\Sqlite\Driver\Pdo\Driver;
@@ -67,7 +67,7 @@ final class SqliteTest extends TestCase
     public function testQuoteValueRaisesNoticeWithoutPlatformSupport(): void
     {
         $raisedNotice = false;
-        set_error_handler(function($errno, $errstr, $errfile, $errline) use (&$raisedNotice) {
+        set_error_handler(function($errno, $errstr) use (&$raisedNotice) {
             $this->assertEquals(E_USER_NOTICE, $errno);
             $this->assertEquals($errstr,
             'Attempting to quote a value in Laminas\Db\Sqlite\Platform\Sqlite without extension/driver support can '
@@ -115,7 +115,7 @@ final class SqliteTest extends TestCase
     public function testQuoteValueList(): void
     {
         $raisedNotice = false;
-        set_error_handler(function($errno, $errstr, $errfile, $errline) use (&$raisedNotice) {
+        set_error_handler(function($errno, $errstr) use (&$raisedNotice) {
             $this->assertEquals(E_USER_NOTICE, $errno);
             $this->assertEquals($errstr,
             'Attempting to quote a value in Laminas\Db\Sqlite\Platform\Sqlite without extension/driver support can '
@@ -176,11 +176,9 @@ final class SqliteTest extends TestCase
         $driver = new Driver(new Connection([
             'driver'   => 'Pdo_Sqlite',
             'database' => ':memory',
-            'database' => ':memory',
         ]));
 
         $this->platform->setDriver($driver);
-
         $this->platform->quoteValue("some; random]/ value");
         $this->platform->quoteTrustedValue("some; random]/ value");
 

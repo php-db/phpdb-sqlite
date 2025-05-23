@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace LaminasTest\Db\Sqlite\Driver\TestAsset;
+namespace LaminasTest\Db\Sqlite\Sqlite\Driver\TestAsset;
 
 use PDO;
 use ReturnTypeWillChange;
@@ -31,7 +31,7 @@ final class PdoMock extends PDO
      * @return null
      */
     #[ReturnTypeWillChange]
-    public function getAttribute($attribute)
+    public function getAttribute($attribute): null
     {
         return null;
     }

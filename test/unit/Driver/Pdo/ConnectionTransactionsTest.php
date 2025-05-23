@@ -14,7 +14,7 @@ use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Tests for {@see \Laminas\Db\Sqlite\Driver\Pdo\Connection} transaction support
+ * Tests for {@see Connection} transaction support
  */
 #[CoversClass(Connection::class)]
 #[CoversClass(AbstractConnection::class)]

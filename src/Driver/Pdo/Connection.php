@@ -4,6 +4,7 @@ namespace Laminas\Db\Sqlite\Driver\Pdo;
 
 use Laminas\Db\Adapter\Driver\ConnectionInterface;
 use Laminas\Db\Adapter\Driver\Pdo\AbstractPdoConnection;
+use Laminas\Db\Adapter\Driver\PdoDriverAwareInterface;
 use Laminas\Db\Adapter\Driver\PdoDriverInterface;
 use Laminas\Db\Adapter\Driver\ResultInterface;
 use Laminas\Db\Adapter\Driver\StatementInterface;
@@ -20,7 +21,7 @@ use function str_replace;
 use function strtolower;
 use function substr;
 
-class Connection extends AbstractPdoConnection implements ConnectionInterface
+class Connection extends AbstractPdoConnection implements ConnectionInterface, PdoDriverAwareInterface
 {
     /** @var PdoDriverInterface */
     protected PdoDriverInterface $driver;
@@ -74,7 +75,7 @@ class Connection extends AbstractPdoConnection implements ConnectionInterface
         }
 
         /** @var PDOStatement $result */
-        $result = $this->resource->query('main');
+        $result = $this->resource->query('PRAGMA database_list');
         if ($result instanceof PDOStatement) {
             return $result->fetchColumn();
         }
@@ -143,7 +144,7 @@ class Connection extends AbstractPdoConnection implements ConnectionInterface
         if (isset($hostname) && isset($unixSocket)) {
             throw new Exception\InvalidConnectionParametersException(
                 'Ambiguous connection parameters, both hostname and unix_socket parameters were set',
-                $this->connectionParameters
+                (int) $this->connectionParameters
             );
         }
 
@@ -152,7 +153,7 @@ class Connection extends AbstractPdoConnection implements ConnectionInterface
         } elseif (! isset($dsn)) {
             throw new Exception\InvalidConnectionParametersException(
                 'A dsn was not provided or could not be constructed from your parameters',
-                $this->connectionParameters
+                (int) $this->connectionParameters
             );
         }
 

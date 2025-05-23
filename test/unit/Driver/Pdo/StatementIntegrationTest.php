@@ -6,6 +6,7 @@ namespace LaminasTest\Db\Sqlite\Driver\Pdo;
 
 use Laminas\Db\Adapter\Driver\Pdo\Statement;
 use Laminas\Db\Sqlite\Driver\Pdo\Driver;
+use LaminasTest\Db\Sqlite\Driver\Pdo\TestAsset\CtorlessPdo;
 use Override;
 use PDO;
 use PDOStatement;
@@ -18,7 +19,7 @@ final class StatementIntegrationTest extends TestCase
 {
     protected Statement $statement;
 
-    /** @var MockObject */
+    /** @var PDOStatement|MockObject */
     protected PDOStatement|MockObject $pdoStatementMock;
 
     public function testStatementExecuteWillConvertPhpBoolToPdoBoolWhenBinding(): void
@@ -75,7 +76,7 @@ final class StatementIntegrationTest extends TestCase
 
         $this->statement = new Statement();
         $this->statement->setDriver($driver);
-        $this->statement->initialize(new TestAsset\CtorlessPdo(
+        $this->statement->initialize(new CtorlessPdo(
             $this->pdoStatementMock = $this->getMockBuilder('PDOStatement')
                                            ->onlyMethods(['execute', 'bindParam'])
                                            ->getMock()

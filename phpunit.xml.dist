@@ -17,11 +17,9 @@
         <testsuite name="unit">
             <directory>test/unit</directory>
         </testsuite>
-        <!--
         <testsuite name="integration">
             <directory>test/integration</directory>
         </testsuite>
-        -->
     </testsuites>
     <coverage pathCoverage="false" disableCodeCoverageIgnore="true">
     </coverage>

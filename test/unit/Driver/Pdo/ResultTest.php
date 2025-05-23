@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace LaminasTest\Db\Sqlite\Driver\Pdo;
+namespace LaminasTest\Db\Sqlite\Sqlite\Driver\Pdo;
 
 use Laminas\Db\Adapter\Driver\Pdo\Result;
 use Laminas\Db\Adapter\Exception\InvalidArgumentException;

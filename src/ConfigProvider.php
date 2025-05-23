@@ -1,10 +1,13 @@
-<?php declare(strict_types=1);
+<?php
+declare(strict_types=1);
 
 namespace Laminas\Db\Sqlite;
 
 use Laminas\Db\Adapter\AdapterInterface;
 use Laminas\Db\Adapter\Driver\DriverInterface;
 use Laminas\Db\Adapter\Platform\PlatformInterface;
+use Laminas\Db\Adapter\Profiler\Profiler;
+use Laminas\Db\Adapter\Profiler\ProfilerInterface;
 use Laminas\ServiceManager\Factory\InvokableFactory;
 
 readonly class ConfigProvider
@@ -19,13 +22,15 @@ readonly class ConfigProvider
     public function getDependencies(): array
     {
         return [
-            'aliases' => [
+            'aliases'   => [
                 PlatformInterface::class => Platform\Sqlite::class,
+                ProfilerInterface::class => Profiler::class,
             ],
             'factories' => [
                 AdapterInterface::class => AdapterServiceFactory::class,
-                DriverInterface::class   => Driver\Pdo\DriverFactory::class,
-                Platform\Sqlite::class    => InvokableFactory::class,
+                DriverInterface::class  => Driver\Pdo\DriverFactory::class,
+                Platform\Sqlite::class  => InvokableFactory::class,
+                Profiler::class         => InvokableFactory::class,
             ],
         ];
     }

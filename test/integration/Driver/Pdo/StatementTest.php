@@ -9,7 +9,7 @@ use Laminas\Db\Sqlite\Driver\Pdo\Connection;
 use Laminas\Db\Sqlite\Driver\Pdo\Driver;
 use Laminas\Db\Sqlite\Driver\Pdo\Result;
 use Laminas\Db\Sqlite\Driver\Pdo\Statement;
-use LaminasIntegrationTest\Db\Sqlite\Adapter\Driver\Pdo\Override;
+use LaminasIntegrationTest\Db\Sqlite\Driver\Pdo\TestAsset\SqliteMemoryPdo;
 use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\TestCase;
 
@@ -28,7 +28,7 @@ final class StatementTest extends TestCase
 
     public function testGetResource(): void
     {
-        $pdo  = new \LaminasTest\Db\Sqlite\Driver\Pdo\TestAsset\SqliteMemoryPdo();
+        $pdo  = new SqliteMemoryPdo();
         $stmt = $pdo->prepare('SELECT 1');
         $this->statement->setResource($stmt);
 
@@ -52,21 +52,21 @@ final class StatementTest extends TestCase
      */
     public function testPrepare(): void
     {
-        $this->statement->initialize(new \LaminasTest\Db\Sqlite\Driver\Pdo\TestAsset\SqliteMemoryPdo());
+        $this->statement->initialize(new SqliteMemoryPdo());
         self::assertInstanceOf(StatementInterface::class, $this->statement->prepare('SELECT 1'));
     }
 
     public function testIsPrepared(): void
     {
         self::assertFalse($this->statement->isPrepared());
-        $this->statement->initialize(new \LaminasTest\Db\Sqlite\Driver\Pdo\TestAsset\SqliteMemoryPdo());
+        $this->statement->initialize(new SqliteMemoryPdo());
         $this->statement->prepare('SELECT 1');
         self::assertTrue($this->statement->isPrepared());
     }
 
     public function testExecute(): void
     {
-        $this->statement->setDriver(new Driver(new Connection($pdo = new \LaminasTest\Db\Sqlite\Driver\Pdo\TestAsset\SqliteMemoryPdo())));
+        $this->statement->setDriver(new Driver(new Connection($pdo = new SqliteMemoryPdo())));
         $this->statement->initialize($pdo);
         $this->statement->prepare('SELECT 1');
         self::assertInstanceOf(Result::class, $this->statement->execute());

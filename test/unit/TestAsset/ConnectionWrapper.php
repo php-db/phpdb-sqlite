@@ -7,7 +7,7 @@ namespace LaminasTest\Db\Sqlite\TestAsset;
 use Laminas\Db\Sqlite\Driver\Pdo\Connection;
 
 /**
- * Test asset class used only by {@see \LaminasTest\Db\Adapter\Driver\Pdo\ConnectionTransactionsTest}
+ * Test asset class used only by {@see \LaminasTest\Db\Sqlite\Adapter\Driver\Pdo\ConnectionTransactionsTest}
  */
 final class ConnectionWrapper extends Connection
 {

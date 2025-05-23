@@ -25,7 +25,7 @@ class AdapterServiceFactory extends AdapterAbstractServiceFactory implements Fac
     public function __invoke(ContainerInterface $container, string $requestedName, ?array $options = null): Adapter
     {
         $resultSetPrototype = $container->has(ResultSetInterface::class) ? $container->get(ResultSetInterface::class) : null;
-        $profiler           = $this->createProfiler($container, $config['db']['profiler'] ?? []);
+        $profiler           = $this->createProfiler($container, $this->getConfig($container));
 
         return new Adapter(
             $container->get(DriverInterface::class),

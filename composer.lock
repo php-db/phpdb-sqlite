@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5a146a70e8fc4004df958fc8934688ef",
+    "content-hash": "01d9df0c0a193f0e23115041f29db327",
     "packages": [
         {
             "name": "brick/varexporter",
@@ -61,12 +61,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/axleus/laminas-db.git",
-                "reference": "1a3a67bfe8ec6137d24471c787fb604fe0f213aa"
+                "reference": "a33223ab8deeaa6b17366f7a61fb8d2078a7efa3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/axleus/laminas-db/zipball/1a3a67bfe8ec6137d24471c787fb604fe0f213aa",
-                "reference": "1a3a67bfe8ec6137d24471c787fb604fe0f213aa",
+                "url": "https://api.github.com/repos/axleus/laminas-db/zipball/a33223ab8deeaa6b17366f7a61fb8d2078a7efa3",
+                "reference": "a33223ab8deeaa6b17366f7a61fb8d2078a7efa3",
                 "shasum": ""
             },
             "require": {
@@ -154,7 +154,7 @@
                     "url": "https://github.com/AXLEUS"
                 }
             ],
-            "time": "2025-05-23T00:00:27+00:00"
+            "time": "2025-05-23T07:07:25+00:00"
         },
         {
             "name": "laminas/laminas-servicemanager",
@@ -5567,7 +5567,7 @@
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
-        "php": "~8.2.0 || ~8.3.0 || ~8.4.0",
+        "php": "~8.3.0 || ~8.4.0",
         "ext-pdo": "*",
         "ext-pdo_sqlite": "*"
     },

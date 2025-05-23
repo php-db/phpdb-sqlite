@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace LaminasTest\Db\Sqlite\Driver\Pdo;
+namespace LaminasTest\Db\Sqlite\Sqlite\Driver\Pdo;
 
 use Laminas\Db\Adapter\Driver\DriverInterface;
 use Laminas\Db\Adapter\Driver\Pdo\Result;
+use Laminas\Db\Exception\RuntimeException;
 use Laminas\Db\Sqlite\Driver\Pdo\Connection;
 use Laminas\Db\Sqlite\Driver\Pdo\Driver;
-use Laminas\Db\Exception\RuntimeException;
 use Override;
 use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -29,7 +29,7 @@ final class PdoTest extends TestCase
     {
         $connection = new Connection();
 
-        $this->pdo = new Driver($connection);;
+        $this->pdo = new Driver($connection);
     }
 
     public function testGetDatabasePlatformName(): void
