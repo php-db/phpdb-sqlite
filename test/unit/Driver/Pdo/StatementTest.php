@@ -45,16 +45,6 @@ final class StatementTest extends TestCase
         self::assertSame($container, $this->statement->getParameterContainer());
     }
 
-    public function testGetResource(): void
-    {
-        $this->markTestSkipped('Needs to be covered by integration group');
-        // $pdo  = new TestAsset\SqliteMemoryPdo();
-        // $stmt = $pdo->prepare('SELECT 1');
-        // $this->statement->setResource($stmt);
-
-        self::assertSame($stmt, $this->statement->getResource());
-    }
-
     public function testSetSql(): void
     {
         $this->statement->setSql('SELECT 1');
@@ -65,34 +55,6 @@ final class StatementTest extends TestCase
     {
         $this->statement->setSql('SELECT 1');
         self::assertEquals('SELECT 1', $this->statement->getSql());
-    }
-
-    /**
-     * @todo Implement testPrepare().
-     */
-    public function testPrepare(): void
-    {
-        $this->markTestSkipped('Needs to be covered by integration group');
-        // $this->statement->initialize(new TestAsset\SqliteMemoryPdo());
-        // self::assertNull($this->statement->prepare('SELECT 1'));
-    }
-
-    public function testIsPrepared(): void
-    {
-        $this->markTestSkipped('Needs to be covered by integration group');
-        // self::assertFalse($this->statement->isPrepared());
-        // $this->statement->initialize(new TestAsset\SqliteMemoryPdo());
-        // $this->statement->prepare('SELECT 1');
-        // self::assertTrue($this->statement->isPrepared());
-    }
-
-    public function testExecute(): void
-    {
-        $this->markTestSkipped('Needs to be covered by integration group');
-        // $this->statement->setDriver(new Pdo(new Connection($pdo = new TestAsset\SqliteMemoryPdo())));
-        // $this->statement->initialize($pdo);
-        // $this->statement->prepare('SELECT 1');
-        // self::assertInstanceOf(Result::class, $this->statement->execute());
     }
 
     /**

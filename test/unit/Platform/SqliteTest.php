@@ -66,16 +66,20 @@ final class SqliteTest extends TestCase
 
     public function testQuoteValueRaisesNoticeWithoutPlatformSupport(): void
     {
-        /**
-         * @todo Determine if vulnerability warning is required during unit testing
-         */
-        //$this->expectNotice();
-        //$this->expectExceptionMessage(
-        //    'Attempting to quote a value in Laminas\Db\Adapter\Platform\Sqlite without extension/driver support can '
-        //    . 'introduce security vulnerabilities in a production environment'
-        //);
-        $this->expectNotToPerformAssertions();
+        $raisedNotice = false;
+        set_error_handler(function($errno, $errstr, $errfile, $errline) use (&$raisedNotice) {
+            $this->assertEquals(E_USER_NOTICE, $errno);
+            $this->assertEquals($errstr,
+            'Attempting to quote a value in Laminas\Db\Sqlite\Platform\Sqlite without extension/driver support can '
+                . 'introduce security vulnerabilities in a production environment'
+            );
+            $raisedNotice = true;
+        });
+
         $this->platform->quoteValue('value');
+        self::assertTrue($raisedNotice);
+
+        restore_error_handler();
     }
 
     public function testQuoteValue(): void
@@ -110,15 +114,20 @@ final class SqliteTest extends TestCase
 
     public function testQuoteValueList(): void
     {
-        /**
-         * @todo Determine if vulnerability warning is required during unit testing
-         */
-        //$this->expectError();
-        //$this->expectExceptionMessage(
-        //    'Attempting to quote a value in Laminas\Db\Adapter\Platform\Sqlite without extension/driver support can '
-        //    . 'introduce security vulnerabilities in a production environment'
-        //);
+        $raisedNotice = false;
+        set_error_handler(function($errno, $errstr, $errfile, $errline) use (&$raisedNotice) {
+            $this->assertEquals(E_USER_NOTICE, $errno);
+            $this->assertEquals($errstr,
+            'Attempting to quote a value in Laminas\Db\Sqlite\Platform\Sqlite without extension/driver support can '
+                . 'introduce security vulnerabilities in a production environment'
+            );
+            $raisedNotice = true;
+        });
+
         self::assertEquals("'Foo O\\'Bar'", $this->platform->quoteValueList("Foo O'Bar"));
+        self::assertTrue($raisedNotice);
+
+        restore_error_handler();
     }
 
     public function testGetIdentifierSeparator(): void
@@ -166,7 +175,8 @@ final class SqliteTest extends TestCase
 
         $driver = new Driver(new Connection([
             'driver'   => 'Pdo_Sqlite',
-            'database' => 'memory',
+            'database' => ':memory',
+            'database' => ':memory',
         ]));
 
         $this->platform->setDriver($driver);

@@ -6,7 +6,6 @@ use Laminas\Db\Adapter\Driver\ConnectionInterface;
 use Laminas\Db\Adapter\Driver\DriverInterface;
 use Laminas\Db\Adapter\Driver\Feature\DriverFeatureInterface;
 use Laminas\Db\Adapter\Driver\Pdo\AbstractPdo;
-use Laminas\Db\Adapter\Driver\Pdo\Statement;
 use Laminas\Db\Adapter\Driver\ResultInterface;
 use Laminas\Db\Adapter\Driver\StatementInterface;
 use Laminas\Db\Adapter\Profiler;
@@ -26,6 +25,14 @@ class Driver extends AbstractPdo implements DriverInterface, DriverFeatureInterf
     ) {
         if (! $connection instanceof ConnectionInterface) {
             $connection = new Connection($connection);
+        }
+
+        if ($statementPrototype === null) {
+            $statementPrototype = new Statement();
+        }
+
+        if ($resultPrototype === null) {
+            $resultPrototype = new Result();
         }
 
         parent::__construct($connection, $statementPrototype, $resultPrototype, $features);

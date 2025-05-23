@@ -59,7 +59,7 @@ final class ConnectionTest extends TestCase
     {
         $this->connection->setConnectionParameters([
             'driver'   => 'Pdo_Sqlite',
-            'database' => 'memory',
+            'database' => ':memory',
         ]);
         try {
             $this->connection->connect();

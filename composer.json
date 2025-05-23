@@ -37,7 +37,7 @@
         }
     ],
     "require": {
-        "php": "~8.2.0 || ~8.3.0 || ~8.4.0",
+        "php": "~8.3.0 || ~8.4.0",
         "laminas/laminas-db": "dev-adapter-migration-mysql-refactor",
         "ext-pdo": "*",
         "ext-pdo_sqlite": "*"

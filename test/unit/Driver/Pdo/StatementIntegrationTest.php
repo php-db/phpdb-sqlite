@@ -6,49 +6,20 @@ namespace LaminasTest\Db\Sqlite\Driver\Pdo;
 
 use Laminas\Db\Adapter\Driver\Pdo\Statement;
 use Laminas\Db\Sqlite\Driver\Pdo\Driver;
-use Laminas\Db\Sqlite\Driver\Pdo\Pdo as PdoDriver;
-use LaminasTest\Db\Sqlite\Driver\Pdo\TestAsset;
 use Override;
 use PDO;
 use PDOStatement;
+use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
+#[CoversMethod(Statement::class, 'execute')]
 final class StatementIntegrationTest extends TestCase
 {
     protected Statement $statement;
 
     /** @var MockObject */
     protected PDOStatement|MockObject $pdoStatementMock;
-
-    /**
-     * Sets up the fixture, for example, opens a network connection.
-     * This method is called before a test is executed.
-     */
-    #[Override]
-    protected function setUp(): void
-    {
-        $driver = $this->getMockBuilder(Driver::class)
-            ->onlyMethods(['createResult'])
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $this->statement = new Statement();
-        $this->statement->setDriver($driver);
-        $this->statement->initialize(new TestAsset\CtorlessPdo(
-            $this->pdoStatementMock = $this->getMockBuilder('PDOStatement')
-                ->onlyMethods(['execute', 'bindParam'])
-                ->getMock()
-        ));
-    }
-
-    /**
-     * Tears down the fixture, for example, closes a network connection.
-     * This method is called after a test is executed.
-     */
-    protected function tearDown(): void
-    {
-    }
 
     public function testStatementExecuteWillConvertPhpBoolToPdoBoolWhenBinding(): void
     {
@@ -88,5 +59,34 @@ final class StatementIntegrationTest extends TestCase
             $this->equalTo(PDO::PARAM_INT)
         );
         $this->statement->execute(['foo' => 123]);
+    }
+
+    /**
+     * Sets up the fixture, for example, opens a network connection.
+     * This method is called before a test is executed.
+     */
+    #[Override]
+    protected function setUp(): void
+    {
+        $driver = $this->getMockBuilder(Driver::class)
+                       ->onlyMethods(['createResult'])
+                       ->disableOriginalConstructor()
+                       ->getMock();
+
+        $this->statement = new Statement();
+        $this->statement->setDriver($driver);
+        $this->statement->initialize(new TestAsset\CtorlessPdo(
+            $this->pdoStatementMock = $this->getMockBuilder('PDOStatement')
+                                           ->onlyMethods(['execute', 'bindParam'])
+                                           ->getMock()
+        ));
+    }
+
+    /**
+     * Tears down the fixture, for example, closes a network connection.
+     * This method is called after a test is executed.
+     */
+    protected function tearDown(): void
+    {
     }
 }
