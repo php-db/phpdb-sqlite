@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
+    bootstrap="vendor/autoload.php"
+    colors="true">
+
+    <extensions>
+        <bootstrap class="LaminasIntegrationTest\Db\Extension\ListenerExtension" />
+    </extensions>
+
+    <testsuites>
+        <testsuite name="unit test">
+            <directory>./test/unit</directory>
+        </testsuite>
+        <testsuite name="integration test">
+            <directory>./test/integration</directory>
+        </testsuite>
+    </testsuites>
+
+    <php>
+        <env name="TESTS_LAMINAS_DB_ADAPTER_DRIVER_SQLITE_MEMORY" value="false"/>
+    </php>
+</phpunit>

@@ -1,0 +1,83 @@
+{
+    "name": "laminas/laminas-db-sqlite-adapter",
+    "description": "SQLite support for laminas-db",
+    "license": "BSD-3-Clause",
+    "keywords": [
+        "sqlite",
+        "laminas",
+        "db"
+    ],
+    "homepage": "https://github.com/axleus/laminas-db-sqlite/discussions",
+    "support": {
+        "issues": "https://github.com/alxeus/laminas-db-sqlite/issues",
+        "source": "https://github.com/axleus/laminas-db-sqlite",
+        "forum": "https://github.com/axleus/laminas-db-sqlite/discussions"
+    },
+    "config": {
+        "sort-packages": true,
+        "platform": {
+            "php": "8.1.99"
+        },
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
+    },
+    "minimum-stability": "dev",
+    "extra": {
+        "laminas": {
+            "component": "Laminas\\Db\\Sqlite",
+            "config-provider": "Laminas\\Db\\Sqlite\\ConfigProvider"
+        }
+    },
+    "require": {
+        "php": "~8.3.0 || ~8.4.0",
+        "laminas/laminas-db": "3.0.x"
+    },
+    "require-dev": {
+        "ext-sqlite3": "*",
+        "ext-pdo_sqlite": "*",
+        "laminas/laminas-coding-standard": "^3.0.1",
+        "laminas/laminas-eventmanager": "^3.6.0",
+        "laminas/laminas-hydrator": "^4.7",
+        "laminas/laminas-servicemanager": "^3.19.0",
+        "phpunit/phpunit": "^12.1.6",
+        "psalm/plugin-phpunit": "^0.19.2",
+        "vimeo/psalm": "^6.11.0"
+    },
+    "suggest": {
+        "ext-sqlite3": "Required for SQLite3 support",
+        "ext-pdo_sqlite": "Required for PDO SQLite support",
+        "laminas/laminas-servicemanager": "Laminas\\ServiceManager component"
+    },
+    "autoload": {
+        "psr-4": {
+            "Laminas\\Db\\Mysql\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "LaminasTest\\Db\\Sqlite\\": "test/unit/",
+            "LaminasIntegrationTest\\Db\\Sqlite\\": "test/integration/"
+        }
+    },
+    "scripts": {
+        "check": [
+            "@cs-check",
+            "@static-analysis",
+            "@test"
+        ],
+        "cs-check": "phpcs",
+        "cs-fix": "phpcbf",
+        "test": "phpunit --colors=always --testsuite \"unit test\"",
+        "test-coverage": "phpunit --colors=always --coverage-clover clover.xml",
+        "test-integration": "phpunit --colors=always --testsuite \"integration test\"",
+        "static-analysis": "psalm",
+        "upload-coverage": "coveralls -v"
+    },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "git@github.com:axleus/laminas-db.git"
+        }
+    ]
+}
