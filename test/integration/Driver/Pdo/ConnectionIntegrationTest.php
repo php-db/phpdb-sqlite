@@ -6,6 +6,7 @@ namespace LaminasIntegrationTest\Db\Sqlite\Driver\Pdo;
 
 use Laminas\Db\Sqlite\Driver\Pdo\Connection;
 use LaminasIntegrationTest\Db\Sqlite\Driver\Pdo\TestAsset\SqliteMemoryPdo;
+use PDO;
 use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
@@ -51,7 +52,7 @@ final class ConnectionIntegrationTest extends TestCase
         $connection = new Connection($this->variables);
         $connection->connect();
 
-        self::assertInstanceOf('PDO', $connection->getResource());
+        self::assertInstanceOf(PDO::class, $connection->getResource());
 
         $connection->disconnect();
         unset($connection);

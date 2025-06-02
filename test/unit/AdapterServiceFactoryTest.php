@@ -25,7 +25,9 @@ final class AdapterServiceFactoryTest extends TestCase
     protected function createServiceManager(array $dbConfig): ServiceLocatorInterface
     {
         $config                       = (new ConfigProvider())->getDependencies();
-        $config['services']['config'] = $dbConfig;
+        if (array_key_exists('services', $config) && is_array($config['services'])) {
+            $config['services']['config'] = $dbConfig;
+        }
 
         return new ServiceManager($config);
     }

@@ -7,7 +7,7 @@ use Laminas\Db\Sql\Ddl\CreateTable;
 use Laminas\Db\Sql\Platform\AbstractPlatform;
 use Laminas\Db\Sql\Select;
 
-class Sqlite extends AbstractPlatform
+final class Sqlite extends AbstractPlatform
 {
     public function __construct()
     {

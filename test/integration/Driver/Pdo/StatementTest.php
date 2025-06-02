@@ -10,6 +10,7 @@ use Laminas\Db\Sqlite\Driver\Pdo\Driver;
 use Laminas\Db\Sqlite\Driver\Pdo\Result;
 use Laminas\Db\Sqlite\Driver\Pdo\Statement;
 use LaminasIntegrationTest\Db\Sqlite\Driver\Pdo\TestAsset\SqliteMemoryPdo;
+use Override;
 use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\TestCase;
 
@@ -86,7 +87,5 @@ final class StatementTest extends TestCase
      * Tears down the fixture, for example, closes a network connection.
      * This method is called after a test is executed.
      */
-    protected function tearDown(): void
-    {
-    }
+    protected function tearDown(): void {}
 }

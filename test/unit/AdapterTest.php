@@ -2,6 +2,8 @@
 
 namespace LaminasTest\Db\Sqlite;
 
+use InvalidArgumentException;
+use Laminas\Db\Adapter\AdapterInterface;
 use Laminas\Db\Adapter\Driver\ConnectionInterface;
 use Laminas\Db\Adapter\Driver\DriverInterface;
 use Laminas\Db\Adapter\Driver\ResultInterface;
@@ -131,11 +133,11 @@ final class AdapterTest extends TestCase
         $result    = $this->createMock(ResultInterface::class);
 
         $this->mockDriver->method('createStatement')
-                         ->willReturn($statement);
+            ->willReturn($statement);
         $this->mockStatement->method('execute')
-                            ->willReturn($result);
+            ->willReturn($result);
         $result->method('isQueryResult')
-               ->willReturn(true);
+            ->willReturn(true);
 
         self::assertNotSame(
             $this->adapter->query('SELECT foo', []),
@@ -154,7 +156,7 @@ final class AdapterTest extends TestCase
         $statement = $this->getMockBuilder(StatementInterface::class)->getMock();
         $result    = $this->getMockBuilder(ResultInterface::class)->getMock();
         $this->mockDriver->expects($this->any())->method('createStatement')
-                         ->with($sql)->willReturn($statement);
+            ->with($sql)->willReturn($statement);
         $this->mockStatement->expects($this->any())->method('execute')->willReturn($result);
 
         $r = $this->adapter->query($sql, $parray);
@@ -171,7 +173,7 @@ final class AdapterTest extends TestCase
         $parameterContainer = $this->getMockBuilder(ParameterContainer::class)->getMock();
         $result             = $this->getMockBuilder(ResultInterface::class)->getMock();
         $this->mockDriver->expects($this->any())->method('createStatement')
-                         ->with($sql)->willReturn($this->mockStatement);
+            ->with($sql)->willReturn($this->mockStatement);
         $this->mockStatement->expects($this->any())->method('execute')->willReturn($result);
         $result->expects($this->any())->method('isQueryResult')->willReturn(true);
 
@@ -189,7 +191,7 @@ final class AdapterTest extends TestCase
         $result = $this->getMockBuilder(ResultInterface::class)->getMock();
         $this->mockConnection->expects($this->any())->method('execute')->with($sql)->willReturn($result);
 
-        $r = $this->adapter->query($sql, Adapter::QUERY_MODE_EXECUTE);
+        $r = $this->adapter->query($sql, AdapterInterface::QUERY_MODE_EXECUTE);
         self::assertSame($result, $r);
     }
 
@@ -205,10 +207,10 @@ final class AdapterTest extends TestCase
         $this->mockConnection->expects($this->any())->method('execute')->with($sql)->willReturn($result);
         $result->expects($this->any())->method('isQueryResult')->willReturn(true);
 
-        $r = $this->adapter->query($sql, Adapter::QUERY_MODE_EXECUTE);
+        $r = $this->adapter->query($sql, AdapterInterface::QUERY_MODE_EXECUTE);
         self::assertInstanceOf(ResultSet::class, $r);
 
-        $r = $this->adapter->query($sql, Adapter::QUERY_MODE_EXECUTE, new TemporaryResultSet());
+        $r = $this->adapter->query($sql, AdapterInterface::QUERY_MODE_EXECUTE, new TemporaryResultSet());
         self::assertInstanceOf(TemporaryResultSet::class, $r);
     }
 
@@ -228,7 +230,7 @@ final class AdapterTest extends TestCase
         self::assertSame($this->mockPlatform, $this->adapter->PlatForm);
         self::assertSame($this->mockPlatform, $this->adapter->platform);
 
-        $this->expectException('InvalidArgumentException');
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Invalid magic');
         $this->adapter->foo;
     }
@@ -245,11 +247,11 @@ final class AdapterTest extends TestCase
         $this->mockPlatform   = new SqlitePlatform();
         $this->mockStatement  = $this->getMockBuilder(Statement::class)->getMock();
         $this->mockDriver     = $this->getMockBuilder(Driver::class)
-                                     ->setConstructorArgs([
-                                         $this->mockConnection,
-                                         $this->mockStatement,
-                                     ])
-                                     ->getMock();
+            ->setConstructorArgs([
+                $this->mockConnection,
+                $this->mockStatement,
+            ])
+            ->getMock();
 
         $this->mockDriver->method('getDatabasePlatformName')->willReturn('Sqlite');
         $this->mockDriver->method('checkEnvironment')->willReturn(true);

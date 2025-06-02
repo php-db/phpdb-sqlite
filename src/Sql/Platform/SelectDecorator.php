@@ -8,7 +8,7 @@ use Laminas\Db\Adapter\Platform\PlatformInterface;
 use Laminas\Db\Sql\Platform\PlatformDecoratorInterface;
 use Laminas\Db\Sql\Select;
 
-class SelectDecorator extends Select implements PlatformDecoratorInterface
+final class SelectDecorator extends Select implements PlatformDecoratorInterface
 {
     protected Select $subject;
 
@@ -31,8 +31,8 @@ class SelectDecorator extends Select implements PlatformDecoratorInterface
     /** @return null|string[] */
     protected function processLimit(
         PlatformInterface $platform,
-        ?DriverInterface $driver = null,
-        ?ParameterContainer $parameterContainer = null
+        DriverInterface|null $driver = null,
+        ParameterContainer|null $parameterContainer = null
     ): ?array {
         if ($this->limit === null && $this->offset !== null) {
             return [''];
@@ -41,9 +41,11 @@ class SelectDecorator extends Select implements PlatformDecoratorInterface
             return null;
         }
         if ($parameterContainer) {
-            $paramPrefix = $this->processInfo['paramPrefix'];
+            $paramPrefix = (string) $this->processInfo['paramPrefix'];
             $parameterContainer->offsetSet($paramPrefix . 'limit', $this->limit, ParameterContainer::TYPE_INTEGER);
-            return [$driver->formatParameterName($paramPrefix . 'limit')];
+            return [$driver->formatParameterName(
+                $paramPrefix . 'limit'
+            )];
         }
 
         return [$this->limit];
@@ -51,16 +53,16 @@ class SelectDecorator extends Select implements PlatformDecoratorInterface
 
     protected function processOffset(
         PlatformInterface $platform,
-        ?DriverInterface $driver = null,
-        ?ParameterContainer $parameterContainer = null
+        DriverInterface|null $driver = null,
+        ParameterContainer|null $parameterContainer = null
     ): ?array {
         if ($this->offset === null) {
             return null;
         }
         if ($parameterContainer) {
-            $paramPrefix = $this->processInfo['paramPrefix'];
+            $paramPrefix = (string) $this->processInfo['paramPrefix'];
             $parameterContainer->offsetSet($paramPrefix . 'offset', $this->offset, ParameterContainer::TYPE_INTEGER);
-            return [$driver->formatParameterName($paramPrefix . 'offset')];
+            return [$driver?->formatParameterName($paramPrefix . 'offset') ?? ''];
         }
 
         return [$this->offset];

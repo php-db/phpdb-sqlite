@@ -19,7 +19,7 @@ final class StatementIntegrationTest extends TestCase
 {
     protected Statement $statement;
 
-    protected PDOStatement|MockObject $pdoStatementMock;
+    protected PDOStatement&MockObject $pdoStatementMock;
 
     public function testStatementExecuteWillConvertPhpBoolToPdoBoolWhenBinding(): void
     {
@@ -76,7 +76,7 @@ final class StatementIntegrationTest extends TestCase
         $this->statement = new Statement();
         $this->statement->setDriver($driver);
         $this->statement->initialize(new CtorlessPdo(
-            $this->pdoStatementMock = $this->getMockBuilder('PDOStatement')
+            $this->pdoStatementMock = $this->getMockBuilder(PDOStatement::class)
                                            ->onlyMethods(['execute', 'bindParam'])
                                            ->getMock()
         ));

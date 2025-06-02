@@ -8,6 +8,7 @@ use Laminas\Db\Adapter\Driver\Pdo\Statement;
 use Laminas\Db\Adapter\ParameterContainer;
 use Laminas\Db\Sqlite\Driver\Pdo\Connection;
 use Laminas\Db\Sqlite\Driver\Pdo\Driver;
+use Override;
 use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\TestCase;
 

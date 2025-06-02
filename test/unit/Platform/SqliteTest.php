@@ -5,6 +5,7 @@ namespace LaminasTest\Db\Sqlite\Sqlite\Platform;
 use Laminas\Db\Sqlite\Driver\Pdo\Connection;
 use Laminas\Db\Sqlite\Driver\Pdo\Driver;
 use Laminas\Db\Sqlite\Platform\Sqlite;
+use Override;
 use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\TestCase;
 
@@ -76,7 +77,7 @@ final class SqliteTest extends TestCase
             $this->assertEquals(
                 $errstr,
                 'Attempting to quote a value in Laminas\Db\Sqlite\Platform\Sqlite without extension/driver support can '
-                . 'introduce security vulnerabilities in a production environment'
+                    . 'introduce security vulnerabilities in a production environment'
             );
             $raisedNotice = true;
         });
@@ -125,7 +126,7 @@ final class SqliteTest extends TestCase
             $this->assertEquals(
                 $errstr,
                 'Attempting to quote a value in Laminas\Db\Sqlite\Platform\Sqlite without extension/driver support can '
-                . 'introduce security vulnerabilities in a production environment'
+                    . 'introduce security vulnerabilities in a production environment'
             );
             $raisedNotice = true;
         });
@@ -174,7 +175,7 @@ final class SqliteTest extends TestCase
     public function testCanCloseConnectionAfterQuoteValue(): void
     {
         // Creating the SQLite database file
-        $filePath = realpath(__DIR__) . "/_files/sqlite.db";
+        $filePath = __DIR__ . "/_files/sqlite.db";
         if (! file_exists($filePath)) {
             touch($filePath);
         }

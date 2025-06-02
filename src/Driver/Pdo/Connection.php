@@ -266,7 +266,7 @@ class Connection extends AbstractPdoConnection implements ConnectionInterface, P
         $this->profiler?->profilerFinish();
 
         if ($resultResource === false) {
-            $errorInfo = $this->resource->errorInfo();
+            $errorInfo = (string) $this->resource->errorInfo();
             throw new Exception\InvalidQueryException($errorInfo[2]);
         }
 

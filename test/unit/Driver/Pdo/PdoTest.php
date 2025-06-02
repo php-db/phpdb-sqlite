@@ -34,7 +34,6 @@ final class PdoTest extends TestCase
 
     public function testGetDatabasePlatformName(): void
     {
-        // Test platform name for SqlServer
         $this->pdo->getConnection()->setConnectionParameters(['pdodriver' => 'pdo_sqlite']);
         self::assertEquals('Sqlite', $this->pdo->getDatabasePlatformName());
         self::assertEquals('SQLite', $this->pdo->getDatabasePlatformName(DriverInterface::NAME_FORMAT_NATURAL));
@@ -61,7 +60,7 @@ final class PdoTest extends TestCase
     #[DataProvider('getParamsAndType')]
     public function testFormatParameterName(int|string $name, ?string $type, string $expected): void
     {
-        $result = $this->pdo->formatParameterName($name, $type);
+        $result = $this->pdo->formatParameterName((string) $name, $type);
         $this->assertEquals($expected, $result);
     }
 

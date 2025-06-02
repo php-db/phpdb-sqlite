@@ -12,24 +12,22 @@ use function sprintf;
 
 final class SqliteMemoryPdo extends PDO
 {
-    protected MockObject&PDOStatement $mockStatement;
-
     /**
-     * @param null $sql
+     * @param string|null $sql
      * @throws Exception
      */
     public function __construct($sql = null)
     {
         parent::__construct('sqlite::memory:');
 
-        if (empty($sql)) {
+        if ($sql === '' || $sql === null) {
             return;
         }
 
         if (false === $this->exec($sql)) {
             throw new Exception(sprintf(
                 "Error: %s, %s",
-                $this->errorCode(),
+                $this->errorCode() ?? '',
                 implode(",", $this->errorInfo())
             ));
         }
