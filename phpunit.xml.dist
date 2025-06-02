@@ -27,9 +27,5 @@
         <include>
             <directory suffix=".php">src</directory>
         </include>
-        <exclude>
-            <directory suffix=".php">test/config</directory>
-            <directory suffix=".php">test/resource</directory>
-        </exclude>
     </source>
 </phpunit>
