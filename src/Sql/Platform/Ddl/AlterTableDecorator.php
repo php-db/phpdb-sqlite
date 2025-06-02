@@ -18,7 +18,6 @@ use function uksort;
 
 class AlterTableDecorator extends AlterTable implements PlatformDecoratorInterface
 {
-    /** @var AlterTable */
     protected AlterTable $subject;
 
     /** @var int[] */
@@ -46,10 +45,6 @@ class AlterTableDecorator extends AlterTable implements PlatformDecoratorInterfa
         return $this;
     }
 
-    /**
-     * @param string $sql
-     * @return array
-     */
     protected function getSqlInsertOffsets(string $sql): array
     {
         $sqlLength   = strlen($sql);
@@ -80,10 +75,6 @@ class AlterTableDecorator extends AlterTable implements PlatformDecoratorInterfa
         return $insertStart;
     }
 
-    /**
-     * @param PlatformInterface|null $adapterPlatform
-     * @return array
-     */
     protected function processAddColumns(?PlatformInterface $adapterPlatform = null): array
     {
         $sqls = [];
@@ -149,10 +140,6 @@ class AlterTableDecorator extends AlterTable implements PlatformDecoratorInterfa
         return [$sqls];
     }
 
-    /**
-     * @param PlatformInterface|null $adapterPlatform
-     * @return array
-     */
     protected function processChangeColumns(?PlatformInterface $adapterPlatform = null): array
     {
         $sqls = [];
@@ -218,20 +205,11 @@ class AlterTableDecorator extends AlterTable implements PlatformDecoratorInterfa
         return [$sqls];
     }
 
-    /**
-     * @param string $name
-     * @return string
-     */
     private function normalizeColumnOption(string $name): string
     {
         return strtolower(str_replace(['-', '_', ' '], '', $name));
     }
 
-    /**
-     * @param string $columnA
-     * @param string $columnB
-     * @return int
-     */
     // phpcs:ignore SlevomatCodingStandard.Classes.UnusedPrivateElements.UnusedMethod
     private function compareColumnOptions(string $columnA, string $columnB): int
     {

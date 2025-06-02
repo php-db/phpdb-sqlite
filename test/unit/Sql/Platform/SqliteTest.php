@@ -2,9 +2,9 @@
 
 namespace LaminasTest\Db\Sqlite\Sql\Platform;
 
+use Laminas\Db\Sql\Select;
 use Laminas\Db\Sqlite\Sql\Platform\SelectDecorator;
 use Laminas\Db\Sqlite\Sql\Platform\Sqlite;
-use Laminas\Db\Sql\Select;
 use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\Attributes\TestDox;
 use PHPUnit\Framework\TestCase;

@@ -129,7 +129,7 @@ final class ConnectionIntegrationTest extends TestCase
 
     public function testConnectReturnsConnectionWhenResourceSet(): void
     {
-        $resource   = new TestAsset\SqliteMemoryPdo();
+        $resource   = new SqliteMemoryPdo();
         $connection = new Connection([]);
         $connection->setResource($resource);
         self::assertSame($connection, $connection->connect());

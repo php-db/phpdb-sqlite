@@ -10,8 +10,11 @@ use Psr\Container\ContainerInterface;
 
 final class PlatformFactory implements FactoryInterface
 {
-    public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null): PlatformInterface
-    {
+    public function __invoke(
+        ContainerInterface $container,
+        string $requestedName,
+        array|null $options = null
+    ): PlatformInterface {
         return new Sqlite();
     }
 }

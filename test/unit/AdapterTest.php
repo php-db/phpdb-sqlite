@@ -7,13 +7,13 @@ use Laminas\Db\Adapter\Driver\DriverInterface;
 use Laminas\Db\Adapter\Driver\ResultInterface;
 use Laminas\Db\Adapter\Driver\StatementInterface;
 use Laminas\Db\Adapter\ParameterContainer;
-use Laminas\Db\Sqlite\Platform\Sqlite as SqlitePlatform;
 use Laminas\Db\Adapter\Profiler;
 use Laminas\Db\ResultSet\ResultSet;
 use Laminas\Db\ResultSet\ResultSetInterface;
 use Laminas\Db\Sqlite\Adapter;
 use Laminas\Db\Sqlite\Driver\Pdo\Driver;
 use Laminas\Db\Sqlite\Driver\Pdo\Statement;
+use Laminas\Db\Sqlite\Platform\Sqlite as SqlitePlatform;
 use LaminasTest\Db\Sqlite\TestAsset\TemporaryResultSet;
 use Override;
 use PHPUnit\Framework\Attributes\CoversMethod;
@@ -218,7 +218,7 @@ final class AdapterTest extends TestCase
         self::assertSame($this->mockStatement, $this->adapter->createStatement());
     }
 
-    public function test__get(): void
+    public function testMagicGet(): void
     {
         // @codingStandardsIgnoreEnd
         self::assertSame($this->mockDriver, $this->adapter->driver);

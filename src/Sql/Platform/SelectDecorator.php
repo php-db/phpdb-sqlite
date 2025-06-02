@@ -10,7 +10,6 @@ use Laminas\Db\Sql\Select;
 
 class SelectDecorator extends Select implements PlatformDecoratorInterface
 {
-    /** @var Select */
     protected Select $subject;
 
     /**

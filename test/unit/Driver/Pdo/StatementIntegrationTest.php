@@ -19,7 +19,6 @@ final class StatementIntegrationTest extends TestCase
 {
     protected Statement $statement;
 
-    /** @var PDOStatement|MockObject */
     protected PDOStatement|MockObject $pdoStatementMock;
 
     public function testStatementExecuteWillConvertPhpBoolToPdoBoolWhenBinding(): void

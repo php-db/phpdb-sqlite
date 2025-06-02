@@ -11,7 +11,6 @@ use Laminas\Db\Sqlite\Adapter;
 use Laminas\Db\Sqlite\Platform\Sqlite as SqlitePlatform;
 use Laminas\Db\Sqlite\Sql\Platform\SelectDecorator;
 use PHPUnit\Framework\Attributes\CoversClass;
-use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\TestDox;
 use PHPUnit\Framework\TestCase;

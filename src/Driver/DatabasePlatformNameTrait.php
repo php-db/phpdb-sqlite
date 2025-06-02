@@ -8,9 +8,6 @@ trait DatabasePlatformNameTrait
 {
     /**
      * Get database platform name
-     *
-     * @param string $nameFormat
-     * @return string
      */
     public function getDatabasePlatformName(string $nameFormat = self::NAME_FORMAT_CAMELCASE): string
     {

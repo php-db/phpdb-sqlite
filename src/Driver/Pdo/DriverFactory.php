@@ -10,8 +10,11 @@ use Psr\Container\ContainerInterface;
 
 final class DriverFactory implements FactoryInterface
 {
-    public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null): DriverInterface
-    {
+    public function __invoke(
+        ContainerInterface $container,
+        string $requestedName,
+        array|null $options = null
+    ): DriverInterface {
         return new Driver($container->get('config')['db']);
     }
 }

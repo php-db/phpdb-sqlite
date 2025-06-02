@@ -14,18 +14,11 @@ use function stripos;
  */
 class SqliteRowCounter extends AbstractFeature
 {
-    /**
-     * @return string
-     */
     public function getName(): string
     {
         return 'SqliteRowCounter';
     }
 
-    /**
-     * @param Statement $statement
-     * @return null|int
-     */
     public function getCountForStatement(Pdo\Statement $statement): ?int
     {
         $countStmt = clone $statement;
@@ -42,10 +35,6 @@ class SqliteRowCounter extends AbstractFeature
         return $countRow['count'];
     }
 
-    /**
-     * @param string $sql
-     * @return null|int
-     */
     public function getCountForSql(string $sql): ?int
     {
         if (stripos($sql, 'select') === false) {
@@ -60,10 +49,6 @@ class SqliteRowCounter extends AbstractFeature
         return $countRow['count'];
     }
 
-    /**
-     * @param Pdo\Statement|string $context
-     * @return Closure
-     */
     public function getRowCountClosure(Statement|string $context): Closure
     {
         return function () use ($context) {

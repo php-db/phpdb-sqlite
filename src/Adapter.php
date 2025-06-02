@@ -27,7 +27,6 @@ class Adapter extends AbstractAdapter
         return new SqliteDriver($parameters);
     }
 
-
     protected function createPlatform(array $parameters): PlatformInterface
     {
         return new SqlitePlatform($this->driver);

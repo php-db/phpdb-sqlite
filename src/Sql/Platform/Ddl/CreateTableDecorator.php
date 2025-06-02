@@ -18,7 +18,6 @@ use function uksort;
 
 class CreateTableDecorator extends CreateTable implements PlatformDecoratorInterface
 {
-    /** @var CreateTable */
     protected CreateTable $subject;
 
     /** @var int[] */
@@ -45,10 +44,6 @@ class CreateTableDecorator extends CreateTable implements PlatformDecoratorInter
         return $this;
     }
 
-    /**
-     * @param string $sql
-     * @return array
-     */
     protected function getSqlInsertOffsets(string $sql): array
     {
         $sqlLength   = strlen($sql);
@@ -150,20 +145,11 @@ class CreateTableDecorator extends CreateTable implements PlatformDecoratorInter
         return [$sqls];
     }
 
-    /**
-     * @param string $name
-     * @return string
-     */
     private function normalizeColumnOption(string $name): string
     {
         return strtolower(str_replace(['-', '_', ' '], '', $name));
     }
 
-    /**
-     * @param string $columnA
-     * @param string $columnB
-     * @return int
-     */
     // phpcs:ignore SlevomatCodingStandard.Classes.UnusedPrivateElements.UnusedMethod
     private function compareColumnOptions(string $columnA, string $columnB): int
     {

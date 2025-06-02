@@ -19,9 +19,9 @@ class Driver extends AbstractPdo implements DriverInterface, DriverFeatureInterf
 
     public function __construct(
         ConnectionInterface|PDO|array $connection,
-        ?Statement $statementPrototype = null,
-        ?Result $resultPrototype = null,
-        $features = self::FEATURES_DEFAULT
+        Statement|null $statementPrototype = null,
+        Result|null $resultPrototype = null,
+        string $features = self::FEATURES_DEFAULT
     ) {
         if (! $connection instanceof ConnectionInterface) {
             $connection = new Connection($connection);
@@ -82,7 +82,6 @@ class Driver extends AbstractPdo implements DriverInterface, DriverFeatureInterf
     /**
      * @param resource $resource
      * @param mixed    $context
-     * @return \Laminas\Db\Adapter\Driver\Pdo\Result
      */
     public function createResult($resource, $context = null): \Laminas\Db\Adapter\Driver\Pdo\Result
     {

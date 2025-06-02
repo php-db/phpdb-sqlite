@@ -12,7 +12,6 @@ use Laminas\ServiceManager\ServiceManager;
 use Override;
 use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\TestCase;
-
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 
@@ -52,8 +51,8 @@ final class AdapterServiceFactoryTest extends TestCase
         $services = $this->createServiceManager([
             'db' => [
                 'driver'   => 'Pdo_Sqlite',
-                'database' => ':memory:'
-            ]
+                'database' => ':memory:',
+            ],
         ]);
 
         $this->factory->__invoke($services, Adapter::class);
@@ -69,8 +68,8 @@ final class AdapterServiceFactoryTest extends TestCase
             'db' => [
                 'driver'   => 'Pdo_Sqlite',
                 'database' => ':memory:',
-                'profiler' => true
-            ]
+                'profiler' => true,
+            ],
         ]);
 
         $adapter = $this->factory->__invoke($services, Adapter::class);
@@ -87,8 +86,8 @@ final class AdapterServiceFactoryTest extends TestCase
             'db' => [
                 'driver'   => 'Pdo_Sqlite',
                 'database' => ':memory:',
-                'profiler' => Profiler::class
-            ]
+                'profiler' => Profiler::class,
+            ],
         ]);
 
         $adapter = $this->factory->__invoke($services, Adapter::class);
@@ -105,8 +104,8 @@ final class AdapterServiceFactoryTest extends TestCase
             'db' => [
                 'driver'   => 'Pdo_Sqlite',
                 'database' => ':memory:',
-                'profiler' => $this->getMockBuilder(ProfilerInterface::class)->getMock()
-            ]
+                'profiler' => $this->getMockBuilder(ProfilerInterface::class)->getMock(),
+            ],
         ]);
 
         $adapter = $this->factory->__invoke($services, Adapter::class);

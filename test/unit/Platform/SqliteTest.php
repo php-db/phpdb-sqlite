@@ -10,8 +10,12 @@ use PHPUnit\Framework\TestCase;
 
 use function file_exists;
 use function realpath;
+use function restore_error_handler;
+use function set_error_handler;
 use function touch;
 use function unlink;
+
+use const E_USER_NOTICE;
 
 #[CoversMethod(Sqlite::class, 'getName')]
 #[CoversMethod(Sqlite::class, 'getQuoteIdentifierSymbol')]
@@ -67,10 +71,11 @@ final class SqliteTest extends TestCase
     public function testQuoteValueRaisesNoticeWithoutPlatformSupport(): void
     {
         $raisedNotice = false;
-        set_error_handler(function($errno, $errstr) use (&$raisedNotice) {
+        set_error_handler(function ($errno, $errstr) use (&$raisedNotice) {
             $this->assertEquals(E_USER_NOTICE, $errno);
-            $this->assertEquals($errstr,
-            'Attempting to quote a value in Laminas\Db\Sqlite\Platform\Sqlite without extension/driver support can '
+            $this->assertEquals(
+                $errstr,
+                'Attempting to quote a value in Laminas\Db\Sqlite\Platform\Sqlite without extension/driver support can '
                 . 'introduce security vulnerabilities in a production environment'
             );
             $raisedNotice = true;
@@ -115,10 +120,11 @@ final class SqliteTest extends TestCase
     public function testQuoteValueList(): void
     {
         $raisedNotice = false;
-        set_error_handler(function($errno, $errstr) use (&$raisedNotice) {
+        set_error_handler(function ($errno, $errstr) use (&$raisedNotice) {
             $this->assertEquals(E_USER_NOTICE, $errno);
-            $this->assertEquals($errstr,
-            'Attempting to quote a value in Laminas\Db\Sqlite\Platform\Sqlite without extension/driver support can '
+            $this->assertEquals(
+                $errstr,
+                'Attempting to quote a value in Laminas\Db\Sqlite\Platform\Sqlite without extension/driver support can '
                 . 'introduce security vulnerabilities in a production environment'
             );
             $raisedNotice = true;

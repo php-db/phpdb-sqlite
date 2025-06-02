@@ -18,27 +18,25 @@ use function array_diff_key;
 use function is_array;
 use function is_int;
 use function str_replace;
+use function str_starts_with;
 use function strtolower;
 use function substr;
 
 class Connection extends AbstractPdoConnection implements ConnectionInterface, PdoDriverAwareInterface
 {
-    /** @var PdoDriverInterface */
     protected PdoDriverInterface $driver;
 
     /** @var PDO */
     protected $resource;
 
-    /** @var null|string */
     protected ?string $dsn;
 
     /**
      * Constructor
      *
-     * @param PDO|array|null $connectionParameters
      * @throws Exception\InvalidArgumentException
      */
-    public function __construct(PDO|array $connectionParameters = null)
+    public function __construct(PDO|array|null $connectionParameters = null)
     {
         parent::__construct($connectionParameters);
 
@@ -85,6 +83,7 @@ class Connection extends AbstractPdoConnection implements ConnectionInterface, P
 
     /**
      * {@inheritDoc}
+     *
      * @throws Exception\InvalidConnectionParametersException
      * @throws Exception\RuntimeException
      */
@@ -228,6 +227,7 @@ class Connection extends AbstractPdoConnection implements ConnectionInterface, P
 
     /**
      * {@inheritDoc}
+     *
      * @throws Exception\RuntimeException
      */
     public function rollback(): static
@@ -250,6 +250,7 @@ class Connection extends AbstractPdoConnection implements ConnectionInterface, P
 
     /**
      * {@inheritDoc}
+     *
      * @throws Exception\InvalidQueryException
      */
     public function execute($sql): ResultInterface
@@ -274,6 +275,7 @@ class Connection extends AbstractPdoConnection implements ConnectionInterface, P
 
     /**
      * {@inheritDoc}
+     *
      * @param string $name
      * @return string|null|false
      */
@@ -291,7 +293,6 @@ class Connection extends AbstractPdoConnection implements ConnectionInterface, P
      * Get the dsn string for this connection
      *
      * @throws RunTimeException
-     * @return string
      */
     public function getDsn(): string
     {
@@ -319,9 +320,6 @@ class Connection extends AbstractPdoConnection implements ConnectionInterface, P
 
     /**
      * Prepare
-     *
-     * @param ?string $sql
-     * @return StatementInterface
      */
     public function prepare(?string $sql = null): StatementInterface
     {

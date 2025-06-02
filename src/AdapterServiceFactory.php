@@ -15,16 +15,17 @@ class AdapterServiceFactory extends AdapterAbstractServiceFactory implements Fac
     /**
      * Create db adapter service
      *
-     * @param ContainerInterface $container
-     * @param string             $requestedName
-     * @param array|null         $options
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
-     * @return Adapter
      */
-    public function __invoke(ContainerInterface $container, string $requestedName, ?array $options = null): Adapter
-    {
-        $resultSetPrototype = $container->has(ResultSetInterface::class) ? $container->get(ResultSetInterface::class) : null;
+    public function __invoke(
+        ContainerInterface $container,
+        string $requestedName,
+        array|null $options = null
+    ): Adapter {
+        $resultSetPrototype = $container->has(ResultSetInterface::class)
+            ? $container->get(ResultSetInterface::class)
+            : null;
         $profiler           = $this->createProfiler($container, $this->getConfig($container));
 
         return new Adapter(

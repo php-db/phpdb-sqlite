@@ -2,12 +2,12 @@
 
 namespace Laminas\Db\Sqlite\Platform;
 
-use Laminas\Db\Adapter\Exception;
 use Laminas\Db\Adapter\Driver\DriverInterface;
+use Laminas\Db\Adapter\Exception;
 use Laminas\Db\Adapter\Platform\AbstractPlatform;
 use Laminas\Db\Sql\Platform\PlatformDecoratorInterface;
-use Laminas\Db\Sqlite\Sql\Platform\Sqlite as SqlPlatformDecorator;
 use Laminas\Db\Sqlite\Driver\Pdo\Driver;
+use Laminas\Db\Sqlite\Sql\Platform\Sqlite as SqlPlatformDecorator;
 use PDO;
 
 class Sqlite extends AbstractPlatform
@@ -23,10 +23,7 @@ class Sqlite extends AbstractPlatform
     /** @var Driver|PDO|null */
     protected Driver|PDO|null $resource = null;
 
-    /**
-     * @param Driver|PDO|null $driver
-     */
-    public function __construct(Driver|PDO $driver = null)
+    public function __construct(Driver|PDO|null $driver = null)
     {
         if ($driver) {
             $this->setDriver($driver);
@@ -34,7 +31,6 @@ class Sqlite extends AbstractPlatform
     }
 
     /**
-     * @param PDO|Driver $driver
      * @throws Exception\InvalidArgumentException
      * @return $this Provides a fluent interface
      */
