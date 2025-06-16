@@ -20,12 +20,12 @@
     </projectFiles>
 
     <issueHandlers>
-        <!-- Ignore unused methods in tests. Specifically applies to data providers -->
-        <PossiblyUnusedMethod>
+        <!-- Ignoring the following as per advice in https://psalm.dev/docs/running_psalm/issues/PropertyNotSetInConstructor/. -->
+        <PropertyNotSetInConstructor>
             <errorLevel type="suppress">
-                <directory name="test" />
+                <directory name="src" />
             </errorLevel>
-        </PossiblyUnusedMethod>
+        </PropertyNotSetInConstructor>
 
         <!-- Ignore all missing override issues -->
         <MissingOverrideAttribute>
@@ -40,8 +40,4 @@
     <plugins>
         <pluginClass class="Psalm\PhpUnitPlugin\Plugin"/>
     </plugins>
-
-    <stubs>
-        <file name=".psr-container.php.stub" preloadClasses="true" />
-    </stubs>
 </psalm>
