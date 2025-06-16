@@ -18,6 +18,9 @@ use function uksort;
 
 final class CreateTableDecorator extends CreateTable implements PlatformDecoratorInterface
 {
+    /**
+     * @psalm-suppress PossiblyUnusedProperty
+     */
     protected CreateTable $subject;
 
     /** @var int[] */
@@ -44,6 +47,9 @@ final class CreateTableDecorator extends CreateTable implements PlatformDecorato
         return $this;
     }
 
+    /**
+     * @return array<array-key,int>
+     */
     protected function getSqlInsertOffsets(string $sql): array
     {
         $sqlLength   = strlen($sql);
@@ -77,7 +83,7 @@ final class CreateTableDecorator extends CreateTable implements PlatformDecorato
     /**
      * {@inheritDoc}
      */
-    protected function processColumns(?PlatformInterface $adapterPlatform = null): ?array
+    protected function processColumns(PlatformInterface|null $adapterPlatform = null): ?array
     {
         if (! $this->columns) {
             return null;
@@ -150,7 +156,10 @@ final class CreateTableDecorator extends CreateTable implements PlatformDecorato
         return strtolower(str_replace(['-', '_', ' '], '', $name));
     }
 
-    // phpcs:ignore SlevomatCodingStandard.Classes.UnusedPrivateElements.UnusedMethod
+    /** 
+     * phpcs:ignore SlevomatCodingStandard.Classes.UnusedPrivateElements.UnusedMethod
+     * @psalm-suppress UnusedReturnValue
+     */
     private function compareColumnOptions(string $columnA, string $columnB): int
     {
         $columnA = $this->normalizeColumnOption($columnA);

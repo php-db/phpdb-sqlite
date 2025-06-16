@@ -8,6 +8,9 @@ use Laminas\Db\Adapter\Platform\PlatformInterface;
 use Laminas\ServiceManager\Factory\FactoryInterface;
 use Psr\Container\ContainerInterface;
 
+/**
+ * @psalm-suppress UnusedClass
+ */
 final class PlatformFactory implements FactoryInterface
 {
     public function __invoke(

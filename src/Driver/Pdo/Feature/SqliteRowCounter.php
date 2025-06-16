@@ -23,7 +23,7 @@ class SqliteRowCounter extends AbstractFeature
     {
         $countStmt = clone $statement;
         $sql       = $statement->getSql();
-        if ($sql === '' || stripos($sql, 'select') === false) {
+        if ($sql === '' || $sql === null || stripos($sql, 'select') === false) {
             return null;
         }
         $countSql = 'SELECT COUNT(*) as "count" FROM (' . $sql . ')';

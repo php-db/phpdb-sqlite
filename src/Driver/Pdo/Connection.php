@@ -296,7 +296,7 @@ class Connection extends AbstractPdoConnection implements ConnectionInterface, P
      */
     public function getDsn(): string
     {
-        if (! $this->dsn) {
+        if ($this->dsn === null) {
             throw new Exception\RuntimeException(
                 'The DSN has not been set or constructed from parameters in connect() for this Connection'
             );

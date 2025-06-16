@@ -13,7 +13,7 @@ use Laminas\Db\Sqlite\Driver\DatabasePlatformNameTrait;
 use Override;
 use PDO;
 
-class Driver extends AbstractPdo implements DriverInterface, DriverFeatureInterface, Profiler\ProfilerAwareInterface
+final class Driver extends AbstractPdo implements DriverInterface, DriverFeatureInterface, Profiler\ProfilerAwareInterface
 {
     use DatabasePlatformNameTrait;
 

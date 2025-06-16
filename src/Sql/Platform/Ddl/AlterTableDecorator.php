@@ -45,6 +45,9 @@ class AlterTableDecorator extends AlterTable implements PlatformDecoratorInterfa
         return $this;
     }
 
+    /**
+     * @return array<array-key,int>
+     */
     protected function getSqlInsertOffsets(string $sql): array
     {
         $sqlLength   = strlen($sql);
@@ -143,6 +146,8 @@ class AlterTableDecorator extends AlterTable implements PlatformDecoratorInterfa
     protected function processChangeColumns(?PlatformInterface $adapterPlatform = null): array
     {
         $sqls = [];
+
+        /** @var \Laminas\Db\Sql\Ddl\Column\ColumnInterface $column */
         foreach ($this->changeColumns as $name => $column) {
             $sql           = $this->processExpression($column, $adapterPlatform);
             $insertStart   = $this->getSqlInsertOffsets($sql);
@@ -210,7 +215,10 @@ class AlterTableDecorator extends AlterTable implements PlatformDecoratorInterfa
         return strtolower(str_replace(['-', '_', ' '], '', $name));
     }
 
-    // phpcs:ignore SlevomatCodingStandard.Classes.UnusedPrivateElements.UnusedMethod
+    /**
+     * phpcs:ignore SlevomatCodingStandard.Classes.UnusedPrivateElements.UnusedMethod
+     * @psalm-suppress UnusedReturnValue
+     */
     private function compareColumnOptions(string $columnA, string $columnB): int
     {
         $columnA = $this->normalizeColumnOption($columnA);

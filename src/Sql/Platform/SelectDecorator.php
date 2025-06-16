@@ -15,9 +15,11 @@ final class SelectDecorator extends Select implements PlatformDecoratorInterface
     /**
      * @param Select $subject
      */
-    public function setSubject($subject): void
+    public function setSubject($subject): static
     {
         $this->subject = $subject;
+
+        return $this;
     }
 
     protected function localizeVariables(): void
@@ -28,7 +30,7 @@ final class SelectDecorator extends Select implements PlatformDecoratorInterface
         }
     }
 
-    /** @return null|string[] */
+    /** @return null|string[]|int[] */
     protected function processLimit(
         PlatformInterface $platform,
         DriverInterface|null $driver = null,
@@ -43,9 +45,9 @@ final class SelectDecorator extends Select implements PlatformDecoratorInterface
         if ($parameterContainer) {
             $paramPrefix = (string) $this->processInfo['paramPrefix'];
             $parameterContainer->offsetSet($paramPrefix . 'limit', $this->limit, ParameterContainer::TYPE_INTEGER);
-            return [$driver->formatParameterName(
-                $paramPrefix . 'limit'
-            )];
+            return $driver !== null
+                ? [$driver->formatParameterName($paramPrefix . 'limit')]
+                : null;
         }
 
         return [$this->limit];
