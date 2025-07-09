@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace LaminasTest\Db\Sqlite\Sqlite\Driver\Pdo;
+namespace PhpDbTest\Adapter\Sqlite\Sqlite\Driver\Pdo;
 
-use Laminas\Db\Adapter\Driver\DriverInterface;
-use Laminas\Db\Adapter\Driver\Pdo\Result;
-use Laminas\Db\Exception\RuntimeException;
-use Laminas\Db\Sqlite\Driver\Pdo\Connection;
-use Laminas\Db\Sqlite\Driver\Pdo\Driver;
+use PhpDb\Adapter\Driver\DriverInterface;
+use PhpDb\Adapter\Driver\Pdo\Result;
+use PhpDb\Exception\RuntimeException;
+use PhpDb\Adapter\Sqlite\Driver\Pdo\Connection;
+use PhpDb\Adapter\Sqlite\Driver\Pdo\Driver;
 use Override;
 use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\Attributes\DataProvider;

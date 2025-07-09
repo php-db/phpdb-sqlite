@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace LaminasIntegrationTest\Db\Sqlite\Driver\Pdo;
+namespace PhpDbIntegrationTest\Adapter\Sqlite\Driver\Pdo;
 
-use Laminas\Db\Sqlite\Driver\Pdo\Connection;
-use LaminasIntegrationTest\Db\Sqlite\Driver\Pdo\TestAsset\SqliteMemoryPdo;
+use PhpDb\Adapter\Sqlite\Driver\Pdo\Connection;
+use PhpDbIntegrationTest\Adapter\Sqlite\Driver\Pdo\TestAsset\SqliteMemoryPdo;
 use PDO;
 use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\Attributes\Group;

@@ -1,8 +1,8 @@
 <?php
 
-namespace LaminasTest\Db\Sqlite\TestAsset;
+namespace PhpDbTest\Adapter\Sqlite\TestAsset;
 
-use Laminas\Db\ResultSet\ResultSet;
+use PhpDb\ResultSet\ResultSet;
 
 final class TemporaryResultSet extends ResultSet
 {

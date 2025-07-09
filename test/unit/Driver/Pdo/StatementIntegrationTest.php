@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace LaminasTest\Db\Sqlite\Driver\Pdo;
+namespace PhpDbTest\Adapter\Sqlite\Driver\Pdo;
 
-use Laminas\Db\Adapter\Driver\Pdo\Statement;
-use Laminas\Db\Sqlite\Driver\Pdo\Driver;
-use LaminasTest\Db\Sqlite\Driver\Pdo\TestAsset\CtorlessPdo;
+use PhpDb\Adapter\Driver\Pdo\Statement;
+use PhpDb\Adapter\Sqlite\Driver\Pdo\Driver;
+use PhpDbTest\Adapter\Sqlite\Driver\Pdo\TestAsset\CtorlessPdo;
 use Override;
 use PDO;
 use PDOStatement;

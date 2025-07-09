@@ -1,11 +1,11 @@
 <?php
 
-namespace Laminas\Db\Sqlite\Driver\Pdo\Feature;
+namespace PhpDb\Adapter\Sqlite\Driver\Pdo\Feature;
 
 use Closure;
-use Laminas\Db\Adapter\Driver\Feature\AbstractFeature;
-use Laminas\Db\Adapter\Driver\Pdo;
-use Laminas\Db\Adapter\Driver\Pdo\Statement;
+use PhpDb\Adapter\Driver\Feature\AbstractFeature;
+use PhpDb\Adapter\Driver\Pdo;
+use PhpDb\Adapter\Driver\Pdo\Statement;
 
 use function stripos;
 

@@ -1,10 +1,10 @@
 <?php
 
-namespace LaminasIntegrationTest\Db\Sqlite\Platform;
+namespace PhpDbIntegrationTest\Adapter\Sqlite\Platform;
 
-use Laminas\Db\Sqlite\Driver\Pdo\Connection;
-use Laminas\Db\Sqlite\Driver\Pdo\Driver;
-use Laminas\Db\Sqlite\Platform\Sqlite;
+use PhpDb\Adapter\Sqlite\Driver\Pdo\Connection;
+use PhpDb\Adapter\Sqlite\Driver\Pdo\Driver;
+use PhpDb\Adapter\Sqlite\Platform\Sqlite;
 use Override;
 use PDO;
 use PHPUnit\Framework\Attributes\CoversMethod;

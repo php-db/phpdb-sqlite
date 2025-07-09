@@ -1,10 +1,10 @@
 <?php
 
-namespace LaminasTest\Db\Sqlite\Sqlite\Platform;
+namespace PhpDbTest\Adapter\Sqlite\Sqlite\Platform;
 
-use Laminas\Db\Sqlite\Driver\Pdo\Connection;
-use Laminas\Db\Sqlite\Driver\Pdo\Driver;
-use Laminas\Db\Sqlite\Platform\Sqlite;
+use PhpDb\Adapter\Sqlite\Driver\Pdo\Connection;
+use PhpDb\Adapter\Sqlite\Driver\Pdo\Driver;
+use PhpDb\Adapter\Sqlite\Platform\Sqlite;
 use Override;
 use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\TestCase;
@@ -76,7 +76,7 @@ final class SqliteTest extends TestCase
             $this->assertEquals(E_USER_NOTICE, $errno);
             $this->assertEquals(
                 $errstr,
-                'Attempting to quote a value in Laminas\Db\Sqlite\Platform\Sqlite without extension/driver support can '
+                'Attempting to quote a value in PhpDb\Adapter\Sqlite\Platform\Sqlite without extension/driver support can '
                     . 'introduce security vulnerabilities in a production environment'
             );
             $raisedNotice = true;
@@ -125,7 +125,7 @@ final class SqliteTest extends TestCase
             $this->assertEquals(E_USER_NOTICE, $errno);
             $this->assertEquals(
                 $errstr,
-                'Attempting to quote a value in Laminas\Db\Sqlite\Platform\Sqlite without extension/driver support can '
+                'Attempting to quote a value in PhpDb\Adapter\Sqlite\Platform\Sqlite without extension/driver support can '
                     . 'introduce security vulnerabilities in a production environment'
             );
             $raisedNotice = true;

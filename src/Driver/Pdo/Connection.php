@@ -1,72 +1,30 @@
 <?php
 
-namespace Laminas\Db\Sqlite\Driver\Pdo;
+declare(strict_types=1);
 
-use Laminas\Db\Adapter\Driver\ConnectionInterface;
-use Laminas\Db\Adapter\Driver\Pdo\AbstractPdoConnection;
-use Laminas\Db\Adapter\Driver\PdoDriverAwareInterface;
-use Laminas\Db\Adapter\Driver\PdoDriverInterface;
-use Laminas\Db\Adapter\Driver\ResultInterface;
-use Laminas\Db\Adapter\Driver\StatementInterface;
-use Laminas\Db\Adapter\Exception;
-use Laminas\Db\Adapter\Exception\RunTimeException;
+namespace PhpDb\Adapter\Sqlite\Driver\Pdo;
+
+use Override;
 use PDO;
 use PDOException;
 use PDOStatement;
+use PhpDb\Adapter\Driver\ConnectionInterface;
+use PhpDb\Adapter\Driver\Pdo\AbstractPdoConnection;
+use PhpDb\Adapter\Exception;
 
 use function array_diff_key;
-use function is_array;
+use function implode;
 use function is_int;
-use function str_replace;
-use function str_starts_with;
+use function is_string;
 use function strtolower;
-use function substr;
 
-class Connection extends AbstractPdoConnection implements ConnectionInterface, PdoDriverAwareInterface
+class Connection extends AbstractPdoConnection
 {
-    protected PdoDriverInterface $driver;
-
-    /** @var PDO */
-    protected $resource;
-
-    protected ?string $dsn;
-
-    /**
-     * Constructor
-     *
-     * @throws Exception\InvalidArgumentException
-     */
-    public function __construct(PDO|array|null $connectionParameters = null)
-    {
-        parent::__construct($connectionParameters);
-
-        if (is_array($connectionParameters)) {
-            $this->setConnectionParameters($connectionParameters);
-        } elseif ($connectionParameters instanceof PDO) {
-            $this->setResource($connectionParameters);
-        } elseif (null !== $connectionParameters) {
-            throw new Exception\InvalidArgumentException(
-                '$connection must be an array of parameters, a PDO object or null'
-            );
-        }
-    }
-
-    /**
-     * Set driver
-     *
-     * @return $this Provides a fluent interface
-     */
-    public function setDriver(PdoDriverInterface $driver): static
-    {
-        $this->driver = $driver;
-
-        return $this;
-    }
-
     /**
      * {@inheritDoc}
      */
-    public function getCurrentSchema(): bool|string
+    #[Override]
+    public function getCurrentSchema(): string|bool
     {
         if (! $this->isConnected()) {
             $this->connect();
@@ -87,7 +45,8 @@ class Connection extends AbstractPdoConnection implements ConnectionInterface, P
      * @throws Exception\InvalidConnectionParametersException
      * @throws Exception\RuntimeException
      */
-    public function connect(): static
+    #[Override]
+    public function connect(): ConnectionInterface
     {
         if ($this->resource) {
             return $this;
@@ -99,16 +58,6 @@ class Connection extends AbstractPdoConnection implements ConnectionInterface, P
             switch (strtolower($key)) {
                 case 'dsn':
                     $dsn = $value;
-                    break;
-                case 'driver':
-                    $value = strtolower((string) $value);
-                    if (str_starts_with($value, 'pdo')) {
-                        $pdoDriver = str_replace(['-', '_', ' '], '', $value);
-                        $pdoDriver = substr($pdoDriver, 3) ?: '';
-                    }
-                    break;
-                case 'pdodriver':
-                    $pdoDriver = (string) $value;
                     break;
                 case 'user':
                 case 'username':
@@ -130,7 +79,6 @@ class Connection extends AbstractPdoConnection implements ConnectionInterface, P
                     $unixSocket = (string) $value;
                     break;
                 case 'driver_options':
-                case 'options':
                     $value   = (array) $value;
                     $options = array_diff_key($options, $value) + $value;
                     break;
@@ -147,12 +95,33 @@ class Connection extends AbstractPdoConnection implements ConnectionInterface, P
             );
         }
 
-        if (! isset($dsn) && isset($pdoDriver)) {
-            $dsn = $pdoDriver . ':' . $database;
-        } elseif (! isset($dsn)) {
+        if (! isset($dsn)) {
+            $dsn = [];
+            if (isset($database)) {
+                $dsn[] = "dbname={$database}";
+            }
+            if (isset($hostname)) {
+                $dsn[] = "host={$hostname}";
+            }
+            if (isset($port)) {
+                $dsn[] = "port={$port}";
+            }
+            if (isset($charset)) {
+                $dsn[] = "charset={$charset}";
+            }
+            if (isset($unixSocket)) {
+                $dsn[] = "unix_socket={$unixSocket}";
+            }
+            if (isset($version)) {
+                $dsn[] = "version={$version}";
+            }
+            $dsn = 'sqlite:' . implode(';', $dsn);
+        }
+
+        if (! is_string($dsn)) {
             throw new Exception\InvalidConnectionParametersException(
                 'A dsn was not provided or could not be constructed from your parameters',
-                (int) $this->connectionParameters
+                $this->connectionParameters
             );
         }
 
@@ -175,111 +144,11 @@ class Connection extends AbstractPdoConnection implements ConnectionInterface, P
 
     /**
      * {@inheritDoc}
-     */
-    public function isConnected(): bool
-    {
-        return $this->resource instanceof PDO;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function beginTransaction(): static
-    {
-        if (! $this->isConnected()) {
-            $this->connect();
-        }
-
-        if (0 === $this->nestedTransactionsCount) {
-            $this->resource->beginTransaction();
-            $this->inTransaction = true;
-        }
-
-        $this->nestedTransactionsCount++;
-
-        return $this;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function commit(): static
-    {
-        if (! $this->isConnected()) {
-            $this->connect();
-        }
-
-        if ($this->inTransaction) {
-            $this->nestedTransactionsCount -= 1;
-        }
-
-        /*
-         * This shouldn't check for being in a transaction since
-         * after issuing a SET autocommit=0; we have to commit too.
-         */
-        if (0 === $this->nestedTransactionsCount) {
-            $this->resource->commit();
-            $this->inTransaction = false;
-        }
-
-        return $this;
-    }
-
-    /**
-     * {@inheritDoc}
-     *
-     * @throws Exception\RuntimeException
-     */
-    public function rollback(): static
-    {
-        if (! $this->isConnected()) {
-            throw new Exception\RuntimeException('Must be connected before you can rollback');
-        }
-
-        if (! $this->inTransaction()) {
-            throw new Exception\RuntimeException('Must call beginTransaction() before you can rollback');
-        }
-
-        $this->resource->rollBack();
-
-        $this->inTransaction           = false;
-        $this->nestedTransactionsCount = 0;
-
-        return $this;
-    }
-
-    /**
-     * {@inheritDoc}
-     *
-     * @throws Exception\InvalidQueryException
-     */
-    public function execute($sql): ResultInterface
-    {
-        if (! $this->isConnected()) {
-            $this->connect();
-        }
-
-        $this->profiler?->profilerStart($sql);
-
-        $resultResource = $this->resource->query($sql);
-
-        $this->profiler?->profilerFinish();
-
-        if ($resultResource === false) {
-            $errorInfo = (string) $this->resource->errorInfo();
-            throw new Exception\InvalidQueryException($errorInfo[2]);
-        }
-
-        return $this->driver->createResult($resultResource, $sql);
-    }
-
-    /**
-     * {@inheritDoc}
      *
      * @param string $name
-     * @return string|null|false
      */
-    public function getLastGeneratedValue($name = null): bool|int|string|null
+    #[Override]
+    public function getLastGeneratedValue($name = null): string|int|bool|null
     {
         try {
             return $this->resource->lastInsertId($name);
@@ -287,46 +156,5 @@ class Connection extends AbstractPdoConnection implements ConnectionInterface, P
         }
 
         return false;
-    }
-
-    /**
-     * Get the dsn string for this connection
-     *
-     * @throws RunTimeException
-     */
-    public function getDsn(): string
-    {
-        if ($this->dsn === null) {
-            throw new Exception\RuntimeException(
-                'The DSN has not been set or constructed from parameters in connect() for this Connection'
-            );
-        }
-
-        return $this->dsn;
-    }
-
-    /**
-     * Set resource
-     *
-     * @return $this Provides a fluent interface
-     */
-    public function setResource(PDO $resource): static
-    {
-        $this->resource   = $resource;
-        $this->driverName = strtolower($this->resource->getAttribute(PDO::ATTR_DRIVER_NAME));
-
-        return $this;
-    }
-
-    /**
-     * Prepare
-     */
-    public function prepare(?string $sql = null): StatementInterface
-    {
-        if (! $this->isConnected()) {
-            $this->connect();
-        }
-
-        return $this->driver->createStatement($sql);
     }
 }

@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace LaminasTest\Db\Sqlite\Sqlite\Driver\Pdo;
+namespace PhpDbTest\Adapter\Sqlite\Sqlite\Driver\Pdo;
 
 use Exception;
-use Laminas\Db\Adapter\Exception\InvalidConnectionParametersException;
-use Laminas\Db\Sqlite\Driver\Pdo\Connection;
+use PhpDb\Adapter\Exception\InvalidConnectionParametersException;
+use PhpDb\Adapter\Sqlite\Driver\Pdo\Connection;
 use Override;
 use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\Attributes\Group;

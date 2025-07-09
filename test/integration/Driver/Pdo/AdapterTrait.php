@@ -1,8 +1,8 @@
 <?php
 
-namespace LaminasIntegrationTest\Db\Sqlite\Driver\Pdo;
+namespace PhpDbIntegrationTest\Adapter\Sqlite\Driver\Pdo;
 
-use Laminas\Db\Adapter\AdapterInterface;
+use PhpDb\Adapter\AdapterInterface;
 
 trait AdapterTrait
 {

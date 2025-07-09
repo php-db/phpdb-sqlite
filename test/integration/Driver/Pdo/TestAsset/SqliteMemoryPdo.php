@@ -1,6 +1,6 @@
 <?php
 
-namespace LaminasIntegrationTest\Db\Sqlite\Driver\Pdo\TestAsset;
+namespace PhpDbIntegrationTest\Adapter\Sqlite\Driver\Pdo\TestAsset;
 
 use Exception;
 use PDO;

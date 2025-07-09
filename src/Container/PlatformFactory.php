@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Laminas\Db\Sqlite\Platform;
+namespace PhpDb\Adapter\Sqlite\Platform;
 
-use Laminas\Db\Adapter\Platform\PlatformInterface;
+use PhpDb\Adapter\Platform\PlatformInterface;
 use Laminas\ServiceManager\Factory\FactoryInterface;
 use Psr\Container\ContainerInterface;
 

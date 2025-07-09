@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Laminas\Db\Sqlite;
+namespace PhpDb\Adapter\Sqlite;
 
-use Laminas\Db\Adapter\AdapterInterface;
-use Laminas\Db\Adapter\Driver\DriverInterface;
-use Laminas\Db\Adapter\Platform\PlatformInterface;
-use Laminas\Db\Adapter\Profiler\Profiler;
-use Laminas\Db\Adapter\Profiler\ProfilerInterface;
+use PhpDb\Adapter\AdapterInterface;
+use PhpDb\Adapter\Driver\DriverInterface;
+use PhpDb\Adapter\Platform\PlatformInterface;
+use PhpDb\Adapter\Profiler\Profiler;
+use PhpDb\Adapter\Profiler\ProfilerInterface;
 use Laminas\ServiceManager\Factory\InvokableFactory;
 
 readonly class ConfigProvider

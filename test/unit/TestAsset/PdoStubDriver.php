@@ -1,6 +1,6 @@
 <?php
 
-namespace LaminasTest\Db\Sqlite\TestAsset;
+namespace PhpDbTest\Adapter\Sqlite\TestAsset;
 
 use PDO;
 

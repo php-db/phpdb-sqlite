@@ -1,10 +1,10 @@
 <?php
 
-namespace Laminas\Db\Sqlite\Sql\Platform\Ddl;
+namespace PhpDb\Adapter\Sqlite\Sql\Platform\Ddl;
 
-use Laminas\Db\Adapter\Platform\PlatformInterface;
-use Laminas\Db\Sql\Ddl\AlterTable;
-use Laminas\Db\Sql\Platform\PlatformDecoratorInterface;
+use PhpDb\Adapter\Platform\PlatformInterface;
+use PhpDb\Sql\Ddl\AlterTable;
+use PhpDb\Sql\Platform\PlatformDecoratorInterface;
 
 use function count;
 use function range;
@@ -147,7 +147,7 @@ class AlterTableDecorator extends AlterTable implements PlatformDecoratorInterfa
     {
         $sqls = [];
 
-        /** @var \Laminas\Db\Sql\Ddl\Column\ColumnInterface $column */
+        /** @var \PhpDb\Sql\Ddl\Column\ColumnInterface $column */
         foreach ($this->changeColumns as $name => $column) {
             $sql           = $this->processExpression($column, $adapterPlatform);
             $insertStart   = $this->getSqlInsertOffsets($sql);

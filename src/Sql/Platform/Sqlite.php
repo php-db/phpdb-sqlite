@@ -1,11 +1,11 @@
 <?php
 
-namespace Laminas\Db\Sqlite\Sql\Platform;
+namespace PhpDb\Adapter\Sqlite\Sql\Platform;
 
-use Laminas\Db\Sql\Ddl\AlterTable;
-use Laminas\Db\Sql\Ddl\CreateTable;
-use Laminas\Db\Sql\Platform\AbstractPlatform;
-use Laminas\Db\Sql\Select;
+use PhpDb\Sql\Ddl\AlterTable;
+use PhpDb\Sql\Ddl\CreateTable;
+use PhpDb\Sql\Platform\AbstractPlatform;
+use PhpDb\Sql\Select;
 
 final class Sqlite extends AbstractPlatform
 {

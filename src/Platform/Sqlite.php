@@ -1,81 +1,65 @@
 <?php
 
-namespace Laminas\Db\Sqlite\Platform;
+declare(strict_types=1);
 
-use Laminas\Db\Adapter\Driver\DriverInterface;
-use Laminas\Db\Adapter\Exception;
-use Laminas\Db\Adapter\Platform\AbstractPlatform;
-use Laminas\Db\Sql\Platform\PlatformDecoratorInterface;
-use Laminas\Db\Sqlite\Driver\Pdo\Driver;
-use Laminas\Db\Sqlite\Sql\Platform\Sqlite as SqlPlatformDecorator;
-use PDO;
+namespace PhpDb\Adapter\Sqlite\Platform;
+
+use Override;
+use PhpDb\Adapter\Driver\PdoDriverInterface;
+use PhpDb\Adapter\Exception;
+use PhpDb\Adapter\Platform\AbstractPlatform;
+use PhpDb\Sql\Platform\PlatformDecoratorInterface;
+use PhpDb\Adapter\Sqlite\Driver\Pdo;
+use PhpDb\Adapter\Sqlite\Sql\Platform\Sqlite as SqlPlatformDecorator;
 
 class Sqlite extends AbstractPlatform
 {
+    public final const PLATFORM_NAME = 'SQLite';
     /** @var string[] */
     protected $quoteIdentifier = ['"', '"'];
+
+    /** @var \PDO */
+    protected $resource;
 
     /**
      * {@inheritDoc}
      */
     protected $quoteIdentifierTo = '\'';
 
-    /** @var Driver|PDO|null */
-    protected Driver|PDO|null $resource = null;
-
-    public function __construct(Driver|PDO|null $driver = null)
-    {
-        if ($driver) {
-            $this->setDriver($driver);
-        }
-    }
-
-    /**
-     * @throws Exception\InvalidArgumentException
-     * @return $this Provides a fluent interface
-     */
-    public function setDriver(PDO|Driver $driver): static
-    {
-        if (
-            (
-                $driver instanceof PDO
-                && $driver->getAttribute(PDO::ATTR_DRIVER_NAME) === 'sqlite'
-            )
-            || (
-                $driver instanceof Driver
-                && $driver->getDatabasePlatformName() === 'Sqlite'
-            )
+    public function __construct(
+        protected readonly PdoDriverInterface|\PDO $driver
         ) {
-            $this->resource = $driver;
+            if (
+                (
+                    $this->driver instanceof \PDO
+                    && $this->driver->getAttribute(\PDO::ATTR_DRIVER_NAME) === 'sqlite'
+                )
+                || (
+                    $this->driver instanceof Pdo\Pdo
+                    && $this->driver->getDatabasePlatformName() === 'Sqlite'
+                )
+            ) {
+                $this->resource = $this->driver;
+            }
 
-            return $this;
+            throw new Exception\InvalidArgumentException(
+                '$driver must be a Sqlite PDO PhpDb\Adapter\Driver, Sqlite PDO instance'
+            );
         }
 
-        throw new Exception\InvalidArgumentException(
-            '$driver must be a Sqlite PDO Laminas\Db\Adapter\Driver, Sqlite PDO instance'
-        );
-    }
-
     /**
      * {@inheritDoc}
      */
-    public function getName(): string
-    {
-        return 'SQLite';
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function quoteValue($value)
+    #[Override]
+    public function quoteValue(string $value): string
     {
         $resource = $this->resource;
 
-        if ($resource instanceof DriverInterface) {
+        if ($resource instanceof PdoDriverInterface) {
             $resource = $resource->getConnection()->getResource();
         }
 
-        if ($resource instanceof PDO) {
+        if ($resource instanceof \PDO) {
             return $resource->quote($value);
         }
 
@@ -85,21 +69,35 @@ class Sqlite extends AbstractPlatform
     /**
      * {@inheritDoc}
      */
-    public function quoteTrustedValue($value)
+    #[Override]
+    public function quoteTrustedValue(int|float|string|bool $value): ?string
     {
         $resource = $this->resource;
 
-        if ($resource instanceof DriverInterface) {
+        if ($resource instanceof PdoDriverInterface) {
             $resource = $resource->getConnection()->getResource();
         }
 
-        if ($resource instanceof PDO) {
+        if ($resource instanceof \PDO) {
             return $resource->quote($value);
         }
 
         return parent::quoteTrustedValue($value);
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    #[Override]
+    public function getName(): string
+    {
+        return self::PLATFORM_NAME;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    #[Override]
     public function getSqlPlatformDecorator(): PlatformDecoratorInterface
     {
         return new SqlPlatformDecorator();

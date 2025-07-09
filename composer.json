@@ -1,17 +1,17 @@
 {
-    "name": "laminas/laminas-db-adapter-sqlite",
-    "description": "SQLite support for laminas-db",
+    "name": "php-db/phpdb-adapter-sqlite",
+    "description": "SQLite support for php-db",
     "license": "BSD-3-Clause",
     "keywords": [
-        "laminas",
+        "php-db",
         "sqlite",
         "db"
     ],
-    "homepage": "https://github.com/axleus/laminas-db-adapter-sqlite/discussions",
+    "homepage": "https://github.com/php-db/phpdb-adapter-sqlite/discussions",
     "support": {
-        "issues": "https://github.com/alxeus/laminas-db-adapter-sqlite/issues",
-        "source": "https://github.com/axleus/laminas-db-adapter-sqlite",
-        "forum": "https://github.com/axleus/laminas-db-adapter-sqlite/discussions"
+        "issues": "https://github.com/php-db/phpdb-adapter-sqlite/issues",
+        "source": "https://github.com/php-db/phpdb-adapter-sqlite",
+        "forum": "https://github.com/php-db/phpdb-adapter-sqlite/discussions"
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
@@ -25,24 +25,17 @@
         }
     },
     "extra": {
-        "laminas": {
-            "component": "Laminas\\Db\\Sqlite",
-            "config-provider": "Laminas\\Db\\Sqlite\\ConfigProvider"
+        "php-db": {
+            "config-provider": "PhpDb\\Adapter\\Sqlite\\ConfigProvider"
         }
     },
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/axleus/laminas-db"
-        }
-    ],
     "require": {
-        "php": "~8.3.0 || ~8.4.0",
-        "laminas/laminas-db": "dev-adapter-migration-mysql-refactor",
-        "ext-pdo": "*",
-        "ext-pdo_sqlite": "*"
+        "php": "~8.1.0 || ~8.2.0 || ~8.3.0 || ~8.4.0",
+        "php-db/phpdb": "0.0.x-dev"
     },
     "require-dev": {
+        "ext-pdo": "*",
+        "ext-pdo_sqlite": "*",
         "laminas/laminas-coding-standard": "^3.0.1",
         "phpunit/phpunit": "^11.5.15",
         "psalm/plugin-phpunit": "^0.19.2",
@@ -53,13 +46,13 @@
     },
     "autoload": {
         "psr-4": {
-            "Laminas\\Db\\Sqlite\\": "src/"
+            "PhpDb\\Adapter\\Sqlite\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "LaminasTest\\Db\\Sqlite\\": "test/unit/",
-            "LaminasIntegrationTest\\Db\\Sqlite\\": "test/integration/"
+            "PhpDbTest\\Adapter\\Sqlite\\": "test/unit/",
+            "PhpDbIntegrationTest\\Adapter\\Sqlite\\": "test/integration/"
         }
     },
     "scripts": {

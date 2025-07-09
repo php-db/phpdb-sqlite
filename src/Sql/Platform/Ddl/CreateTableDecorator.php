@@ -1,10 +1,10 @@
 <?php
 
-namespace Laminas\Db\Sqlite\Sql\Platform\Ddl;
+namespace PhpDb\Adapter\Sqlite\Sql\Platform\Ddl;
 
-use Laminas\Db\Adapter\Platform\PlatformInterface;
-use Laminas\Db\Sql\Ddl\CreateTable;
-use Laminas\Db\Sql\Platform\PlatformDecoratorInterface;
+use PhpDb\Adapter\Platform\PlatformInterface;
+use PhpDb\Sql\Ddl\CreateTable;
+use PhpDb\Sql\Platform\PlatformDecoratorInterface;
 
 use function count;
 use function range;
@@ -156,7 +156,7 @@ final class CreateTableDecorator extends CreateTable implements PlatformDecorato
         return strtolower(str_replace(['-', '_', ' '], '', $name));
     }
 
-    /** 
+    /**
      * phpcs:ignore SlevomatCodingStandard.Classes.UnusedPrivateElements.UnusedMethod
      * @psalm-suppress UnusedReturnValue
      */

@@ -1,22 +1,22 @@
 <?php
 
-namespace LaminasTest\Db\Sqlite;
+namespace PhpDbTest\Adapter\Sqlite;
 
 use InvalidArgumentException;
-use Laminas\Db\Adapter\AdapterInterface;
-use Laminas\Db\Adapter\Driver\ConnectionInterface;
-use Laminas\Db\Adapter\Driver\DriverInterface;
-use Laminas\Db\Adapter\Driver\ResultInterface;
-use Laminas\Db\Adapter\Driver\StatementInterface;
-use Laminas\Db\Adapter\ParameterContainer;
-use Laminas\Db\Adapter\Profiler;
-use Laminas\Db\ResultSet\ResultSet;
-use Laminas\Db\ResultSet\ResultSetInterface;
-use Laminas\Db\Sqlite\Adapter;
-use Laminas\Db\Sqlite\Driver\Pdo\Driver;
-use Laminas\Db\Sqlite\Driver\Pdo\Statement;
-use Laminas\Db\Sqlite\Platform\Sqlite as SqlitePlatform;
-use LaminasTest\Db\Sqlite\TestAsset\TemporaryResultSet;
+use PhpDb\Adapter\AdapterInterface;
+use PhpDb\Adapter\Driver\ConnectionInterface;
+use PhpDb\Adapter\Driver\DriverInterface;
+use PhpDb\Adapter\Driver\ResultInterface;
+use PhpDb\Adapter\Driver\StatementInterface;
+use PhpDb\Adapter\ParameterContainer;
+use PhpDb\Adapter\Profiler;
+use PhpDb\ResultSet\ResultSet;
+use PhpDb\ResultSet\ResultSetInterface;
+use PhpDb\Adapter\Sqlite\Adapter;
+use PhpDb\Adapter\Sqlite\Driver\Pdo\Driver;
+use PhpDb\Adapter\Sqlite\Driver\Pdo\Statement;
+use PhpDb\Adapter\Sqlite\Platform\Sqlite as SqlitePlatform;
+use PhpDbTest\Adapter\Sqlite\TestAsset\TemporaryResultSet;
 use Override;
 use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\Attributes\Group;

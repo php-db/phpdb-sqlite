@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Laminas\Db\Sqlite;
+namespace PhpDb\Adapter\Sqlite;
 
 final class Module
 {

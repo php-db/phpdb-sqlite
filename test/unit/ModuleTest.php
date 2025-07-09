@@ -1,16 +1,16 @@
 <?php
 
-namespace LaminasTest\Db\Sqlite;
+namespace PhpDbTest\Adapter\Sqlite;
 
-use Laminas\Db\Adapter\AdapterInterface;
-use Laminas\Db\Adapter\Driver\DriverInterface;
-use Laminas\Db\Adapter\Platform\PlatformInterface;
-use Laminas\Db\Adapter\Profiler\Profiler;
-use Laminas\Db\Adapter\Profiler\ProfilerInterface;
-use Laminas\Db\Sqlite\AdapterServiceFactory;
-use Laminas\Db\Sqlite\Driver;
-use Laminas\Db\Sqlite\Module;
-use Laminas\Db\Sqlite\Platform;
+use PhpDb\Adapter\AdapterInterface;
+use PhpDb\Adapter\Driver\DriverInterface;
+use PhpDb\Adapter\Platform\PlatformInterface;
+use PhpDb\Adapter\Profiler\Profiler;
+use PhpDb\Adapter\Profiler\ProfilerInterface;
+use PhpDb\Adapter\Sqlite\AdapterServiceFactory;
+use PhpDb\Adapter\Sqlite\Driver;
+use PhpDb\Adapter\Sqlite\Module;
+use PhpDb\Adapter\Sqlite\Platform;
 use Laminas\ServiceManager\Factory\InvokableFactory;
 use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\TestCase;

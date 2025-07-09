@@ -1,12 +1,12 @@
 <?php
 
-namespace LaminasTest\Db\Sqlite;
+namespace PhpDbTest\Adapter\Sqlite;
 
-use Laminas\Db\Adapter\Profiler\Profiler;
-use Laminas\Db\Adapter\Profiler\ProfilerInterface;
-use Laminas\Db\Sqlite\Adapter;
-use Laminas\Db\Sqlite\AdapterServiceFactory;
-use Laminas\Db\Sqlite\ConfigProvider;
+use PhpDb\Adapter\Profiler\Profiler;
+use PhpDb\Adapter\Profiler\ProfilerInterface;
+use PhpDb\Adapter\Sqlite\Adapter;
+use PhpDb\Adapter\Sqlite\AdapterServiceFactory;
+use PhpDb\Adapter\Sqlite\ConfigProvider;
 use Laminas\ServiceManager\ServiceLocatorInterface;
 use Laminas\ServiceManager\ServiceManager;
 use Override;

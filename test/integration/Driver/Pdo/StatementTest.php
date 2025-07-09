@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace LaminasIntegrationTest\Db\Sqlite\Driver\Pdo;
+namespace PhpDbIntegrationTest\Adapter\Sqlite\Driver\Pdo;
 
-use Laminas\Db\Adapter\Driver\StatementInterface;
-use Laminas\Db\Sqlite\Driver\Pdo\Connection;
-use Laminas\Db\Sqlite\Driver\Pdo\Driver;
-use Laminas\Db\Sqlite\Driver\Pdo\Result;
-use Laminas\Db\Sqlite\Driver\Pdo\Statement;
-use LaminasIntegrationTest\Db\Sqlite\Driver\Pdo\TestAsset\SqliteMemoryPdo;
+use PhpDb\Adapter\Driver\StatementInterface;
+use PhpDb\Adapter\Sqlite\Driver\Pdo\Connection;
+use PhpDb\Adapter\Sqlite\Driver\Pdo\Driver;
+use PhpDb\Adapter\Sqlite\Driver\Pdo\Result;
+use PhpDb\Adapter\Sqlite\Driver\Pdo\Statement;
+use PhpDbIntegrationTest\Adapter\Sqlite\Driver\Pdo\TestAsset\SqliteMemoryPdo;
 use Override;
 use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\TestCase;

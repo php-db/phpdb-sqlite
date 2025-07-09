@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace LaminasTest\Db\Sqlite\Driver\Pdo;
+namespace PhpDbTest\Adapter\Sqlite\Driver\Pdo;
 
-use Laminas\Db\Adapter\Driver\AbstractConnection;
-use Laminas\Db\Adapter\Exception\RuntimeException;
-use Laminas\Db\Sqlite\Driver\Pdo\Connection;
-use LaminasTest\Db\Sqlite\TestAsset\ConnectionWrapper;
+use PhpDb\Adapter\Driver\AbstractConnection;
+use PhpDb\Adapter\Exception\RuntimeException;
+use PhpDb\Adapter\Sqlite\Driver\Pdo\Connection;
+use PhpDbTest\Adapter\Sqlite\TestAsset\ConnectionWrapper;
 use Override;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\CoversMethod;
