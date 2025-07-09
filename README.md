@@ -1,2 +1,3 @@
-# axleus-repo-template
-Template repo for starting all new repo's
+# laminas-db-adapter-sqlite
+
+This package provides SQLite support for Laminas Db.
