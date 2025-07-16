@@ -10,6 +10,7 @@ use PhpDb\Adapter\Driver\Pdo\Statement;
 use PhpDb\Adapter\Driver\PdoDriverInterface;
 use PhpDb\Adapter\Driver\ResultInterface;
 use PhpDb\Adapter\Driver\StatementInterface;
+use PhpDb\Adapter\Sqlite\Driver\Pdo\Feature\SqliteRowCounter;
 use PhpDb\Adapter\Sqlite\Driver\Pdo\Connection;
 use PhpDb\Adapter\Sqlite\Driver\Pdo\Pdo as PdoDriver;
 use PhpDb\Container\AdapterManager;
@@ -34,7 +35,8 @@ final class PdoDriverFactory
         return new PdoDriver(
             $connectionInstance,
             $statementInstance,
-            $resultInstance
+            $resultInstance,
+            [new SqliteRowCounter()],
         );
     }
 }

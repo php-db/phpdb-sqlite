@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PhpDb\Adapter\Sqlite\Driver\Pdo\Feature;
 
 use Closure;
@@ -14,11 +16,6 @@ use function stripos;
  */
 class SqliteRowCounter extends AbstractFeature
 {
-    public function getName(): string
-    {
-        return 'SqliteRowCounter';
-    }
-
     public function getCountForStatement(Pdo\Statement $statement): ?int
     {
         $countStmt = clone $statement;
