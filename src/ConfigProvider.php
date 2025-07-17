@@ -20,7 +20,7 @@ use PhpDb\Container\AdapterManager;
 use PhpDb\Metadata\MetadataInterface;
 use PhpDb\ResultSet;
 
-readonly class ConfigProvider
+final class ConfigProvider
 {
     public function __invoke(): array
     {
@@ -40,7 +40,9 @@ readonly class ConfigProvider
                 Metadata\Source\SqliteMetadata::class => Container\MetadataInterfaceFactory::class,
             ],
             'delegators' => [
-                AdapterManager::class => [Container\AdapterManagerDelegator::class],
+                AdapterManager::class => [
+                    Container\AdapterManagerDelegator::class,
+                ],
             ],
         ];
     }

@@ -28,24 +28,8 @@ class Sqlite extends AbstractPlatform
 
     public function __construct(
         protected readonly PdoDriverInterface|\PDO $driver
-        ) {
-            if (
-                (
-                    $this->driver instanceof \PDO
-                    && $this->driver->getAttribute(\PDO::ATTR_DRIVER_NAME) === 'sqlite'
-                )
-                || (
-                    $this->driver instanceof Pdo\Pdo
-                    && $this->driver->getDatabasePlatformName() === 'Sqlite'
-                )
-            ) {
-                $this->resource = $this->driver;
-            }
-
-            throw new Exception\InvalidArgumentException(
-                '$driver must be a Sqlite PDO PhpDb\Adapter\Driver, Sqlite PDO instance'
-            );
-        }
+    ) {
+    }
 
     /**
      * {@inheritDoc}
