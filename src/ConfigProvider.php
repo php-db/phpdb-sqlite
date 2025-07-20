@@ -7,6 +7,7 @@ namespace PhpDb\Adapter\Sqlite;
 use Laminas\ServiceManager\Factory\InvokableFactory;
 use PhpDb\Adapter\AdapterInterface;
 use PhpDb\Adapter\Driver\ConnectionInterface;
+use PhpDb\Adapter\Driver\PdoConnectionInterface;
 use PhpDb\Adapter\Driver\DriverInterface;
 use PhpDb\Adapter\Driver\PdoDriverInterface;
 use PhpDb\Adapter\Driver\ResultInterface;
@@ -59,6 +60,7 @@ final class ConfigProvider
                 'pdosqlite'                         => Driver\Pdo\Pdo::class,
                 'pdodriver'                         => Driver\Pdo\Pdo::class,
                 ConnectionInterface::class          => Driver\Pdo\Connection::class,
+                PdoConnectionInterface::class       => Driver\Pdo\Connection::class,
                 DriverInterface::class              => Driver\Pdo\Pdo::class,
                 PdoDriverInterface::class           => Driver\Pdo\Pdo::class,
                 PlatformInterface::class            => Platform\Sqlite::class,

@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace PhpDbIntegrationTest\Adapter\Sqlite\Driver\Pdo;
 
 use PhpDb\Adapter\Driver\StatementInterface;
+use PhpDb\Adapter\Driver\Pdo\Statement;
 use PhpDb\Adapter\Sqlite\Driver\Pdo\Connection;
-use PhpDb\Adapter\Sqlite\Driver\Pdo\Driver;
+use PhpDb\Adapter\Sqlite\Driver\Pdo\Pdo;
 use PhpDb\Adapter\Sqlite\Driver\Pdo\Result;
-use PhpDb\Adapter\Sqlite\Driver\Pdo\Statement;
 use PhpDbIntegrationTest\Adapter\Sqlite\Driver\Pdo\TestAsset\SqliteMemoryPdo;
 use Override;
 use PHPUnit\Framework\Attributes\CoversMethod;
@@ -25,6 +25,7 @@ use PHPUnit\Framework\TestCase;
 #[CoversMethod(Statement::class, 'execute')]
 final class StatementTest extends TestCase
 {
+
     protected Statement $statement;
 
     public function testGetResource(): void

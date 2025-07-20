@@ -1,0 +1,30 @@
+<?php
+
+declare(strict_types=1);
+
+namespace PhpDbIntegrationTest\Adapter\Sqlite\Container;
+
+use PhpDb\Adapter\Platform\PlatformInterface;
+use PhpDb\Adapter\Sqlite\Container\PlatformInterfaceFactory;
+use PhpDb\Adapter\Sqlite\Platform\Sqlite;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\CoversMethod;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\TestCase;
+
+#[Group('integration')]
+#[Group('container')]
+#[CoversClass(PlatformInterfaceFactory::class)]
+#[CoversMethod(PlatformInterfaceFactory::class, '__invoke')]
+final class PlatformInterfaceFactoryTest extends TestCase
+{
+    use TestAsset\SetupTrait;
+
+    public function testInvokeReturnsPlatformInterfaceWhenDbDriverIsPdo(): void
+    {
+        $factory  = new PlatformInterfaceFactory();
+        $instance = $factory($this->container);
+        self::assertInstanceOf(PlatformInterface::class, $instance);
+        self::assertInstanceOf(Sqlite::class, $instance);
+    }
+}

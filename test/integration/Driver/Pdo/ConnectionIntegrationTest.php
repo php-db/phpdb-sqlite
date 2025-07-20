@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace PhpDbIntegrationTest\Adapter\Sqlite\Driver\Pdo;
 
-use PhpDb\Adapter\Sqlite\Driver\Pdo\Connection;
-use PhpDbIntegrationTest\Adapter\Sqlite\Driver\Pdo\TestAsset\SqliteMemoryPdo;
+use PhpDb\Adapter\Driver\PdoConnectionInterface;
+use PhpDbIntegrationTest\Adapter\Sqlite\Container\TestAsset\SetupTrait;
 use PDO;
 use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\Attributes\Group;
@@ -27,12 +27,11 @@ use PHPUnit\Framework\TestCase;
 #[Group('integration-pdo')]
 final class ConnectionIntegrationTest extends TestCase
 {
-    /** @var array<string, string> */
-    protected array $variables = ['driver' => 'pdo_sqlite', 'database' => ':memory:'];
+    use SetupTrait;
 
     public function testGetCurrentSchema(): void
     {
-        $connection = new Connection($this->variables);
+        $connection = $this->container->get(PdoConnectionInterface::class);
         self::assertIsString($connection->getCurrentSchema());
     }
 

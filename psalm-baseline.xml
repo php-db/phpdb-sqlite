@@ -1,8 +1,587 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="6.11.0@4ed53b7ccebc09ef60ec4c9e464bf8a01bfd35b0">
-  <file src="src/ConfigProvider.php">
-    <ClassMustBeFinal>
+<files psalm-version="6.13.0@70cdf647255a1362b426bb0f522a85817b8c791c">
+  <file src="src/Container/AdapterFactory.php">
+    <UnnecessaryVarAnnotation>
+      <code><![CDATA[PlatformInterface]]></code>
+      <code><![CDATA[ProfilerInterface|null]]></code>
+      <code><![CDATA[ResultSetInterface]]></code>
+    </UnnecessaryVarAnnotation>
+  </file>
+  <file src="src/Container/AdapterManagerDelegator.php">
+    <InvalidClass>
       <code><![CDATA[ConfigProvider]]></code>
+    </InvalidClass>
+  </file>
+  <file src="src/Container/PdoResultFactory.php">
+    <UnusedParam>
+      <code><![CDATA[$container]]></code>
+    </UnusedParam>
+  </file>
+  <file src="src/Driver/Pdo/Connection.php">
+    <InvalidArgument>
+      <code><![CDATA[$this->connectionParameters]]></code>
+    </InvalidArgument>
+    <MixedArgument>
+      <code><![CDATA[$this->resource->getAttribute(\PDO::ATTR_DRIVER_NAME)]]></code>
+    </MixedArgument>
+    <MixedArgumentTypeCoercion>
+      <code><![CDATA[$key]]></code>
+    </MixedArgumentTypeCoercion>
+    <MixedAssignment>
+      <code><![CDATA[$dsn]]></code>
+      <code><![CDATA[$options[$key]]]></code>
+      <code><![CDATA[$value]]></code>
+    </MixedAssignment>
+    <PossiblyNullReference>
+      <code><![CDATA[lastInsertId]]></code>
+    </PossiblyNullReference>
+  </file>
+  <file src="src/Driver/Pdo/Feature/SqliteRowCounter.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[SqliteRowCounter]]></code>
     </ClassMustBeFinal>
+    <MixedArrayAccess>
+      <code><![CDATA[$countRow['count']]]></code>
+      <code><![CDATA[$countRow['count']]]></code>
+    </MixedArrayAccess>
+    <MixedAssignment>
+      <code><![CDATA[$countRow]]></code>
+      <code><![CDATA[$countRow]]></code>
+    </MixedAssignment>
+    <MixedMethodCall>
+      <code><![CDATA[fetch]]></code>
+    </MixedMethodCall>
+    <MixedReturnStatement>
+      <code><![CDATA[$countRow['count']]]></code>
+      <code><![CDATA[$countRow['count']]]></code>
+    </MixedReturnStatement>
+    <PossiblyNullReference>
+      <code><![CDATA[getResource]]></code>
+    </PossiblyNullReference>
+  </file>
+  <file src="src/Driver/Pdo/Pdo.php">
+    <ImplementedParamTypeMismatch>
+      <code><![CDATA[$resource]]></code>
+    </ImplementedParamTypeMismatch>
+    <InvalidArgument>
+      <code><![CDATA[$rowCount]]></code>
+    </InvalidArgument>
+    <MixedArgument>
+      <code><![CDATA[$context]]></code>
+    </MixedArgument>
+    <PossiblyNullArgument>
+      <code><![CDATA[$context]]></code>
+    </PossiblyNullArgument>
+    <PossiblyUndefinedMethod>
+      <code><![CDATA[getLastGeneratedValue]]></code>
+    </PossiblyUndefinedMethod>
+    <RedundantConditionGivenDocblockType>
+      <code><![CDATA[$sqliteRowCounter]]></code>
+    </RedundantConditionGivenDocblockType>
+  </file>
+  <file src="src/Metadata/Source/SqliteMetadata.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[SqliteMetadata]]></code>
+    </ClassMustBeFinal>
+    <MixedArgument>
+      <code><![CDATA[$fk['match']]]></code>
+      <code><![CDATA[$fk['on_delete']]]></code>
+      <code><![CDATA[$fk['on_update']]]></code>
+      <code><![CDATA[$index['name']]]></code>
+      <code><![CDATA[$re]]></code>
+      <code><![CDATA[$re]]></code>
+      <code><![CDATA[$row['sql']]]></code>
+      <code><![CDATA[$row['sql']]]></code>
+    </MixedArgument>
+    <MixedArgumentTypeCoercion>
+      <code><![CDATA[$re]]></code>
+      <code><![CDATA[$value]]></code>
+    </MixedArgumentTypeCoercion>
+    <MixedArrayAccess>
+      <code><![CDATA[$col['name']]]></code>
+      <code><![CDATA[$col['pk']]]></code>
+      <code><![CDATA[$column['name']]]></code>
+      <code><![CDATA[$fk['from']]]></code>
+      <code><![CDATA[$fk['id']]]></code>
+      <code><![CDATA[$fk['id']]]></code>
+      <code><![CDATA[$fk['match']]]></code>
+      <code><![CDATA[$fk['on_delete']]]></code>
+      <code><![CDATA[$fk['on_update']]]></code>
+      <code><![CDATA[$fk['table']]]></code>
+      <code><![CDATA[$fk['to']]]></code>
+      <code><![CDATA[$index['name']]]></code>
+      <code><![CDATA[$index['name']]]></code>
+      <code><![CDATA[$index['unique']]]></code>
+      <code><![CDATA[$row['cid']]]></code>
+      <code><![CDATA[$row['dflt_value']]]></code>
+      <code><![CDATA[$row['name']]]></code>
+      <code><![CDATA[$row['name']]]></code>
+      <code><![CDATA[$row['name']]]></code>
+      <code><![CDATA[$row['name']]]></code>
+      <code><![CDATA[$row['notnull']]]></code>
+      <code><![CDATA[$row['sql']]]></code>
+      <code><![CDATA[$row['sql']]]></code>
+      <code><![CDATA[$row['tbl_name']]]></code>
+      <code><![CDATA[$row['type']]]></code>
+      <code><![CDATA[$row['type']]]></code>
+      <code><![CDATA[$this->data['sqlite_columns'][$schema]]]></code>
+      <code><![CDATA[$this->data['sqlite_columns'][$schema][$table]]]></code>
+    </MixedArrayAccess>
+    <MixedArrayAssignment>
+      <code><![CDATA[$schemas[]]]></code>
+      <code><![CDATA[$this->data['columns'][$schema]]]></code>
+      <code><![CDATA[$this->data['columns'][$schema][$table]]]></code>
+      <code><![CDATA[$this->data['constraints'][$schema]]]></code>
+      <code><![CDATA[$this->data['constraints'][$schema][$table]]]></code>
+      <code><![CDATA[$this->data['sqlite_columns'][$schema]]]></code>
+      <code><![CDATA[$this->data['sqlite_columns'][$schema][$table]]]></code>
+      <code><![CDATA[$this->data['table_names'][$schema]]]></code>
+      <code><![CDATA[$this->data['triggers'][$schema]]]></code>
+    </MixedArrayAssignment>
+    <MixedArrayOffset>
+      <code><![CDATA[$columns[$row['name']]]]></code>
+      <code><![CDATA[$constraints[$constraint['constraint_name']]]]></code>
+      <code><![CDATA[$tables[$row['name']]]]></code>
+      <code><![CDATA[$triggers[$trigger['trigger_name']]]]></code>
+    </MixedArrayOffset>
+    <MixedAssignment>
+      <code><![CDATA[$col]]></code>
+      <code><![CDATA[$column]]></code>
+      <code><![CDATA[$constraint['columns'][]]]></code>
+      <code><![CDATA[$constraints[$name]['columns'][]]]></code>
+      <code><![CDATA[$constraints[$name]['referenced_columns'][]]]></code>
+      <code><![CDATA[$fk]]></code>
+      <code><![CDATA[$id]]></code>
+      <code><![CDATA[$index]]></code>
+      <code><![CDATA[$primaryKey[]]]></code>
+      <code><![CDATA[$row]]></code>
+      <code><![CDATA[$row]]></code>
+      <code><![CDATA[$row]]></code>
+      <code><![CDATA[$row]]></code>
+      <code><![CDATA[$schemas[]]]></code>
+      <code><![CDATA[$value]]></code>
+    </MixedAssignment>
+    <MixedOperand>
+      <code><![CDATA[$id]]></code>
+      <code><![CDATA[$id + 1]]></code>
+      <code><![CDATA[$row['cid']]]></code>
+      <code><![CDATA[$value]]></code>
+    </MixedOperand>
+    <MixedReturnStatement>
+      <code><![CDATA[$re]]></code>
+      <code><![CDATA[$re]]></code>
+      <code><![CDATA[$re]]></code>
+      <code><![CDATA[$re]]></code>
+      <code><![CDATA[$re]]></code>
+      <code><![CDATA[$re]]></code>
+      <code><![CDATA[$results->toArray()]]></code>
+    </MixedReturnStatement>
+    <PossiblyNullArrayOffset>
+      <code><![CDATA[$constraints]]></code>
+      <code><![CDATA[$constraints]]></code>
+    </PossiblyNullArrayOffset>
+    <PossiblyNullOperand>
+      <code><![CDATA[$p->quoteTrustedValue($value)]]></code>
+    </PossiblyNullOperand>
+    <PossiblyUndefinedMethod>
+      <code><![CDATA[toArray]]></code>
+      <code><![CDATA[toArray]]></code>
+      <code><![CDATA[toArray]]></code>
+    </PossiblyUndefinedMethod>
+    <PossiblyUndefinedVariable>
+      <code><![CDATA[$schemas]]></code>
+      <code><![CDATA[$schemas]]></code>
+    </PossiblyUndefinedVariable>
+    <RiskyTruthyFalsyComparison>
+      <code><![CDATA[empty($data['action_condition'])]]></code>
+      <code><![CDATA[empty($data['action_timing'])]]></code>
+    </RiskyTruthyFalsyComparison>
+  </file>
+  <file src="src/Platform/Sqlite.php">
+    <ArgumentTypeCoercion>
+      <code><![CDATA[$value]]></code>
+    </ArgumentTypeCoercion>
+    <ClassMustBeFinal>
+      <code><![CDATA[Sqlite]]></code>
+    </ClassMustBeFinal>
+    <PossiblyUnusedProperty>
+      <code><![CDATA[$driver]]></code>
+    </PossiblyUnusedProperty>
+  </file>
+  <file src="src/Sql/Platform/Ddl/AlterTableDecorator.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[AlterTableDecorator]]></code>
+    </ClassMustBeFinal>
+    <InvalidReturnStatement>
+      <code><![CDATA[[$sqls]]]></code>
+      <code><![CDATA[[$sqls]]]></code>
+    </InvalidReturnStatement>
+    <InvalidReturnType>
+      <code><![CDATA[array]]></code>
+      <code><![CDATA[array]]></code>
+    </InvalidReturnType>
+    <MixedArgument>
+      <code><![CDATA[$coValue]]></code>
+      <code><![CDATA[$coValue]]></code>
+      <code><![CDATA[$coValue]]></code>
+      <code><![CDATA[$column]]></code>
+      <code><![CDATA[$columnOptions]]></code>
+    </MixedArgument>
+    <MixedArgumentTypeCoercion>
+      <code><![CDATA[$coName]]></code>
+      <code><![CDATA[$coName]]></code>
+      <code><![CDATA[$coValue]]></code>
+      <code><![CDATA[$coValue]]></code>
+      <code><![CDATA[$coValue]]></code>
+      <code><![CDATA[$coValue]]></code>
+      <code><![CDATA[$name]]></code>
+      <code><![CDATA[uksort($columnOptions, [$this, 'compareColumnOptions'])]]></code>
+    </MixedArgumentTypeCoercion>
+    <MixedAssignment>
+      <code><![CDATA[$coValue]]></code>
+      <code><![CDATA[$column]]></code>
+      <code><![CDATA[$columnOptions]]></code>
+    </MixedAssignment>
+    <MoreSpecificImplementedParamType>
+      <code><![CDATA[$subject]]></code>
+    </MoreSpecificImplementedParamType>
+    <PossiblyNullArgument>
+      <code><![CDATA[$adapterPlatform]]></code>
+      <code><![CDATA[$adapterPlatform]]></code>
+    </PossiblyNullArgument>
+    <PossiblyUnusedProperty>
+      <code><![CDATA[$subject]]></code>
+    </PossiblyUnusedProperty>
+    <UndefinedInterfaceMethod>
+      <code><![CDATA[getOptions]]></code>
+    </UndefinedInterfaceMethod>
+  </file>
+  <file src="src/Sql/Platform/Ddl/CreateTableDecorator.php">
+    <MixedArgument>
+      <code><![CDATA[$coValue]]></code>
+      <code><![CDATA[$coValue]]></code>
+      <code><![CDATA[$coValue]]></code>
+    </MixedArgument>
+    <MixedArgumentTypeCoercion>
+      <code><![CDATA[$coName]]></code>
+      <code><![CDATA[uksort($columnOptions, [$this, 'compareColumnOptions'])]]></code>
+    </MixedArgumentTypeCoercion>
+    <MixedAssignment>
+      <code><![CDATA[$coValue]]></code>
+    </MixedAssignment>
+    <MoreSpecificImplementedParamType>
+      <code><![CDATA[$subject]]></code>
+    </MoreSpecificImplementedParamType>
+    <PossiblyNullArgument>
+      <code><![CDATA[$adapterPlatform]]></code>
+    </PossiblyNullArgument>
+  </file>
+  <file src="src/Sql/Platform/SelectDecorator.php">
+    <InvalidArrayOffset>
+      <code><![CDATA[$this->processInfo['paramPrefix']]]></code>
+      <code><![CDATA[$this->processInfo['paramPrefix']]]></code>
+    </InvalidArrayOffset>
+    <MoreSpecificImplementedParamType>
+      <code><![CDATA[$subject]]></code>
+    </MoreSpecificImplementedParamType>
+  </file>
+  <file src="test/integration/Driver/Pdo/StatementTest.php">
+    <MixedArgument>
+      <code><![CDATA[Result::class]]></code>
+    </MixedArgument>
+    <MixedAssignment>
+      <code><![CDATA[$this->statement]]></code>
+    </MixedAssignment>
+    <UndefinedClass>
+      <code><![CDATA[$this->statement]]></code>
+      <code><![CDATA[$this->statement]]></code>
+      <code><![CDATA[$this->statement]]></code>
+      <code><![CDATA[$this->statement]]></code>
+      <code><![CDATA[$this->statement]]></code>
+      <code><![CDATA[$this->statement]]></code>
+      <code><![CDATA[$this->statement]]></code>
+      <code><![CDATA[$this->statement]]></code>
+      <code><![CDATA[$this->statement]]></code>
+      <code><![CDATA[$this->statement]]></code>
+      <code><![CDATA[$this->statement]]></code>
+      <code><![CDATA[$this->statement]]></code>
+      <code><![CDATA[$this->statement]]></code>
+      <code><![CDATA[$this->statement]]></code>
+      <code><![CDATA[$this->statement]]></code>
+      <code><![CDATA[$this->statement]]></code>
+      <code><![CDATA[Driver]]></code>
+      <code><![CDATA[Result]]></code>
+      <code><![CDATA[Statement]]></code>
+      <code><![CDATA[Statement]]></code>
+      <code><![CDATA[Statement]]></code>
+      <code><![CDATA[Statement]]></code>
+      <code><![CDATA[Statement]]></code>
+      <code><![CDATA[Statement]]></code>
+      <code><![CDATA[Statement]]></code>
+      <code><![CDATA[Statement]]></code>
+      <code><![CDATA[Statement]]></code>
+      <code><![CDATA[Statement]]></code>
+      <code><![CDATA[Statement]]></code>
+    </UndefinedClass>
+  </file>
+  <file src="test/integration/Driver/Pdo/TestAsset/SqliteMemoryPdo.php">
+    <MixedArgumentTypeCoercion>
+      <code><![CDATA[$this->errorInfo()]]></code>
+    </MixedArgumentTypeCoercion>
+  </file>
+  <file src="test/integration/Platform/SqliteTest.php">
+    <MixedArgument>
+      <code><![CDATA[new Driver(new Connection($this->adapters['pdo_sqlite']))]]></code>
+    </MixedArgument>
+    <UndefinedClass>
+      <code><![CDATA[Driver]]></code>
+    </UndefinedClass>
+  </file>
+  <file src="test/unit/AdapterServiceFactoryTest.php">
+    <MixedAssignment>
+      <code><![CDATA[$adapter]]></code>
+      <code><![CDATA[$adapter]]></code>
+      <code><![CDATA[$adapter]]></code>
+      <code><![CDATA[$this->factory]]></code>
+    </MixedAssignment>
+    <MixedMethodCall>
+      <code><![CDATA[getProfiler]]></code>
+      <code><![CDATA[getProfiler]]></code>
+      <code><![CDATA[getProfiler]]></code>
+    </MixedMethodCall>
+    <UndefinedClass>
+      <code><![CDATA[$this->factory]]></code>
+      <code><![CDATA[$this->factory]]></code>
+      <code><![CDATA[$this->factory]]></code>
+      <code><![CDATA[$this->factory]]></code>
+      <code><![CDATA[Adapter]]></code>
+      <code><![CDATA[Adapter]]></code>
+      <code><![CDATA[Adapter]]></code>
+      <code><![CDATA[Adapter]]></code>
+      <code><![CDATA[AdapterServiceFactory]]></code>
+      <code><![CDATA[AdapterServiceFactory]]></code>
+      <code><![CDATA[AdapterServiceFactory]]></code>
+    </UndefinedClass>
+  </file>
+  <file src="test/unit/AdapterTest.php">
+    <InvalidPropertyAssignmentValue>
+      <code><![CDATA[$this->getMockBuilder(Driver::class)
+            ->setConstructorArgs([
+                $this->mockConnection,
+                $this->mockStatement,
+            ])
+            ->getMock()]]></code>
+      <code><![CDATA[$this->getMockBuilder(Statement::class)->getMock()]]></code>
+    </InvalidPropertyAssignmentValue>
+    <MixedArgument>
+      <code><![CDATA[Driver::class]]></code>
+      <code><![CDATA[Driver::class]]></code>
+      <code><![CDATA[Statement::class]]></code>
+    </MixedArgument>
+    <MixedAssignment>
+      <code><![CDATA[$adapter]]></code>
+      <code><![CDATA[$adapter]]></code>
+      <code><![CDATA[$adapter]]></code>
+      <code><![CDATA[$r]]></code>
+      <code><![CDATA[$this->adapter]]></code>
+    </MixedAssignment>
+    <MixedMethodCall>
+      <code><![CDATA[getProfiler]]></code>
+    </MixedMethodCall>
+    <MixedPropertyFetch>
+      <code><![CDATA[$adapter->driver]]></code>
+      <code><![CDATA[$adapter->platform]]></code>
+    </MixedPropertyFetch>
+    <TooFewArguments>
+      <code><![CDATA[new SqlitePlatform()]]></code>
+    </TooFewArguments>
+    <UndefinedClass>
+      <code><![CDATA[$this->adapter]]></code>
+      <code><![CDATA[$this->adapter]]></code>
+      <code><![CDATA[$this->adapter]]></code>
+      <code><![CDATA[$this->adapter]]></code>
+      <code><![CDATA[$this->adapter]]></code>
+      <code><![CDATA[$this->adapter]]></code>
+      <code><![CDATA[$this->adapter]]></code>
+      <code><![CDATA[$this->adapter]]></code>
+      <code><![CDATA[$this->adapter]]></code>
+      <code><![CDATA[$this->adapter]]></code>
+      <code><![CDATA[$this->adapter]]></code>
+      <code><![CDATA[$this->adapter]]></code>
+      <code><![CDATA[$this->adapter]]></code>
+      <code><![CDATA[$this->adapter]]></code>
+      <code><![CDATA[$this->adapter]]></code>
+      <code><![CDATA[$this->adapter]]></code>
+      <code><![CDATA[$this->adapter->DrivER]]></code>
+      <code><![CDATA[$this->adapter->PlatForm]]></code>
+      <code><![CDATA[$this->adapter->driver]]></code>
+      <code><![CDATA[$this->adapter->foo]]></code>
+      <code><![CDATA[$this->adapter->platform]]></code>
+      <code><![CDATA[Adapter]]></code>
+      <code><![CDATA[Adapter]]></code>
+      <code><![CDATA[Adapter]]></code>
+      <code><![CDATA[Adapter]]></code>
+      <code><![CDATA[Adapter]]></code>
+      <code><![CDATA[Adapter]]></code>
+      <code><![CDATA[Adapter]]></code>
+      <code><![CDATA[Adapter]]></code>
+      <code><![CDATA[Adapter]]></code>
+      <code><![CDATA[Adapter]]></code>
+      <code><![CDATA[Adapter]]></code>
+      <code><![CDATA[Adapter]]></code>
+      <code><![CDATA[Adapter]]></code>
+      <code><![CDATA[Adapter]]></code>
+      <code><![CDATA[Adapter]]></code>
+      <code><![CDATA[Adapter]]></code>
+      <code><![CDATA[Driver]]></code>
+      <code><![CDATA[Driver]]></code>
+      <code><![CDATA[Statement]]></code>
+    </UndefinedClass>
+    <UnusedPsalmSuppress>
+      <code><![CDATA[UndefinedMagicPropertyFetch]]></code>
+      <code><![CDATA[UndefinedMagicPropertyFetch]]></code>
+    </UnusedPsalmSuppress>
+  </file>
+  <file src="test/unit/ConfigProviderTest.php">
+    <MixedPropertyTypeCoercion>
+      <code><![CDATA[[
+        'aliases'   => [
+            PlatformInterface::class => Platform\Sqlite::class,
+            ProfilerInterface::class => Profiler::class,
+        ],
+        'factories' => [
+            AdapterInterface::class => AdapterServiceFactory::class,
+            DriverInterface::class  => Driver\Pdo\DriverFactory::class,
+            Platform\Sqlite::class  => InvokableFactory::class,
+            Profiler::class         => InvokableFactory::class,
+        ],
+    ]]]></code>
+    </MixedPropertyTypeCoercion>
+    <UndefinedClass>
+      <code><![CDATA[AdapterServiceFactory]]></code>
+      <code><![CDATA[Driver\Pdo\DriverFactory]]></code>
+    </UndefinedClass>
+  </file>
+  <file src="test/unit/Driver/Pdo/PdoTest.php">
+    <MixedAssignment>
+      <code><![CDATA[$result]]></code>
+      <code><![CDATA[$this->pdo]]></code>
+    </MixedAssignment>
+    <MixedMethodCall>
+      <code><![CDATA[setConnectionParameters]]></code>
+    </MixedMethodCall>
+    <UndefinedClass>
+      <code><![CDATA[$this->pdo]]></code>
+      <code><![CDATA[$this->pdo]]></code>
+      <code><![CDATA[$this->pdo]]></code>
+      <code><![CDATA[$this->pdo]]></code>
+      <code><![CDATA[$this->pdo]]></code>
+      <code><![CDATA[$this->pdo]]></code>
+      <code><![CDATA[Driver]]></code>
+      <code><![CDATA[Driver]]></code>
+      <code><![CDATA[Driver]]></code>
+      <code><![CDATA[Driver]]></code>
+    </UndefinedClass>
+  </file>
+  <file src="test/unit/Driver/Pdo/ResultTest.php">
+    <InvalidArrayOffset>
+      <code><![CDATA[$data[$position++]]]></code>
+    </InvalidArrayOffset>
+    <MissingClosureReturnType>
+      <code><![CDATA[function () use ($data, &$position) {]]></code>
+    </MissingClosureReturnType>
+  </file>
+  <file src="test/unit/Driver/Pdo/StatementIntegrationTest.php">
+    <InvalidArgument>
+      <code><![CDATA[$driver]]></code>
+    </InvalidArgument>
+    <MixedArgument>
+      <code><![CDATA[Driver::class]]></code>
+    </MixedArgument>
+    <UndefinedClass>
+      <code><![CDATA[Driver]]></code>
+    </UndefinedClass>
+  </file>
+  <file src="test/unit/Driver/Pdo/StatementTest.php">
+    <MixedArgument>
+      <code><![CDATA[new Driver(new Connection())]]></code>
+    </MixedArgument>
+    <UndefinedClass>
+      <code><![CDATA[Driver]]></code>
+    </UndefinedClass>
+  </file>
+  <file src="test/unit/ModuleTest.php">
+    <MixedPropertyTypeCoercion>
+      <code><![CDATA[[
+        'aliases'   => [
+            PlatformInterface::class => Platform\Sqlite::class,
+            ProfilerInterface::class => Profiler::class,
+        ],
+        'factories' => [
+            AdapterInterface::class => AdapterServiceFactory::class,
+            DriverInterface::class  => Driver\Pdo\DriverFactory::class,
+            Platform\Sqlite::class  => InvokableFactory::class,
+            Profiler::class         => InvokableFactory::class,
+        ],
+    ]]]></code>
+    </MixedPropertyTypeCoercion>
+    <UndefinedClass>
+      <code><![CDATA[AdapterServiceFactory]]></code>
+      <code><![CDATA[Driver\Pdo\DriverFactory]]></code>
+    </UndefinedClass>
+  </file>
+  <file src="test/unit/Platform/SqliteTest.php">
+    <InvalidArgument>
+      <code><![CDATA[function ($errno, $errstr) use (&$raisedNotice) {
+            $this->assertEquals(E_USER_NOTICE, $errno);
+            $this->assertEquals(
+                $errstr,
+                'Attempting to quote a value in PhpDb\Adapter\Sqlite\Platform\Sqlite without extension/driver support can '
+                    . 'introduce security vulnerabilities in a production environment'
+            );
+            $raisedNotice = true;
+        }]]></code>
+      <code><![CDATA[function ($errno, $errstr) use (&$raisedNotice) {
+            $this->assertEquals(E_USER_NOTICE, $errno);
+            $this->assertEquals(
+                $errstr,
+                'Attempting to quote a value in PhpDb\Adapter\Sqlite\Platform\Sqlite without extension/driver support can '
+                    . 'introduce security vulnerabilities in a production environment'
+            );
+            $raisedNotice = true;
+        }]]></code>
+    </InvalidArgument>
+    <MixedAssignment>
+      <code><![CDATA[$driver]]></code>
+    </MixedAssignment>
+    <MixedMethodCall>
+      <code><![CDATA[disconnect]]></code>
+      <code><![CDATA[getConnection]]></code>
+    </MixedMethodCall>
+    <TooFewArguments>
+      <code><![CDATA[new Sqlite()]]></code>
+    </TooFewArguments>
+    <UndefinedClass>
+      <code><![CDATA[Driver]]></code>
+    </UndefinedClass>
+    <UndefinedMethod>
+      <code><![CDATA[setDriver]]></code>
+    </UndefinedMethod>
+  </file>
+  <file src="test/unit/Sql/Platform/SelectDecoratorTest.php">
+    <InvalidArgument>
+      <code><![CDATA[$adapter]]></code>
+    </InvalidArgument>
+    <MixedArgument>
+      <code><![CDATA[Adapter::class]]></code>
+    </MixedArgument>
+    <TooFewArguments>
+      <code><![CDATA[new SqlitePlatform()]]></code>
+      <code><![CDATA[new SqlitePlatform()]]></code>
+      <code><![CDATA[new SqlitePlatform()]]></code>
+    </TooFewArguments>
+    <UndefinedClass>
+      <code><![CDATA[Adapter]]></code>
+    </UndefinedClass>
   </file>
 </files>

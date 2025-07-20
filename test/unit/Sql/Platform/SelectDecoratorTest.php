@@ -1,30 +1,51 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PhpDbTest\Adapter\Sqlite\Sql\Platform;
 
+use PhpDb\Adapter\AdapterInterface;
 use PhpDb\Adapter\Driver\DriverInterface;
+use PhpDb\Adapter\Driver\PdoDriverInterface;
 use PhpDb\Adapter\Driver\StatementInterface;
 use PhpDb\Adapter\ParameterContainer;
-use PhpDb\Sql\Expression;
-use PhpDb\Sql\Select;
-use PhpDb\Adapter\Sqlite\Adapter;
 use PhpDb\Adapter\Sqlite\Platform\Sqlite as SqlitePlatform;
 use PhpDb\Adapter\Sqlite\Sql\Platform\SelectDecorator;
+use PhpDb\Sql\Expression;
+use PhpDb\Sql\Select;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\TestDox;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 #[CoversClass(SelectDecorator::class)]
 final class SelectDecoratorTest extends TestCase
 {
+    protected SqlitePlatform&MockObject $platform;
+    protected PdoDriverInterface&MockObject $driver;
+
+    protected function setUp(): void
+    {
+
+        $this->driver = $this->getMockBuilder(PdoDriverInterface::class)
+                             ->getMock();
+
+        $this->platform = $this->getMockBuilder(SqlitePlatform::class)
+                            ->onlyMethods([])
+                            ->setConstructorArgs([$this->driver])
+                            ->getMock();
+
+        parent::setUp();
+    }
+
     public function testLimitAndOffset(): void
     {
         $select = new Select();
         $select->offset(5);
         $selectDecorator = new SelectDecorator();
         $selectDecorator->setSubject($select);
-        $sqlString = $selectDecorator->getSqlString(new SqlitePlatform());
+        $sqlString = $selectDecorator->getSqlString($this->platform);
         self::assertEquals('SELECT * LIMIT 18446744073709551615 OFFSET 5', $sqlString);
     }
 
@@ -40,11 +61,11 @@ statement')]
         $driver->expects($this->any())->method('formatParameterName')->willReturn('?');
 
         // test
-        $adapter = $this->getMockBuilder(Adapter::class)
+        $adapter = $this->getMockBuilder(AdapterInterface::class)
                         ->onlyMethods([])
                         ->setConstructorArgs([
                             $driver,
-                            new SqlitePlatform(),
+                            $this->platform,
                         ])
                         ->getMock();
 
@@ -76,7 +97,7 @@ statement')]
 
         $selectDecorator = new SelectDecorator();
         $selectDecorator->setSubject($select);
-        self::assertEquals($expectedSql, $selectDecorator->getSqlString(new SqlitePlatform()));
+        self::assertEquals($expectedSql, $selectDecorator->getSqlString($this->platform));
     }
 
     /**
