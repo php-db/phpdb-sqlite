@@ -6,19 +6,20 @@ namespace PhpDb\Adapter\Sqlite\Driver\Pdo;
 
 use Override;
 use PDOException;
-use PDOStatement;
 use PhpDb\Adapter\Driver\ConnectionInterface;
 use PhpDb\Adapter\Driver\Pdo\AbstractPdoConnection;
 use PhpDb\Adapter\Exception;
+use Webmozart\Assert\Assert;
 
 use function array_diff_key;
-use function implode;
 use function is_int;
 use function is_string;
+use function str_starts_with;
 use function strtolower;
 
 class Connection extends AbstractPdoConnection
 {
+    public final const CURRENT_SCHEMA = 'main';
     /**
      * {@inheritDoc}
      */
@@ -29,13 +30,7 @@ class Connection extends AbstractPdoConnection
             $this->connect();
         }
 
-        /** @var PDOStatement $result */
-        $result = $this->resource->query('PRAGMA database_list');
-        if ($result instanceof PDOStatement) {
-            return $result->fetchColumn();
-        }
-
-        return false;
+        return self::CURRENT_SCHEMA;
     }
 
     /**
@@ -44,8 +39,8 @@ class Connection extends AbstractPdoConnection
      * @throws Exception\InvalidConnectionParametersException
      * @throws Exception\RuntimeException
      *
-     * This connection class only supports the 'dsn', 'dir', or 'path' parameters.
-     * If 'dsn' is not provided, it will attempt to construct one from 'dir' or 'path'.
+     * This connection class only supports the 'dsn', or 'path' parameters.
+     * If 'dsn' is not provided, it will attempt to construct one from 'path'.
      * If neither is provided, an exception will be thrown.
      * If 'driver_options' is provided, it will merge with existing options.
      */
@@ -63,40 +58,43 @@ class Connection extends AbstractPdoConnection
                 case 'dsn':
                     $dsn = $value;
                     break;
-                case 'dir':
-                case 'path':
-                    $path = (string) $value;
-                    break;
                 case 'driver_options':
                     $value   = (array) $value;
                     $options = array_diff_key($options, $value) + $value;
                     break;
                 default:
-                    //$options[$key] = $value;
+                    $options[$key] = $value;
                     break;
             }
         }
 
-        if (! isset($dsn)) {
-            $dsn = [];
-            if (isset($path)) {
-                $dsn[] = $path;
-            }
-            $dsn = 'sqlite:' . implode('', $dsn);
-        }
-
         if (! is_string($dsn)) {
             throw new Exception\InvalidConnectionParametersException(
-                'A dsn was not provided or could not be constructed from your parameters',
+                'A dsn was not provided',
                 $this->connectionParameters
             );
+        }
+
+        if (! str_starts_with($dsn, 'sqlite:')) {
+            Assert::fileExists(
+                $dsn,
+                'The provided DSN does not point to a valid file.'
+            );
+            Assert::readable(
+                $dsn,
+                'The provided DSN does not point to a readable file.'
+            );
+            Assert::writable(
+                $dsn,
+                'The provided DSN does not point to a writable file.'
+            );
+            $dsn = 'sqlite:' . $dsn;
         }
 
         $this->dsn = $dsn;
 
         try {
-
-            $this->resource = new \PDO($dsn);
+            $this->resource = new \PDO(dsn: $dsn, options: $options);
             $this->resource->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
             $this->driverName = strtolower($this->resource->getAttribute(\PDO::ATTR_DRIVER_NAME));
         } catch (PDOException $e) {
