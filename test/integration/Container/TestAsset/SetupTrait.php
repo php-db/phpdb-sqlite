@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace PhpDbIntegrationTest\Adapter\Sqlite\Container\TestAsset;
 
+use Override;
 use Laminas\ServiceManager\ServiceManager;
 use Laminas\Stdlib\ArrayUtils;
 use PhpDb\Adapter\AdapterInterface;
@@ -13,8 +14,7 @@ use PhpDb\Adapter\Sqlite\Driver\Pdo\Pdo;
 use PhpDb\Container\AdapterManager;
 use PhpDb\Container\ConfigProvider as LaminasDbConfigProvider;
 use Psr\Container\ContainerInterface;
-
-use function getenv;
+use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 
 /**
  * This trait provides a setup method for integration tests that require
@@ -24,6 +24,7 @@ use function getenv;
  * allowing for the creation of an adapter manager and the retrieval
  * of an adapter instance.
  */
+#[RequiresPhpExtension('pdo_sqlite')]
 trait SetupTrait
 {
     protected array $config = ['db' => []];
@@ -36,6 +37,7 @@ trait SetupTrait
 
     protected DriverInterface|string|null $driver;
 
+    #[Override]
     protected function setUp(): void
     {
         $this->getAdapter();

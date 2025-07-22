@@ -21,7 +21,7 @@
             <directory>./test/integration</directory>
         </testsuite>
     </testsuites>
-    <source>
+    <source restrictNotices="true">
         <include>
             <directory>./src</directory>
         </include>
