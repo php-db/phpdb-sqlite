@@ -3,7 +3,7 @@
 namespace PhpDbTest\Adapter\Sqlite\Sqlite\Platform;
 
 use PhpDb\Adapter\Sqlite\Driver\Pdo\Connection;
-use PhpDb\Adapter\Sqlite\Driver\Pdo\Driver;
+use PhpDb\Adapter\Sqlite\Driver\Pdo\Pdo;
 use PhpDb\Adapter\Sqlite\Platform\Sqlite;
 use Override;
 use PHPUnit\Framework\Attributes\CoversMethod;

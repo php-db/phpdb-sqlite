@@ -13,7 +13,7 @@ use PhpDb\Adapter\Profiler;
 use PhpDb\ResultSet\ResultSet;
 use PhpDb\ResultSet\ResultSetInterface;
 use PhpDb\Adapter\Sqlite\Adapter;
-use PhpDb\Adapter\Sqlite\Driver\Pdo\Driver;
+use PhpDb\Adapter\Sqlite\Driver\Pdo\Pdo;
 use PhpDb\Adapter\Sqlite\Driver\Pdo\Statement;
 use PhpDb\Adapter\Sqlite\Platform\Sqlite as SqlitePlatform;
 use PhpDbTest\Adapter\Sqlite\TestAsset\TemporaryResultSet;
@@ -72,7 +72,7 @@ final class AdapterTest extends TestCase
     {
         if (extension_loaded('pdo')) {
             $adapter = new Adapter(['driver' => 'pdo_sqlite'], $this->mockPlatform);
-            self::assertInstanceOf(Driver::class, $adapter->driver);
+            self::assertInstanceOf(Pdo::class, $adapter->driver);
             unset($adapter);
         }
     }
@@ -246,7 +246,7 @@ final class AdapterTest extends TestCase
         $this->mockConnection = $this->createMock(ConnectionInterface::class);
         $this->mockPlatform   = new SqlitePlatform();
         $this->mockStatement  = $this->getMockBuilder(Statement::class)->getMock();
-        $this->mockDriver     = $this->getMockBuilder(Driver::class)
+        $this->mockDriver     = $this->getMockBuilder(Pdo::class)
             ->setConstructorArgs([
                 $this->mockConnection,
                 $this->mockStatement,

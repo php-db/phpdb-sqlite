@@ -285,57 +285,56 @@
       <code><![CDATA[$subject]]></code>
     </MoreSpecificImplementedParamType>
   </file>
-  <file src="test/integration/Driver/Pdo/StatementTest.php">
+  <file src="test/integration/Container/TestAsset/SetupTrait.php">
+    <MissingConstructor>
+      <code><![CDATA[$adapter]]></code>
+      <code><![CDATA[$adapter]]></code>
+      <code><![CDATA[$adapter]]></code>
+      <code><![CDATA[$adapter]]></code>
+      <code><![CDATA[$adapter]]></code>
+      <code><![CDATA[$adapter]]></code>
+      <code><![CDATA[$adapter]]></code>
+      <code><![CDATA[$adapter]]></code>
+      <code><![CDATA[$adapter]]></code>
+      <code><![CDATA[$adapter]]></code>
+      <code><![CDATA[$adapterManager]]></code>
+      <code><![CDATA[$adapterManager]]></code>
+      <code><![CDATA[$adapterManager]]></code>
+      <code><![CDATA[$adapterManager]]></code>
+      <code><![CDATA[$adapterManager]]></code>
+      <code><![CDATA[$adapterManager]]></code>
+      <code><![CDATA[$adapterManager]]></code>
+      <code><![CDATA[$adapterManager]]></code>
+      <code><![CDATA[$adapterManager]]></code>
+      <code><![CDATA[$adapterManager]]></code>
+      <code><![CDATA[$container]]></code>
+      <code><![CDATA[$container]]></code>
+      <code><![CDATA[$container]]></code>
+      <code><![CDATA[$container]]></code>
+      <code><![CDATA[$container]]></code>
+      <code><![CDATA[$container]]></code>
+      <code><![CDATA[$container]]></code>
+      <code><![CDATA[$container]]></code>
+      <code><![CDATA[$container]]></code>
+      <code><![CDATA[$container]]></code>
+      <code><![CDATA[$driver]]></code>
+      <code><![CDATA[$driver]]></code>
+      <code><![CDATA[$driver]]></code>
+      <code><![CDATA[$driver]]></code>
+      <code><![CDATA[$driver]]></code>
+      <code><![CDATA[$driver]]></code>
+      <code><![CDATA[$driver]]></code>
+      <code><![CDATA[$driver]]></code>
+      <code><![CDATA[$driver]]></code>
+      <code><![CDATA[$driver]]></code>
+    </MissingConstructor>
     <MixedArgument>
-      <code><![CDATA[Result::class]]></code>
+      <code><![CDATA[(new ConfigProvider())()['dependencies']]]></code>
+      <code><![CDATA[(new LaminasDbConfigProvider())()['dependencies']]]></code>
     </MixedArgument>
-    <MixedAssignment>
-      <code><![CDATA[$this->statement]]></code>
-    </MixedAssignment>
-    <UndefinedClass>
-      <code><![CDATA[$this->statement]]></code>
-      <code><![CDATA[$this->statement]]></code>
-      <code><![CDATA[$this->statement]]></code>
-      <code><![CDATA[$this->statement]]></code>
-      <code><![CDATA[$this->statement]]></code>
-      <code><![CDATA[$this->statement]]></code>
-      <code><![CDATA[$this->statement]]></code>
-      <code><![CDATA[$this->statement]]></code>
-      <code><![CDATA[$this->statement]]></code>
-      <code><![CDATA[$this->statement]]></code>
-      <code><![CDATA[$this->statement]]></code>
-      <code><![CDATA[$this->statement]]></code>
-      <code><![CDATA[$this->statement]]></code>
-      <code><![CDATA[$this->statement]]></code>
-      <code><![CDATA[$this->statement]]></code>
-      <code><![CDATA[$this->statement]]></code>
-      <code><![CDATA[Driver]]></code>
-      <code><![CDATA[Result]]></code>
-      <code><![CDATA[Statement]]></code>
-      <code><![CDATA[Statement]]></code>
-      <code><![CDATA[Statement]]></code>
-      <code><![CDATA[Statement]]></code>
-      <code><![CDATA[Statement]]></code>
-      <code><![CDATA[Statement]]></code>
-      <code><![CDATA[Statement]]></code>
-      <code><![CDATA[Statement]]></code>
-      <code><![CDATA[Statement]]></code>
-      <code><![CDATA[Statement]]></code>
-      <code><![CDATA[Statement]]></code>
-    </UndefinedClass>
-  </file>
-  <file src="test/integration/Driver/Pdo/TestAsset/SqliteMemoryPdo.php">
-    <MixedArgumentTypeCoercion>
-      <code><![CDATA[$this->errorInfo()]]></code>
-    </MixedArgumentTypeCoercion>
-  </file>
-  <file src="test/integration/Platform/SqliteTest.php">
-    <MixedArgument>
-      <code><![CDATA[new Driver(new Connection($this->adapters['pdo_sqlite']))]]></code>
-    </MixedArgument>
-    <UndefinedClass>
-      <code><![CDATA[Driver]]></code>
-    </UndefinedClass>
+    <MixedArrayAccess>
+      <code><![CDATA[$this->getConfig()['db']['connection']]]></code>
+    </MixedArrayAccess>
   </file>
   <file src="test/unit/AdapterServiceFactoryTest.php">
     <MixedAssignment>
@@ -567,21 +566,5 @@
     <UndefinedMethod>
       <code><![CDATA[setDriver]]></code>
     </UndefinedMethod>
-  </file>
-  <file src="test/unit/Sql/Platform/SelectDecoratorTest.php">
-    <InvalidArgument>
-      <code><![CDATA[$adapter]]></code>
-    </InvalidArgument>
-    <MixedArgument>
-      <code><![CDATA[Adapter::class]]></code>
-    </MixedArgument>
-    <TooFewArguments>
-      <code><![CDATA[new SqlitePlatform()]]></code>
-      <code><![CDATA[new SqlitePlatform()]]></code>
-      <code><![CDATA[new SqlitePlatform()]]></code>
-    </TooFewArguments>
-    <UndefinedClass>
-      <code><![CDATA[Adapter]]></code>
-    </UndefinedClass>
   </file>
 </files>
