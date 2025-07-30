@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace PhpDb\Adapter\Sqlite\Metadata\Source;
 
+use Override;
 use PhpDb\Adapter\AdapterInterface;
 use PhpDb\Metadata\Source\AbstractSource;
 use PhpDb\ResultSet\ResultSetInterface;
@@ -15,8 +16,9 @@ use function is_string;
 use function preg_match;
 use function strtoupper;
 
-class SqliteMetadata extends AbstractSource
+final class SqliteMetadata extends AbstractSource
 {
+    #[Override]
     protected function loadSchemaData(): void
     {
         if (isset($this->data['schemas'])) {
@@ -31,6 +33,7 @@ class SqliteMetadata extends AbstractSource
         $this->data['schemas'] = $schemas;
     }
 
+    #[Override]
     protected function loadTableNameData(string $schema): void
     {
         if (isset($this->data['table_names'][$schema])) {
@@ -73,6 +76,7 @@ class SqliteMetadata extends AbstractSource
         $this->data['table_names'][$schema] = $tables;
     }
 
+    #[Override]
     protected function loadColumnData(string $table, string $schema): void
     {
         if (isset($this->data['columns'][$schema][$table])) {
@@ -106,6 +110,7 @@ class SqliteMetadata extends AbstractSource
         $this->data['sqlite_columns'][$schema][$table] = $results;
     }
 
+    #[Override]
     protected function loadConstraintData(string $table, string $schema): void
     {
         if (isset($this->data['constraints'][$schema][$table])) {
@@ -167,6 +172,7 @@ class SqliteMetadata extends AbstractSource
         foreach ($foreignKeys as $fk) {
             if ($id !== $fk['id']) {
                 $id                 = $fk['id'];
+                // todo: decide on whether to continue to use _laminas_
                 $name               = '_laminas_' . $table . '_FOREIGN_KEY_' . ($id + 1);
                 $constraints[$name] = [
                     'constraint_name'         => $name,
@@ -189,6 +195,7 @@ class SqliteMetadata extends AbstractSource
         $this->data['constraints'][$schema][$table] = $constraints;
     }
 
+    #[Override]
     protected function loadTriggerData(string $schema): void
     {
         if (isset($this->data['triggers'][$schema])) {
