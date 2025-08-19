@@ -4,13 +4,12 @@ declare(strict_types=1);
 
 namespace PhpDbIntegrationTest\Adapter\Sqlite\Driver\Pdo;
 
+use PDO;
+use PDOStatement;
 use PhpDb\Adapter\Driver\StatementInterface;
-use PhpDb\Adapter\Sqlite\Driver\Pdo\Connection;
-use PhpDb\Adapter\Sqlite\Driver\Pdo\Driver;
-use PhpDb\Adapter\Sqlite\Driver\Pdo\Result;
-use PhpDb\Adapter\Sqlite\Driver\Pdo\Statement;
-use PhpDbIntegrationTest\Adapter\Sqlite\Driver\Pdo\TestAsset\SqliteMemoryPdo;
-use Override;
+use PhpDb\Adapter\Driver\Pdo\Statement;
+use PhpDb\Adapter\Driver\Pdo\Result;
+use PhpDbIntegrationTest\Adapter\Sqlite\Container\TestAsset\SetupTrait;
 use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\TestCase;
 
@@ -25,27 +24,34 @@ use PHPUnit\Framework\TestCase;
 #[CoversMethod(Statement::class, 'execute')]
 final class StatementTest extends TestCase
 {
-    protected Statement $statement;
+    use SetupTrait;
 
     public function testGetResource(): void
     {
-        $pdo  = new SqliteMemoryPdo();
+        /** @var PDO $pdo */
+        $pdo  = $this->getAdapter()->getDriver()->getConnection()->getResource();
+        /** @var StatementInterface&Statement $statement */
+        $statement = $this->getAdapter()->getDriver()->createStatement();
+        /** @var PDOStatement $stmt */
         $stmt = $pdo->prepare('SELECT 1');
-        $this->statement->setResource($stmt);
+        $statement->setResource($stmt);
 
-        self::assertSame($stmt, $this->statement->getResource());
+        self::assertSame($stmt, $statement->getResource());
     }
 
     public function testSetSql(): void
     {
-        $this->statement->setSql('SELECT 1');
-        self::assertEquals('SELECT 1', $this->statement->getSql());
+        /** @var StatementInterface&Statement $statement */
+        $statement = $this->getAdapter()->getDriver()->createStatement();
+        $statement->setSql('SELECT 1');
+        self::assertEquals('SELECT 1', $statement->getSql());
     }
 
     public function testGetSql(): void
     {
-        $this->statement->setSql('SELECT 1');
-        self::assertEquals('SELECT 1', $this->statement->getSql());
+        $statement = $this->getAdapter()->getDriver()->createStatement();
+        $statement->setSql('SELECT 1');
+        self::assertEquals('SELECT 1', $statement->getSql());
     }
 
     /**
@@ -53,39 +59,27 @@ final class StatementTest extends TestCase
      */
     public function testPrepare(): void
     {
-        $this->statement->initialize(new SqliteMemoryPdo());
-        self::assertInstanceOf(StatementInterface::class, $this->statement->prepare('SELECT 1'));
+        /** @var StatementInterface&Statement $statement */
+        $statement = $this->getAdapter()->getDriver()->createStatement();
+        self::assertInstanceOf(StatementInterface::class, $statement->prepare('SELECT 1'));
     }
 
     public function testIsPrepared(): void
     {
-        self::assertFalse($this->statement->isPrepared());
-        $this->statement->initialize(new SqliteMemoryPdo());
-        $this->statement->prepare('SELECT 1');
-        self::assertTrue($this->statement->isPrepared());
+        /** @var StatementInterface&Statement $statement */
+        $statement = $this->getAdapter()->getDriver()->createStatement();
+        self::assertFalse($statement->isPrepared());
+        //$statement->initialize($resource);
+        $statement->prepare('SELECT 1');
+        self::assertTrue($statement->isPrepared());
     }
 
     public function testExecute(): void
     {
-        $this->statement->setDriver(new Driver(new Connection($pdo = new SqliteMemoryPdo())));
-        $this->statement->initialize($pdo);
-        $this->statement->prepare('SELECT 1');
-        self::assertInstanceOf(Result::class, $this->statement->execute());
+        /** @var StatementInterface&Statement $statement */
+        $statement = $this->getAdapter()->getDriver()->createStatement();
+        //$statement->initialize($pdo);
+        $statement->prepare('SELECT 1');
+        self::assertInstanceOf(Result::class, $statement->execute());
     }
-
-    /**
-     * Sets up the fixture, for example, opens a network connection.
-     * This method is called before a test is executed.
-     */
-    #[Override]
-    protected function setUp(): void
-    {
-        $this->statement = new Statement();
-    }
-
-    /**
-     * Tears down the fixture, for example, closes a network connection.
-     * This method is called after a test is executed.
-     */
-    protected function tearDown(): void {}
 }

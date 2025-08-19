@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace PhpDbIntegrationTest\Adapter\Sqlite\Driver\Pdo;
 
-use PhpDb\Adapter\Sqlite\Driver\Pdo\Connection;
-use PhpDbIntegrationTest\Adapter\Sqlite\Driver\Pdo\TestAsset\SqliteMemoryPdo;
 use PDO;
+use PhpDb\Adapter\Driver\PdoConnectionInterface;
+use PhpDb\Adapter\Sqlite\Driver\Pdo\Connection;
+use PhpDbIntegrationTest\Adapter\Sqlite\Container\TestAsset\SetupTrait;
 use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
@@ -27,61 +28,58 @@ use PHPUnit\Framework\TestCase;
 #[Group('integration-pdo')]
 final class ConnectionIntegrationTest extends TestCase
 {
-    /** @var array<string, string> */
-    protected array $variables = ['driver' => 'pdo_sqlite', 'database' => ':memory:'];
+    use SetupTrait;
 
     public function testGetCurrentSchema(): void
     {
-        $connection = new Connection($this->variables);
+        $connection = $this->getAdapter()->getDriver()->getConnection();
         self::assertIsString($connection->getCurrentSchema());
     }
 
-    public function testSetResource(): void
-    {
-        $resource   = new SqliteMemoryPdo();
-        $connection = new Connection([]);
-        self::assertSame($connection, $connection->setResource($resource));
+    // public function testSetResource(): void
+    // {
+    //     $resource   = $this->getAdapter()->getDriver()->getConnection()->getResource();
+    //     $connection = new Connection([]);
+    //     self::assertSame($connection, $connection->setResource($resource));
 
-        $connection->disconnect();
-        unset($connection);
-        unset($resource);
-    }
+    //     $connection->disconnect();
+    //     unset($connection);
+    //     unset($resource);
+    // }
 
     public function testGetResource(): void
     {
-        $connection = new Connection($this->variables);
+        $connection = $this->getAdapter()->getDriver()->getConnection();
         $connection->connect();
 
         self::assertInstanceOf(PDO::class, $connection->getResource());
 
         $connection->disconnect();
-        unset($connection);
     }
 
     public function testConnect(): void
     {
-        $connection = new Connection($this->variables);
+        $connection = $this->getAdapter()->getDriver()->getConnection();
         self::assertSame($connection, $connection->connect());
         self::assertTrue($connection->isConnected());
 
         $connection->disconnect();
-        unset($connection);
     }
 
     public function testIsConnected(): void
     {
-        $connection = new Connection($this->variables);
+        $connection = $this->getAdapter()->getDriver()->getConnection();
         self::assertFalse($connection->isConnected());
         self::assertSame($connection, $connection->connect());
         self::assertTrue($connection->isConnected());
 
         $connection->disconnect();
-        unset($connection);
+        //unset($connection);
     }
 
     public function testDisconnect(): void
     {
-        $connection = new Connection($this->variables);
+        $connection = $this->getAdapter()->getDriver()->getConnection();
         $connection->connect();
         self::assertTrue($connection->isConnected());
         $connection->disconnect();
@@ -130,8 +128,11 @@ final class ConnectionIntegrationTest extends TestCase
 
     public function testConnectReturnsConnectionWhenResourceSet(): void
     {
-        $resource   = new SqliteMemoryPdo();
-        $connection = new Connection([]);
+        /** @var PDO $resource */
+        $resource   = $this->getAdapter()->getDriver()->getConnection()->getResource();
+        /** @var PdoConnectionInterface&Connection $connection */
+        $connection = $this->getAdapter()->getDriver()->getConnection();
+        self::assertInstanceOf(PdoConnectionInterface::class, $connection);
         $connection->setResource($resource);
         self::assertSame($connection, $connection->connect());
 

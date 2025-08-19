@@ -3,6 +3,7 @@
 namespace PhpDbIntegrationTest\Adapter\Sqlite\Driver\Pdo;
 
 use PhpDb\Adapter\AdapterInterface;
+use PhpDbIntegrationTest\Adapter\Sqlite\Container\TestAsset\SetupTrait;
 use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\TestCase;
 
@@ -12,7 +13,7 @@ use function shell_exec;
 #[CoversMethod(AdapterInterface::class, '__construct()')]
 abstract class AbstractAdapterTestCase extends TestCase
 {
-    use AdapterTrait;
+    use SetupTrait;
 
     public ?int $port = null;
 

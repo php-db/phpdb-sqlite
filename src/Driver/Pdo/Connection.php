@@ -5,21 +5,21 @@ declare(strict_types=1);
 namespace PhpDb\Adapter\Sqlite\Driver\Pdo;
 
 use Override;
-use PDO;
 use PDOException;
-use PDOStatement;
 use PhpDb\Adapter\Driver\ConnectionInterface;
 use PhpDb\Adapter\Driver\Pdo\AbstractPdoConnection;
 use PhpDb\Adapter\Exception;
+use Webmozart\Assert\Assert;
 
 use function array_diff_key;
-use function implode;
 use function is_int;
 use function is_string;
+use function str_starts_with;
 use function strtolower;
 
 class Connection extends AbstractPdoConnection
 {
+    public final const CURRENT_SCHEMA = 'main';
     /**
      * {@inheritDoc}
      */
@@ -30,13 +30,7 @@ class Connection extends AbstractPdoConnection
             $this->connect();
         }
 
-        /** @var PDOStatement $result */
-        $result = $this->resource->query('PRAGMA database_list');
-        if ($result instanceof PDOStatement) {
-            return $result->fetchColumn();
-        }
-
-        return false;
+        return self::CURRENT_SCHEMA;
     }
 
     /**
@@ -44,6 +38,11 @@ class Connection extends AbstractPdoConnection
      *
      * @throws Exception\InvalidConnectionParametersException
      * @throws Exception\RuntimeException
+     *
+     * This connection class only supports the 'dsn', or 'path' parameters.
+     * If 'dsn' is not provided, it will attempt to construct one from 'path'.
+     * If neither is provided, an exception will be thrown.
+     * If 'driver_options' is provided, it will merge with existing options.
      */
     #[Override]
     public function connect(): ConnectionInterface
@@ -52,31 +51,12 @@ class Connection extends AbstractPdoConnection
             return $this;
         }
 
-        $dsn     = $username = $password = $hostname = $database = null;
+        $dsn     = null;
         $options = [];
         foreach ($this->connectionParameters as $key => $value) {
             switch (strtolower($key)) {
                 case 'dsn':
                     $dsn = $value;
-                    break;
-                case 'user':
-                case 'username':
-                    $username = (string) $value;
-                    break;
-                case 'pass':
-                case 'password':
-                    $password = (string) $value;
-                    break;
-                case 'host':
-                case 'hostname':
-                    $hostname = (string) $value;
-                    break;
-                case 'database':
-                case 'dbname':
-                    $database = (string) $value;
-                    break;
-                case 'unix_socket':
-                    $unixSocket = (string) $value;
                     break;
                 case 'driver_options':
                     $value   = (array) $value;
@@ -88,49 +68,35 @@ class Connection extends AbstractPdoConnection
             }
         }
 
-        if (isset($hostname) && isset($unixSocket)) {
-            throw new Exception\InvalidConnectionParametersException(
-                'Ambiguous connection parameters, both hostname and unix_socket parameters were set',
-                (int) $this->connectionParameters
-            );
-        }
-
-        if (! isset($dsn)) {
-            $dsn = [];
-            if (isset($database)) {
-                $dsn[] = "dbname={$database}";
-            }
-            if (isset($hostname)) {
-                $dsn[] = "host={$hostname}";
-            }
-            if (isset($port)) {
-                $dsn[] = "port={$port}";
-            }
-            if (isset($charset)) {
-                $dsn[] = "charset={$charset}";
-            }
-            if (isset($unixSocket)) {
-                $dsn[] = "unix_socket={$unixSocket}";
-            }
-            if (isset($version)) {
-                $dsn[] = "version={$version}";
-            }
-            $dsn = 'sqlite:' . implode(';', $dsn);
-        }
-
         if (! is_string($dsn)) {
             throw new Exception\InvalidConnectionParametersException(
-                'A dsn was not provided or could not be constructed from your parameters',
+                'A dsn was not provided',
                 $this->connectionParameters
             );
+        }
+
+        if (! str_starts_with($dsn, 'sqlite:')) {
+            Assert::fileExists(
+                $dsn,
+                'The provided DSN does not point to a valid file.'
+            );
+            Assert::readable(
+                $dsn,
+                'The provided DSN does not point to a readable file.'
+            );
+            Assert::writable(
+                $dsn,
+                'The provided DSN does not point to a writable file.'
+            );
+            $dsn = 'sqlite:' . $dsn;
         }
 
         $this->dsn = $dsn;
 
         try {
-            $this->resource = new PDO($dsn, $username, $password, $options);
-            $this->resource->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $this->driverName = strtolower($this->resource->getAttribute(PDO::ATTR_DRIVER_NAME));
+            $this->resource = new \PDO(dsn: $dsn, options: $options);
+            $this->resource->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+            $this->driverName = strtolower($this->resource->getAttribute(\PDO::ATTR_DRIVER_NAME));
         } catch (PDOException $e) {
             $code = $e->getCode();
             if (! is_int($code)) {

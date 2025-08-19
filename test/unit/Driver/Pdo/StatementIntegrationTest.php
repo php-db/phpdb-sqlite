@@ -4,12 +4,11 @@ declare(strict_types=1);
 
 namespace PhpDbTest\Adapter\Sqlite\Driver\Pdo;
 
-use PhpDb\Adapter\Driver\Pdo\Statement;
-use PhpDb\Adapter\Sqlite\Driver\Pdo\Driver;
-use PhpDbTest\Adapter\Sqlite\Driver\Pdo\TestAsset\CtorlessPdo;
 use Override;
-use PDO;
 use PDOStatement;
+use PhpDb\Adapter\Driver\Pdo\Statement;
+use PhpDb\Adapter\Sqlite\Driver\Pdo\Pdo;
+use PhpDbTest\Adapter\Sqlite\Driver\Pdo\TestAsset\CtorlessPdo;
 use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -26,7 +25,7 @@ final class StatementIntegrationTest extends TestCase
         $this->pdoStatementMock->expects($this->any())->method('bindParam')->with(
             $this->equalTo(':foo'),
             $this->equalTo(false),
-            $this->equalTo(PDO::PARAM_BOOL)
+            $this->equalTo(\PDO::PARAM_BOOL)
         );
         $this->statement->execute(['foo' => false]);
     }
@@ -36,7 +35,7 @@ final class StatementIntegrationTest extends TestCase
         $this->pdoStatementMock->expects($this->any())->method('bindParam')->with(
             $this->equalTo(':foo'),
             $this->equalTo('bar'),
-            $this->equalTo(PDO::PARAM_STR)
+            $this->equalTo(\PDO::PARAM_STR)
         );
         $this->statement->execute(['foo' => 'bar']);
     }
@@ -46,7 +45,7 @@ final class StatementIntegrationTest extends TestCase
         $this->pdoStatementMock->expects($this->any())->method('bindParam')->with(
             $this->equalTo(':foo'),
             $this->equalTo('123'),
-            $this->equalTo(PDO::PARAM_STR)
+            $this->equalTo(\PDO::PARAM_STR)
         );
         $this->statement->execute(['foo' => '123']);
     }
@@ -56,7 +55,7 @@ final class StatementIntegrationTest extends TestCase
         $this->pdoStatementMock->expects($this->any())->method('bindParam')->with(
             $this->equalTo(':foo'),
             $this->equalTo(123),
-            $this->equalTo(PDO::PARAM_INT)
+            $this->equalTo(\PDO::PARAM_INT)
         );
         $this->statement->execute(['foo' => 123]);
     }
@@ -68,7 +67,7 @@ final class StatementIntegrationTest extends TestCase
     #[Override]
     protected function setUp(): void
     {
-        $driver = $this->getMockBuilder(Driver::class)
+        $driver = $this->getMockBuilder(Pdo::class)
                        ->onlyMethods(['createResult'])
                        ->disableOriginalConstructor()
                        ->getMock();
@@ -80,13 +79,5 @@ final class StatementIntegrationTest extends TestCase
                                            ->onlyMethods(['execute', 'bindParam'])
                                            ->getMock()
         ));
-    }
-
-    /**
-     * Tears down the fixture, for example, closes a network connection.
-     * This method is called after a test is executed.
-     */
-    protected function tearDown(): void
-    {
     }
 }

@@ -28,7 +28,7 @@ final class Pdo extends AbstractPdo implements DriverFeatureProviderInterface
         /** @var ResultInterface&Result $result */
         $result = clone $this->resultPrototype;
         /** @var Feature\SqliteRowCounter $sqliteRowCounter */
-        $sqliteRowCounter = $this->getFeature('SqliteRowCounter');
+        $sqliteRowCounter = $this->getFeature(Feature\SqliteRowCounter::class);
         $rowCount         = null;
 
         if ($sqliteRowCounter && $resource->columnCount() > 0) {

@@ -4,21 +4,21 @@ declare(strict_types=1);
 
 namespace PhpDbTest\Adapter\Sqlite\Sqlite\Driver\Pdo;
 
-use PhpDb\Adapter\Driver\DriverInterface;
+use Override;
+use PhpDb\Adapter\Driver\PdoDriverInterface;
 use PhpDb\Adapter\Driver\Pdo\Result;
 use PhpDb\Exception\RuntimeException;
 use PhpDb\Adapter\Sqlite\Driver\Pdo\Connection;
-use PhpDb\Adapter\Sqlite\Driver\Pdo\Driver;
-use Override;
+use PhpDb\Adapter\Sqlite\Driver\Pdo\Pdo;
 use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
-#[CoversMethod(Driver::class, 'getDatabasePlatformName')]
-#[CoversMethod(Driver::class, 'getResultPrototype')]
+#[CoversMethod(Pdo::class, 'getDatabasePlatformName')]
+#[CoversMethod(Pdo::class, 'getResultPrototype')]
 final class PdoTest extends TestCase
 {
-    protected Driver $pdo;
+    protected Pdo $pdo;
 
     /**
      * Sets up the fixture, for example, opens a network connection.
@@ -29,14 +29,14 @@ final class PdoTest extends TestCase
     {
         $connection = new Connection();
 
-        $this->pdo = new Driver($connection);
+        $this->pdo = new Pdo($connection);
     }
 
     public function testGetDatabasePlatformName(): void
     {
         $this->pdo->getConnection()->setConnectionParameters(['pdodriver' => 'pdo_sqlite']);
         self::assertEquals('Sqlite', $this->pdo->getDatabasePlatformName());
-        self::assertEquals('SQLite', $this->pdo->getDatabasePlatformName(DriverInterface::NAME_FORMAT_NATURAL));
+        self::assertEquals('SQLite', $this->pdo->getDatabasePlatformName(PdoDriverInterface::NAME_FORMAT_NATURAL));
     }
 
     /** @psalm-return array<array-key, array{0: int|string, 1: null|string, 2: string}> */
@@ -48,11 +48,11 @@ final class PdoTest extends TestCase
             ['123foo', null, ':123foo'],
             [1, null, '?'],
             ['1', null, '?'],
-            ['foo', DriverInterface::PARAMETERIZATION_NAMED, ':foo'],
-            ['foo_bar', DriverInterface::PARAMETERIZATION_NAMED, ':foo_bar'],
-            ['123foo', DriverInterface::PARAMETERIZATION_NAMED, ':123foo'],
-            [1, DriverInterface::PARAMETERIZATION_NAMED, ':1'],
-            ['1', DriverInterface::PARAMETERIZATION_NAMED, ':1'],
+            ['foo', PdoDriverInterface::PARAMETERIZATION_NAMED, ':foo'],
+            ['foo_bar', PdoDriverInterface::PARAMETERIZATION_NAMED, ':foo_bar'],
+            ['123foo', PdoDriverInterface::PARAMETERIZATION_NAMED, ':123foo'],
+            [1, PdoDriverInterface::PARAMETERIZATION_NAMED, ':1'],
+            ['1', PdoDriverInterface::PARAMETERIZATION_NAMED, ':1'],
             [':foo', null, ':foo'],
         ];
     }
