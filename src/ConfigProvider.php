@@ -76,7 +76,7 @@ final class ConfigProvider
                 Result::class                => Container\PdoResultFactory::class,
                 Statement::class             => Container\PdoStatementFactory::class,
                 Platform\Sqlite::class       => Container\PlatformInterfaceFactory::class,
-                //Profiler::class              => InvokableFactory::class,
+                Profiler::class              => InvokableFactory::class,
                 ResultSet\ResultSet::class   => InvokableFactory::class,
             ],
         ];

@@ -6,6 +6,7 @@ namespace PhpDb\Adapter\Sqlite\Container;
 
 use PhpDb\Adapter\Driver\Pdo\Statement;
 use PhpDb\Adapter\Driver\StatementInterface;
+use PhpDb\Adapter\ParameterContainer;
 use Psr\Container\ContainerInterface;
 
 final class PdoStatementFactory
