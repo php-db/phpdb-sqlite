@@ -34,7 +34,7 @@ use PHPUnit\Framework\TestCase;
 #[CoversMethod(ConfigProvider::class, 'getAdapterManagerConfig')]
 final class ConfigProviderTest extends TestCase
 {
-    /** @var array<string, array<array-key, string>> */
+    /** @var array<string, array<string, string|array<int,string>>> */
     private array $config = [
         'aliases'    => [
             MetadataInterface::class => Metadata\Source\SqliteMetadata::class,
