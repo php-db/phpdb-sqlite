@@ -70,7 +70,11 @@ final class SqliteTest extends TestCase
     public function testQuoteValueRaisesNoticeWithoutPlatformSupport(): void
     {
         $raisedNotice = false;
-        set_error_handler(function ($errno, $errstr) use (&$raisedNotice) {
+
+        /**
+         * @psalm-suppress InvalidArgument
+         */
+        set_error_handler(function (int $errno, string $errstr) use (&$raisedNotice) {
             $this->assertEquals(E_USER_NOTICE, $errno);
             $this->assertEquals(
                 $errstr,
@@ -120,6 +124,10 @@ final class SqliteTest extends TestCase
     public function testQuoteValueList(): void
     {
         $raisedNotice = false;
+
+        /**
+         * @psalm-suppress InvalidArgument
+         */
         set_error_handler(function ($errno, $errstr) use (&$raisedNotice) {
             $this->assertEquals(E_USER_NOTICE, $errno);
             $this->assertEquals(
