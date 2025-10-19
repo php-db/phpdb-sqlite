@@ -6,8 +6,8 @@ namespace PhpDb\Adapter\Sqlite\Container;
 
 use PDO;
 use PhpDb\Adapter\Driver\PdoDriverInterface;
-use PhpDb\Adapter\Sqlite\Platform\Sqlite;
 use PhpDb\Adapter\Platform\PlatformInterface;
+use PhpDb\Adapter\Sqlite\Platform\Sqlite;
 use PhpDb\Container\AdapterManager;
 use Psr\Container\ContainerInterface;
 

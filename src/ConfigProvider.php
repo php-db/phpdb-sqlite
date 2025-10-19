@@ -7,13 +7,13 @@ namespace PhpDb\Adapter\Sqlite;
 use Laminas\ServiceManager\Factory\InvokableFactory;
 use PhpDb\Adapter\AdapterInterface;
 use PhpDb\Adapter\Driver\ConnectionInterface;
-use PhpDb\Adapter\Driver\PdoConnectionInterface;
 use PhpDb\Adapter\Driver\DriverInterface;
+use PhpDb\Adapter\Driver\Pdo\Result;
+use PhpDb\Adapter\Driver\Pdo\Statement;
+use PhpDb\Adapter\Driver\PdoConnectionInterface;
 use PhpDb\Adapter\Driver\PdoDriverInterface;
 use PhpDb\Adapter\Driver\ResultInterface;
 use PhpDb\Adapter\Driver\StatementInterface;
-use PhpDb\Adapter\Driver\Pdo\Result;
-use PhpDb\Adapter\Driver\Pdo\Statement;
 use PhpDb\Adapter\Platform\PlatformInterface;
 use PhpDb\Adapter\Profiler\Profiler;
 use PhpDb\Adapter\Profiler\ProfilerInterface;
@@ -34,10 +34,10 @@ final class ConfigProvider
     public function getDependencies(): array
     {
         return [
-            'aliases'   => [
+            'aliases'    => [
                 MetadataInterface::class => Metadata\Source\SqliteMetadata::class,
             ],
-            'factories' => [
+            'factories'  => [
                 Metadata\Source\SqliteMetadata::class => Container\MetadataInterfaceFactory::class,
             ],
             'delegators' => [

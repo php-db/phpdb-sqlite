@@ -3,6 +3,7 @@
 namespace PhpDbTest\Adapter\Sqlite;
 
 use InvalidArgumentException;
+use Override;
 use PhpDb\Adapter\AdapterInterface;
 use PhpDb\Adapter\Driver\ConnectionInterface;
 use PhpDb\Adapter\Driver\DriverInterface;
@@ -10,14 +11,13 @@ use PhpDb\Adapter\Driver\ResultInterface;
 use PhpDb\Adapter\Driver\StatementInterface;
 use PhpDb\Adapter\ParameterContainer;
 use PhpDb\Adapter\Profiler;
-use PhpDb\ResultSet\ResultSet;
-use PhpDb\ResultSet\ResultSetInterface;
 use PhpDb\Adapter\Sqlite\Adapter;
 use PhpDb\Adapter\Sqlite\Driver\Pdo\Pdo;
 use PhpDb\Adapter\Sqlite\Driver\Pdo\Statement;
 use PhpDb\Adapter\Sqlite\Platform\Sqlite as SqlitePlatform;
+use PhpDb\ResultSet\ResultSet;
+use PhpDb\ResultSet\ResultSetInterface;
 use PhpDbTest\Adapter\Sqlite\TestAsset\TemporaryResultSet;
-use Override;
 use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\TestDox;

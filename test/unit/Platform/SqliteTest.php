@@ -2,15 +2,13 @@
 
 namespace PhpDbTest\Adapter\Sqlite\Sqlite\Platform;
 
-use PhpDb\Adapter\Sqlite\Driver\Pdo\Connection;
-use PhpDb\Adapter\Sqlite\Driver\Pdo\Pdo;
-use PhpDb\Adapter\Sqlite\Platform\Sqlite;
 use Override;
+use PhpDb\Adapter\Sqlite\Driver\Pdo\Connection;
+use PhpDb\Adapter\Sqlite\Platform\Sqlite;
 use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\TestCase;
 
 use function file_exists;
-use function realpath;
 use function restore_error_handler;
 use function set_error_handler;
 use function touch;
@@ -76,6 +74,7 @@ final class SqliteTest extends TestCase
             $this->assertEquals(E_USER_NOTICE, $errno);
             $this->assertEquals(
                 $errstr,
+                // phpcs:ignore Generic.Files.LineLength
                 'Attempting to quote a value in PhpDb\Adapter\Sqlite\Platform\Sqlite without extension/driver support can '
                     . 'introduce security vulnerabilities in a production environment'
             );
@@ -125,6 +124,7 @@ final class SqliteTest extends TestCase
             $this->assertEquals(E_USER_NOTICE, $errno);
             $this->assertEquals(
                 $errstr,
+                // phpcs:ignore Generic.Files.LineLength
                 'Attempting to quote a value in PhpDb\Adapter\Sqlite\Platform\Sqlite without extension/driver support can '
                     . 'introduce security vulnerabilities in a production environment'
             );

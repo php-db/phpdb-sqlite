@@ -4,17 +4,17 @@ declare(strict_types=1);
 
 namespace PhpDbIntegrationTest\Adapter\Sqlite\Container\TestAsset;
 
-use Override;
 use Laminas\ServiceManager\ServiceManager;
 use Laminas\Stdlib\ArrayUtils;
+use Override;
 use PhpDb\Adapter\AdapterInterface;
 use PhpDb\Adapter\Driver\DriverInterface;
 use PhpDb\Adapter\Sqlite\ConfigProvider;
 use PhpDb\Adapter\Sqlite\Driver\Pdo\Pdo;
 use PhpDb\Container\AdapterManager;
 use PhpDb\Container\ConfigProvider as LaminasDbConfigProvider;
-use Psr\Container\ContainerInterface;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
+use Psr\Container\ContainerInterface;
 
 /**
  * This trait provides a setup method for integration tests that require

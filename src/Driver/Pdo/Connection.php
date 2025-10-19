@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace PhpDb\Adapter\Sqlite\Driver\Pdo;
 
 use Override;
+use PDO;
 use PDOException;
 use PhpDb\Adapter\Driver\ConnectionInterface;
 use PhpDb\Adapter\Driver\Pdo\AbstractPdoConnection;
@@ -94,9 +95,9 @@ class Connection extends AbstractPdoConnection
         $this->dsn = $dsn;
 
         try {
-            $this->resource = new \PDO(dsn: $dsn, options: $options);
-            $this->resource->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
-            $this->driverName = strtolower($this->resource->getAttribute(\PDO::ATTR_DRIVER_NAME));
+            $this->resource = new PDO(dsn: $dsn, options: $options);
+            $this->resource->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $this->driverName = strtolower($this->resource->getAttribute(PDO::ATTR_DRIVER_NAME));
         } catch (PDOException $e) {
             $code = $e->getCode();
             if (! is_int($code)) {

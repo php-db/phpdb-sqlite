@@ -2,9 +2,9 @@
 
 namespace PhpDbTest\Adapter\Sqlite\Sql\Platform;
 
-use PhpDb\Sql\Select;
 use PhpDb\Adapter\Sqlite\Sql\Platform\SelectDecorator;
 use PhpDb\Adapter\Sqlite\Sql\Platform\Sqlite;
+use PhpDb\Sql\Select;
 use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\Attributes\TestDox;
 use PHPUnit\Framework\TestCase;

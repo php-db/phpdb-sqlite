@@ -27,7 +27,6 @@ final class SelectDecoratorTest extends TestCase
 
     protected function setUp(): void
     {
-
         $this->driver = $this->getMockBuilder(PdoDriverInterface::class)
                              ->getMock();
 

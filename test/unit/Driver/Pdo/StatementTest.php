@@ -4,11 +4,10 @@ declare(strict_types=1);
 
 namespace PhpDbTest\Adapter\Sqlite\Sqlite\Driver\Pdo;
 
+use Override;
 use PhpDb\Adapter\Driver\Pdo\Statement;
 use PhpDb\Adapter\ParameterContainer;
 use PhpDb\Adapter\Sqlite\Driver\Pdo\Connection;
-use PhpDb\Adapter\Sqlite\Driver\Pdo\Pdo;
-use Override;
 use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\TestCase;
 

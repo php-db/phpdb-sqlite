@@ -6,9 +6,9 @@ namespace PhpDbIntegrationTest\Adapter\Sqlite\Driver\Pdo;
 
 use PDO;
 use PDOStatement;
-use PhpDb\Adapter\Driver\StatementInterface;
-use PhpDb\Adapter\Driver\Pdo\Statement;
 use PhpDb\Adapter\Driver\Pdo\Result;
+use PhpDb\Adapter\Driver\Pdo\Statement;
+use PhpDb\Adapter\Driver\StatementInterface;
 use PhpDbIntegrationTest\Adapter\Sqlite\Container\TestAsset\SetupTrait;
 use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\TestCase;
@@ -29,7 +29,7 @@ final class StatementTest extends TestCase
     public function testGetResource(): void
     {
         /** @var PDO $pdo */
-        $pdo  = $this->getAdapter()->getDriver()->getConnection()->getResource();
+        $pdo = $this->getAdapter()->getDriver()->getConnection()->getResource();
         /** @var StatementInterface&Statement $statement */
         $statement = $this->getAdapter()->getDriver()->createStatement();
         /** @var PDOStatement $stmt */

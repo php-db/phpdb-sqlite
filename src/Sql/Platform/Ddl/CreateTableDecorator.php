@@ -18,9 +18,7 @@ use function uksort;
 
 final class CreateTableDecorator extends CreateTable implements PlatformDecoratorInterface
 {
-    /**
-     * @psalm-suppress PossiblyUnusedProperty
-     */
+    /** @psalm-suppress PossiblyUnusedProperty */
     protected CreateTable $subject;
 
     /** @var int[] */
@@ -158,6 +156,7 @@ final class CreateTableDecorator extends CreateTable implements PlatformDecorato
 
     /**
      * phpcs:ignore SlevomatCodingStandard.Classes.UnusedPrivateElements.UnusedMethod
+     *
      * @psalm-suppress UnusedReturnValue
      */
     private function compareColumnOptions(string $columnA, string $columnB): int

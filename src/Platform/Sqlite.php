@@ -5,12 +5,11 @@ declare(strict_types=1);
 namespace PhpDb\Adapter\Sqlite\Platform;
 
 use Override;
+use PDO;
 use PhpDb\Adapter\Driver\PdoDriverInterface;
-use PhpDb\Adapter\Exception;
 use PhpDb\Adapter\Platform\AbstractPlatform;
-use PhpDb\Sql\Platform\PlatformDecoratorInterface;
-use PhpDb\Adapter\Sqlite\Driver\Pdo;
 use PhpDb\Adapter\Sqlite\Sql\Platform\Sqlite as SqlPlatformDecorator;
+use PhpDb\Sql\Platform\PlatformDecoratorInterface;
 
 class Sqlite extends AbstractPlatform
 {
@@ -18,7 +17,7 @@ class Sqlite extends AbstractPlatform
     /** @var string[] */
     protected $quoteIdentifier = ['"', '"'];
 
-    /** @var \PDO */
+    /** @var PDO */
     protected $resource;
 
     /**
@@ -27,7 +26,7 @@ class Sqlite extends AbstractPlatform
     protected $quoteIdentifierTo = '\'';
 
     public function __construct(
-        protected readonly PdoDriverInterface|\PDO $driver
+        protected readonly PdoDriverInterface|PDO $driver
     ) {
     }
 
@@ -43,7 +42,7 @@ class Sqlite extends AbstractPlatform
             $resource = $resource->getConnection()->getResource();
         }
 
-        if ($resource instanceof \PDO) {
+        if ($resource instanceof PDO) {
             return $resource->quote($value);
         }
 
@@ -62,7 +61,7 @@ class Sqlite extends AbstractPlatform
             $resource = $resource->getConnection()->getResource();
         }
 
-        if ($resource instanceof \PDO) {
+        if ($resource instanceof PDO) {
             return $resource->quote($value);
         }
 

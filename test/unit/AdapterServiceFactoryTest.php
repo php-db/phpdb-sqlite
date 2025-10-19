@@ -2,20 +2,22 @@
 
 namespace PhpDbTest\Adapter\Sqlite;
 
+use Laminas\ServiceManager\ServiceLocatorInterface;
+use Laminas\ServiceManager\ServiceManager;
+use Override;
 use PhpDb\Adapter\Profiler\Profiler;
 use PhpDb\Adapter\Profiler\ProfilerInterface;
 use PhpDb\Adapter\Sqlite\Adapter;
 use PhpDb\Adapter\Sqlite\AdapterServiceFactory;
 use PhpDb\Adapter\Sqlite\ConfigProvider;
-use Laminas\ServiceManager\ServiceLocatorInterface;
-use Laminas\ServiceManager\ServiceManager;
-use Override;
 use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 
+use function array_key_exists;
 use function extension_loaded;
+use function is_array;
 
 #[CoversMethod(AdapterServiceFactory::class, '__invoke')]
 final class AdapterServiceFactoryTest extends TestCase
@@ -24,7 +26,7 @@ final class AdapterServiceFactoryTest extends TestCase
 
     protected function createServiceManager(array $dbConfig): ServiceLocatorInterface
     {
-        $config                       = (new ConfigProvider())->getDependencies();
+        $config = (new ConfigProvider())->getDependencies();
         if (array_key_exists('services', $config) && is_array($config['services'])) {
             $config['services']['config'] = $dbConfig;
         }

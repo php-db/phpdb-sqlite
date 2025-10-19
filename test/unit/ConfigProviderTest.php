@@ -4,15 +4,16 @@ declare(strict_types=1);
 
 namespace PhpDbTest\Adapter\Sqlite;
 
+use Laminas\ServiceManager\Factory\InvokableFactory;
 use PhpDb\Adapter\AdapterInterface;
-use PhpDb\Adapter\Driver\DriverInterface;
 use PhpDb\Adapter\Driver\ConnectionInterface;
+use PhpDb\Adapter\Driver\DriverInterface;
+use PhpDb\Adapter\Driver\Pdo\Result;
+use PhpDb\Adapter\Driver\Pdo\Statement;
 use PhpDb\Adapter\Driver\PdoConnectionInterface;
 use PhpDb\Adapter\Driver\PdoDriverInterface;
 use PhpDb\Adapter\Driver\ResultInterface;
 use PhpDb\Adapter\Driver\StatementInterface;
-use PhpDb\Adapter\Driver\Pdo\Result;
-use PhpDb\Adapter\Driver\Pdo\Statement;
 use PhpDb\Adapter\Platform\PlatformInterface;
 use PhpDb\Adapter\Profiler\Profiler;
 use PhpDb\Adapter\Profiler\ProfilerInterface;
@@ -24,7 +25,6 @@ use PhpDb\Adapter\Sqlite\Platform;
 use PhpDb\Container\AdapterManager;
 use PhpDb\Metadata\MetadataInterface;
 use PhpDb\ResultSet;
-use Laminas\ServiceManager\Factory\InvokableFactory;
 use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\Attributes\Depends;
 use PHPUnit\Framework\TestCase;
@@ -36,10 +36,10 @@ final class ConfigProviderTest extends TestCase
 {
     /** @var array<string, array<array-key, string>> */
     private array $config = [
-        'aliases'   => [
+        'aliases'    => [
             MetadataInterface::class => Metadata\Source\SqliteMetadata::class,
         ],
-        'factories' => [
+        'factories'  => [
             Metadata\Source\SqliteMetadata::class => Container\MetadataInterfaceFactory::class,
         ],
         'delegators' => [
@@ -76,7 +76,7 @@ final class ConfigProviderTest extends TestCase
             Statement::class             => Container\PdoStatementFactory::class,
             Platform\Sqlite::class       => Container\PlatformInterfaceFactory::class,
             //Profiler::class              => InvokableFactory::class,
-            ResultSet\ResultSet::class   => InvokableFactory::class,
+            ResultSet\ResultSet::class => InvokableFactory::class,
         ],
     ];
 
