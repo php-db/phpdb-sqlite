@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "12f2b08825c11b7b655315fe906f9f6b",
+    "content-hash": "0999dd4b6c8d3256046ad38d3bb3c66f",
     "packages": [
         {
             "name": "brick/varexporter",
@@ -259,16 +259,16 @@
         },
         {
             "name": "php-db/phpdb",
-            "version": "0.3.x-dev",
+            "version": "0.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-db/phpdb.git",
-                "reference": "43a84fcf2b77b1fcca052089e9726b7eaf013d57"
+                "reference": "d221b024cb3aea77992f41a962913918301dc92e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-db/phpdb/zipball/43a84fcf2b77b1fcca052089e9726b7eaf013d57",
-                "reference": "43a84fcf2b77b1fcca052089e9726b7eaf013d57",
+                "url": "https://api.github.com/repos/php-db/phpdb/zipball/d221b024cb3aea77992f41a962913918301dc92e",
+                "reference": "d221b024cb3aea77992f41a962913918301dc92e",
                 "shasum": ""
             },
             "require": {
@@ -292,7 +292,6 @@
                 "laminas/laminas-eventmanager": "Laminas\\EventManager component",
                 "laminas/laminas-hydrator": "(^5.0.0) Laminas\\Hydrator component for using HydratingResultSets"
             },
-            "default-branch": true,
             "type": "library",
             "extra": {
                 "laminas": {
@@ -322,7 +321,7 @@
                 "issues": "https://github.com/php-db/phpdb/issues",
                 "source": "https://github.com/php-db/phpdb"
             },
-            "time": "2025-10-07T08:39:13+00:00"
+            "time": "2025-10-07T08:36:48+00:00"
         },
         {
             "name": "psr/container",
