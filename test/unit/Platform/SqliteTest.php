@@ -40,7 +40,9 @@ final class SqliteTest extends TestCase
     #[Override]
     protected function setUp(): void
     {
-        $this->platform = new Sqlite();
+        $this->platform = new Sqlite(new PDO(
+            dsn: "sqlite::memory:mydb.sqlite",
+        ));
     }
 
     public function testGetName(): void
@@ -191,10 +193,9 @@ final class SqliteTest extends TestCase
             touch($filePath);
         }
 
-        $driver = new Driver(new Connection([
-            'driver'   => 'Pdo_Sqlite',
-            'database' => ':memory',
-        ]));
+        $driver = (new PdoDriverFactory())->__invoke(
+            $this->createMock(ContainerInterface::class)
+        );
 
         $this->platform->setDriver($driver);
         $this->platform->quoteValue("some; random]/ value");

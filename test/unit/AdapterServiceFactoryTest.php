@@ -37,10 +37,6 @@ final class AdapterServiceFactoryTest extends TestCase
     #[Override]
     protected function setUp(): void
     {
-        if (! extension_loaded('pdo_sqlite')) {
-            $this->markTestSkipped('Adapter factory tests require pdo_sqlite');
-        }
-
         $this->factory = new AdapterServiceFactory();
     }
 

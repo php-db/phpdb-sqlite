@@ -245,7 +245,7 @@ final class AdapterTest extends TestCase
     protected function setUp(): void
     {
         $this->mockConnection = $this->createMock(ConnectionInterface::class);
-        $this->mockPlatform   = new SqlitePlatform();
+        $this->mockPlatform   = new SqlitePlatform($this->createMock(PdoDriverInterface::class));
         $this->mockStatement  = $this->getMockBuilder(Statement::class)->getMock();
         $this->mockDriver     = $this->getMockBuilder(Pdo::class)
             ->setConstructorArgs([
