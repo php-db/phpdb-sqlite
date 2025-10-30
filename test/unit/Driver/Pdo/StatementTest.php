@@ -7,9 +7,11 @@ namespace PhpDbTest\Adapter\Sqlite\Sqlite\Driver\Pdo;
 use Override;
 use PhpDb\Adapter\Driver\Pdo\Statement;
 use PhpDb\Adapter\ParameterContainer;
+use PhpDb\Adapter\Sqlite\Container\PdoDriverFactory;
 use PhpDb\Adapter\Sqlite\Driver\Pdo\Connection;
 use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\TestCase;
+use Psr\Container\ContainerInterface;
 
 #[CoversMethod(Statement::class, 'setDriver')]
 #[CoversMethod(Statement::class, 'setParameterContainer')]
@@ -26,7 +28,14 @@ final class StatementTest extends TestCase
 
     public function testSetDriver(): void
     {
-        self::assertEquals($this->statement, $this->statement->setDriver(new Driver(new Connection())));
+        self::assertEquals(
+            $this->statement,
+            $this->statement->setDriver(
+                (new PdoDriverFactory())->__invoke(
+                    $this->createMock(ContainerInterface::class)
+                )
+            )
+        );
     }
 
     public function testSetParameterContainer(): void

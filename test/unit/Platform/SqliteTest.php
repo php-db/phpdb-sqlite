@@ -3,10 +3,13 @@
 namespace PhpDbTest\Adapter\Sqlite\Sqlite\Platform;
 
 use Override;
+use PDO;
+use PhpDb\Adapter\Sqlite\Container\PdoDriverFactory;
 use PhpDb\Adapter\Sqlite\Driver\Pdo\Connection;
 use PhpDb\Adapter\Sqlite\Platform\Sqlite;
 use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\TestCase;
+use Psr\Container\ContainerInterface;
 
 use function file_exists;
 use function restore_error_handler;

@@ -91,7 +91,10 @@ final class ConfigProviderTest extends TestCase
     public function testProvidesExpectedAdapterManagerConfiguration(): void
     {
         $provider = new ConfigProvider();
-        self::assertEquals($this->adapterManagerConfig, $provider->getAdapterManagerConfig());
+        self::assertEquals(
+            $this->adapterManagerConfig,
+            $provider->getAdapterManagerConfig()
+        );
     }
 
     #[Depends('testProvidesExpectedDependencies')]
