@@ -4,6 +4,7 @@ namespace PhpDb\Adapter\Sqlite\Sql\Platform\Ddl;
 
 use PhpDb\Adapter\Platform\PlatformInterface;
 use PhpDb\Sql\Ddl\AlterTable;
+use PhpDb\Sql\Ddl\Column\ColumnInterface;
 use PhpDb\Sql\Platform\PlatformDecoratorInterface;
 
 use function count;
@@ -147,7 +148,7 @@ class AlterTableDecorator extends AlterTable implements PlatformDecoratorInterfa
     {
         $sqls = [];
 
-        /** @var \PhpDb\Sql\Ddl\Column\ColumnInterface $column */
+        /** @var ColumnInterface $column */
         foreach ($this->changeColumns as $name => $column) {
             $sql           = $this->processExpression($column, $adapterPlatform);
             $insertStart   = $this->getSqlInsertOffsets($sql);
@@ -217,6 +218,7 @@ class AlterTableDecorator extends AlterTable implements PlatformDecoratorInterfa
 
     /**
      * phpcs:ignore SlevomatCodingStandard.Classes.UnusedPrivateElements.UnusedMethod
+     *
      * @psalm-suppress UnusedReturnValue
      */
     private function compareColumnOptions(string $columnA, string $columnB): int

@@ -2,15 +2,16 @@
 
 namespace PhpDbTest\Adapter\Sqlite\Sqlite\Platform;
 
-use PhpDb\Adapter\Sqlite\Driver\Pdo\Connection;
-use PhpDb\Adapter\Sqlite\Driver\Pdo\Pdo;
-use PhpDb\Adapter\Sqlite\Platform\Sqlite;
 use Override;
+use PDO;
+use PhpDb\Adapter\Sqlite\Container\PdoDriverFactory;
+use PhpDb\Adapter\Sqlite\Driver\Pdo\Connection;
+use PhpDb\Adapter\Sqlite\Platform\Sqlite;
 use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\TestCase;
+use Psr\Container\ContainerInterface;
 
 use function file_exists;
-use function realpath;
 use function restore_error_handler;
 use function set_error_handler;
 use function touch;
@@ -39,7 +40,9 @@ final class SqliteTest extends TestCase
     #[Override]
     protected function setUp(): void
     {
-        $this->platform = new Sqlite();
+        $this->platform = new Sqlite(new PDO(
+            dsn: "sqlite::memory:mydb.sqlite",
+        ));
     }
 
     public function testGetName(): void
@@ -72,10 +75,15 @@ final class SqliteTest extends TestCase
     public function testQuoteValueRaisesNoticeWithoutPlatformSupport(): void
     {
         $raisedNotice = false;
-        set_error_handler(function ($errno, $errstr) use (&$raisedNotice) {
+
+        /**
+         * @psalm-suppress InvalidArgument
+         */
+        set_error_handler(function (int $errno, string $errstr) use (&$raisedNotice) {
             $this->assertEquals(E_USER_NOTICE, $errno);
             $this->assertEquals(
                 $errstr,
+                // phpcs:ignore Generic.Files.LineLength
                 'Attempting to quote a value in PhpDb\Adapter\Sqlite\Platform\Sqlite without extension/driver support can '
                     . 'introduce security vulnerabilities in a production environment'
             );
@@ -121,10 +129,15 @@ final class SqliteTest extends TestCase
     public function testQuoteValueList(): void
     {
         $raisedNotice = false;
+
+        /**
+         * @psalm-suppress InvalidArgument
+         */
         set_error_handler(function ($errno, $errstr) use (&$raisedNotice) {
             $this->assertEquals(E_USER_NOTICE, $errno);
             $this->assertEquals(
                 $errstr,
+                // phpcs:ignore Generic.Files.LineLength
                 'Attempting to quote a value in PhpDb\Adapter\Sqlite\Platform\Sqlite without extension/driver support can '
                     . 'introduce security vulnerabilities in a production environment'
             );
@@ -180,10 +193,9 @@ final class SqliteTest extends TestCase
             touch($filePath);
         }
 
-        $driver = new Driver(new Connection([
-            'driver'   => 'Pdo_Sqlite',
-            'database' => ':memory',
-        ]));
+        $driver = (new PdoDriverFactory())->__invoke(
+            $this->createMock(ContainerInterface::class)
+        );
 
         $this->platform->setDriver($driver);
         $this->platform->quoteValue("some; random]/ value");

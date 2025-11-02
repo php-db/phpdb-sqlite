@@ -171,7 +171,7 @@ final class SqliteMetadata extends AbstractSource
         $id = $name = null;
         foreach ($foreignKeys as $fk) {
             if ($id !== $fk['id']) {
-                $id                 = $fk['id'];
+                $id = $fk['id'];
                 // todo: decide on whether to continue to use _laminas_
                 $name               = '_laminas_' . $table . '_FOREIGN_KEY_' . ($id + 1);
                 $constraints[$name] = [

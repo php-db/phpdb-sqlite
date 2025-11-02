@@ -36,17 +36,6 @@ final class ConnectionIntegrationTest extends TestCase
         self::assertIsString($connection->getCurrentSchema());
     }
 
-    // public function testSetResource(): void
-    // {
-    //     $resource   = $this->getAdapter()->getDriver()->getConnection()->getResource();
-    //     $connection = new Connection([]);
-    //     self::assertSame($connection, $connection->setResource($resource));
-
-    //     $connection->disconnect();
-    //     unset($connection);
-    //     unset($resource);
-    // }
-
     public function testGetResource(): void
     {
         $connection = $this->getAdapter()->getDriver()->getConnection();
@@ -129,7 +118,7 @@ final class ConnectionIntegrationTest extends TestCase
     public function testConnectReturnsConnectionWhenResourceSet(): void
     {
         /** @var PDO $resource */
-        $resource   = $this->getAdapter()->getDriver()->getConnection()->getResource();
+        $resource = $this->getAdapter()->getDriver()->getConnection()->getResource();
         /** @var PdoConnectionInterface&Connection $connection */
         $connection = $this->getAdapter()->getDriver()->getConnection();
         self::assertInstanceOf(PdoConnectionInterface::class, $connection);

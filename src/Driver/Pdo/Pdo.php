@@ -13,7 +13,7 @@ use PhpDb\Adapter\Driver\Pdo\Result;
 use PhpDb\Adapter\Driver\ResultInterface;
 use PhpDb\Adapter\Sqlite\Driver\DatabasePlatformNameTrait;
 
-final class Pdo extends AbstractPdo implements DriverFeatureProviderInterface
+class Pdo extends AbstractPdo implements DriverFeatureProviderInterface
 {
     use DatabasePlatformNameTrait;
     use DriverFeatureProviderTrait;

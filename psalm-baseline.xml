@@ -21,9 +21,7 @@
     <InvalidArgument>
       <code><![CDATA[$this->connectionParameters]]></code>
     </InvalidArgument>
-    <MixedArgument>
-      <code><![CDATA[$this->resource->getAttribute(\PDO::ATTR_DRIVER_NAME)]]></code>
-    </MixedArgument>
+    <MixedArgument/>
     <MixedArgumentTypeCoercion>
       <code><![CDATA[$key]]></code>
     </MixedArgumentTypeCoercion>
@@ -80,9 +78,6 @@
     </RedundantConditionGivenDocblockType>
   </file>
   <file src="src/Metadata/Source/SqliteMetadata.php">
-    <ClassMustBeFinal>
-      <code><![CDATA[SqliteMetadata]]></code>
-    </ClassMustBeFinal>
     <MixedArgument>
       <code><![CDATA[$fk['match']]]></code>
       <code><![CDATA[$fk['on_delete']]]></code>
@@ -364,17 +359,9 @@
   </file>
   <file src="test/unit/AdapterTest.php">
     <InvalidPropertyAssignmentValue>
-      <code><![CDATA[$this->getMockBuilder(Driver::class)
-            ->setConstructorArgs([
-                $this->mockConnection,
-                $this->mockStatement,
-            ])
-            ->getMock()]]></code>
       <code><![CDATA[$this->getMockBuilder(Statement::class)->getMock()]]></code>
     </InvalidPropertyAssignmentValue>
     <MixedArgument>
-      <code><![CDATA[Driver::class]]></code>
-      <code><![CDATA[Driver::class]]></code>
       <code><![CDATA[Statement::class]]></code>
     </MixedArgument>
     <MixedAssignment>
@@ -432,55 +419,12 @@
       <code><![CDATA[Adapter]]></code>
       <code><![CDATA[Adapter]]></code>
       <code><![CDATA[Adapter]]></code>
-      <code><![CDATA[Driver]]></code>
-      <code><![CDATA[Driver]]></code>
       <code><![CDATA[Statement]]></code>
     </UndefinedClass>
     <UnusedPsalmSuppress>
       <code><![CDATA[UndefinedMagicPropertyFetch]]></code>
       <code><![CDATA[UndefinedMagicPropertyFetch]]></code>
     </UnusedPsalmSuppress>
-  </file>
-  <file src="test/unit/ConfigProviderTest.php">
-    <MixedPropertyTypeCoercion>
-      <code><![CDATA[[
-        'aliases'   => [
-            PlatformInterface::class => Platform\Sqlite::class,
-            ProfilerInterface::class => Profiler::class,
-        ],
-        'factories' => [
-            AdapterInterface::class => AdapterServiceFactory::class,
-            DriverInterface::class  => Driver\Pdo\DriverFactory::class,
-            Platform\Sqlite::class  => InvokableFactory::class,
-            Profiler::class         => InvokableFactory::class,
-        ],
-    ]]]></code>
-    </MixedPropertyTypeCoercion>
-    <UndefinedClass>
-      <code><![CDATA[AdapterServiceFactory]]></code>
-      <code><![CDATA[Driver\Pdo\DriverFactory]]></code>
-    </UndefinedClass>
-  </file>
-  <file src="test/unit/Driver/Pdo/PdoTest.php">
-    <MixedAssignment>
-      <code><![CDATA[$result]]></code>
-      <code><![CDATA[$this->pdo]]></code>
-    </MixedAssignment>
-    <MixedMethodCall>
-      <code><![CDATA[setConnectionParameters]]></code>
-    </MixedMethodCall>
-    <UndefinedClass>
-      <code><![CDATA[$this->pdo]]></code>
-      <code><![CDATA[$this->pdo]]></code>
-      <code><![CDATA[$this->pdo]]></code>
-      <code><![CDATA[$this->pdo]]></code>
-      <code><![CDATA[$this->pdo]]></code>
-      <code><![CDATA[$this->pdo]]></code>
-      <code><![CDATA[Driver]]></code>
-      <code><![CDATA[Driver]]></code>
-      <code><![CDATA[Driver]]></code>
-      <code><![CDATA[Driver]]></code>
-    </UndefinedClass>
   </file>
   <file src="test/unit/Driver/Pdo/ResultTest.php">
     <InvalidArrayOffset>
@@ -490,17 +434,6 @@
       <code><![CDATA[function () use ($data, &$position) {]]></code>
     </MissingClosureReturnType>
   </file>
-  <file src="test/unit/Driver/Pdo/StatementIntegrationTest.php">
-    <InvalidArgument>
-      <code><![CDATA[$driver]]></code>
-    </InvalidArgument>
-    <MixedArgument>
-      <code><![CDATA[Driver::class]]></code>
-    </MixedArgument>
-    <UndefinedClass>
-      <code><![CDATA[Driver]]></code>
-    </UndefinedClass>
-  </file>
   <file src="test/unit/Driver/Pdo/StatementTest.php">
     <MixedArgument>
       <code><![CDATA[new Driver(new Connection())]]></code>
@@ -509,47 +442,8 @@
       <code><![CDATA[Driver]]></code>
     </UndefinedClass>
   </file>
-  <file src="test/unit/ModuleTest.php">
-    <MixedPropertyTypeCoercion>
-      <code><![CDATA[[
-        'aliases'   => [
-            PlatformInterface::class => Platform\Sqlite::class,
-            ProfilerInterface::class => Profiler::class,
-        ],
-        'factories' => [
-            AdapterInterface::class => AdapterServiceFactory::class,
-            DriverInterface::class  => Driver\Pdo\DriverFactory::class,
-            Platform\Sqlite::class  => InvokableFactory::class,
-            Profiler::class         => InvokableFactory::class,
-        ],
-    ]]]></code>
-    </MixedPropertyTypeCoercion>
-    <UndefinedClass>
-      <code><![CDATA[AdapterServiceFactory]]></code>
-      <code><![CDATA[Driver\Pdo\DriverFactory]]></code>
-    </UndefinedClass>
-  </file>
   <file src="test/unit/Platform/SqliteTest.php">
-    <InvalidArgument>
-      <code><![CDATA[function ($errno, $errstr) use (&$raisedNotice) {
-            $this->assertEquals(E_USER_NOTICE, $errno);
-            $this->assertEquals(
-                $errstr,
-                'Attempting to quote a value in PhpDb\Adapter\Sqlite\Platform\Sqlite without extension/driver support can '
-                    . 'introduce security vulnerabilities in a production environment'
-            );
-            $raisedNotice = true;
-        }]]></code>
-      <code><![CDATA[function ($errno, $errstr) use (&$raisedNotice) {
-            $this->assertEquals(E_USER_NOTICE, $errno);
-            $this->assertEquals(
-                $errstr,
-                'Attempting to quote a value in PhpDb\Adapter\Sqlite\Platform\Sqlite without extension/driver support can '
-                    . 'introduce security vulnerabilities in a production environment'
-            );
-            $raisedNotice = true;
-        }]]></code>
-    </InvalidArgument>
+    <InvalidArgument/>
     <MixedAssignment>
       <code><![CDATA[$driver]]></code>
     </MixedAssignment>

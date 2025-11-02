@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace PhpDbTest\Adapter\Sqlite\Sqlite\Driver\Pdo;
 
 use Exception;
+use Override;
 use PhpDb\Adapter\Exception\InvalidConnectionParametersException;
 use PhpDb\Adapter\Sqlite\Driver\Pdo\Connection;
-use Override;
 use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;

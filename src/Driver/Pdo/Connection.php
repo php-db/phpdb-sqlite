@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace PhpDb\Adapter\Sqlite\Driver\Pdo;
 
 use Override;
+use PDO;
 use PDOException;
 use PhpDb\Adapter\Driver\ConnectionInterface;
 use PhpDb\Adapter\Driver\Pdo\AbstractPdoConnection;
@@ -12,6 +13,7 @@ use PhpDb\Adapter\Exception;
 use Webmozart\Assert\Assert;
 
 use function array_diff_key;
+use function assert;
 use function is_int;
 use function is_string;
 use function str_starts_with;
@@ -94,9 +96,11 @@ class Connection extends AbstractPdoConnection
         $this->dsn = $dsn;
 
         try {
-            $this->resource = new \PDO(dsn: $dsn, options: $options);
-            $this->resource->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
-            $this->driverName = strtolower($this->resource->getAttribute(\PDO::ATTR_DRIVER_NAME));
+            $this->resource = new PDO(dsn: $dsn, options: $options);
+            $this->resource->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $driverName = $this->resource->getAttribute(PDO::ATTR_DRIVER_NAME);
+            assert(is_string($driverName));
+            $this->driverName = strtolower($driverName);
         } catch (PDOException $e) {
             $code = $e->getCode();
             if (! is_int($code)) {
