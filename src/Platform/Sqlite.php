@@ -42,7 +42,7 @@ class Sqlite extends AbstractPlatform
             $resource = $resource->getConnection()->getResource();
         }
 
-        if ($resource instanceof \PDO) {
+        if ($resource instanceof PDO) {
             return $resource->quote($value);
         }
 
@@ -61,7 +61,7 @@ class Sqlite extends AbstractPlatform
             $resource = $resource->getConnection()->getResource();
         }
 
-        if ($resource instanceof \PDO) {
+        if ($resource instanceof PDO) {
             return $resource->quote($value);
         }
 

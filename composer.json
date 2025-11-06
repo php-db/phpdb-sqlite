@@ -30,7 +30,7 @@
         }
     },
     "require": {
-        "php": "~8.1.0 || ~8.2.0 || ~8.3.0 || ~8.4.0",
+        "php": "~8.2.0 || ~8.3.0 || ~8.4.0 || ~8.5.0",
         "php-db/phpdb": "^0.2.0",
         "webmozart/assert": "^1.11"
     },
@@ -38,9 +38,9 @@
         "ext-pdo": "*",
         "ext-pdo_sqlite": "*",
         "laminas/laminas-coding-standard": "^3.0.1",
-        "phpunit/phpunit": "^11.5.15",
-        "psalm/plugin-phpunit": "^0.19.2",
-        "vimeo/psalm": "^6.8.8"
+        "phpstan/phpstan": "^2.1",
+        "phpstan/phpstan-phpunit": "^2.0",
+        "phpunit/phpunit": "^11.5.42"
     },
     "suggest": {
         "laminas/laminas-servicemanager": "Laminas\\ServiceManager component"

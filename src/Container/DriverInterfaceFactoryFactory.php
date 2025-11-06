@@ -24,7 +24,7 @@ final class DriverInterfaceFactoryFactory implements FactoryFactoryInterface
                 $requestedName
             ));
         }
-        $adapterServices  = $container->get('config')[AdapterManager::class];
+        $adapterServices = $container->get('config')[AdapterManager::class];
 
         $configuredDriver = $adapterConfig[$requestedName]['driver'];
         $aliasTo        ??= $adapterServices['aliases'][$configuredDriver] ?? $configuredDriver;

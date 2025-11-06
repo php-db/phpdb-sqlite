@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace PhpDb\Adapter\Sqlite\Container;
 
 use Laminas\ServiceManager\Factory\DelegatorFactoryInterface;
-use PhpDB\Adapter\Sqlite\ConfigProvider;
+use PhpDb\Adapter\Sqlite\ConfigProvider;
 use PhpDb\Container\AdapterManager;
 use Psr\Container\ContainerInterface;
 

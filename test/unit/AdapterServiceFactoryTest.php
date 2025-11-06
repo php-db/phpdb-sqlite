@@ -5,10 +5,10 @@ namespace PhpDbTest\Adapter\Sqlite;
 use Laminas\ServiceManager\ServiceLocatorInterface;
 use Laminas\ServiceManager\ServiceManager;
 use Override;
-use PhpDb\Adapter\Profiler\Profiler;
-use PhpDb\Adapter\Profiler\ProfilerInterface;
 use PhpDb\Adapter\Adapter;
 use PhpDb\Adapter\AdapterServiceFactory;
+use PhpDb\Adapter\Profiler\Profiler;
+use PhpDb\Adapter\Profiler\ProfilerInterface;
 use PhpDb\Adapter\Sqlite\ConfigProvider;
 use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\TestCase;
@@ -16,7 +16,6 @@ use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 
 use function array_key_exists;
-use function extension_loaded;
 use function is_array;
 
 #[CoversMethod(AdapterServiceFactory::class, '__invoke')]

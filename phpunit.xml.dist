@@ -5,11 +5,7 @@
          colors="true"
          cacheDirectory=".phpunit.cache"
          requireCoverageMetadata="true"
-         displayDetailsOnTestsThatTriggerWarnings="true"
-         displayDetailsOnTestsThatTriggerNotices="true"
-         displayDetailsOnTestsThatTriggerErrors="true"
-         displayDetailsOnTestsThatTriggerDeprecations="true"
-         displayDetailsOnSkippedTests="true"
+         displayDetailsOnAllIssues="true"
          failOnNotice="true"
          failOnDeprecation="true"
          failOnWarning="true">

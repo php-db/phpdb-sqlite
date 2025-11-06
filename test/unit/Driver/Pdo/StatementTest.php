@@ -8,7 +8,6 @@ use Override;
 use PhpDb\Adapter\Driver\Pdo\Statement;
 use PhpDb\Adapter\ParameterContainer;
 use PhpDb\Adapter\Sqlite\Container\PdoDriverFactory;
-use PhpDb\Adapter\Sqlite\Driver\Pdo\Connection;
 use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
