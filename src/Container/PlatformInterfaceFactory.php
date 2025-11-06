@@ -32,4 +32,9 @@ final class PlatformInterfaceFactory
 
         return new Sqlite($driverInstance);
     }
+
+    public static function fromDriver(PdoDriverInterface $driverInstance): PlatformInterface&Sqlite
+    {
+        return new Sqlite($driverInstance);
+    }
 }
