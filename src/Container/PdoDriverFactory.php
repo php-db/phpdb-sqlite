@@ -39,4 +39,31 @@ final class PdoDriverFactory
             [new SqliteRowCounter()],
         );
     }
+
+    public static function createFromConfig(
+        ContainerInterface $container,
+        string $requestedName,
+    ): PdoDriverInterface&PdoDriver {
+        /** @var AdapterManager $adapterManager */
+        $adapterManager    = $container->get(AdapterManager::class);
+        $connectionFactory = (
+            $adapterManager->get(ConnectionInterfaceFactoryFactory::class)
+        )($container, $requestedName);
+
+        /** @var ConnectionInterface&Connection $connectionInstance */
+        $connectionInstance = $connectionFactory::createFromConfig($container, $requestedName);
+
+        /** @var StatementInterface&Statement $statementInstance */
+        $statementInstance = $adapterManager->get(Statement::class);
+
+        /** @var ResultInterface&Result $resultInstance */
+        $resultInstance = $adapterManager->get(Result::class);
+
+        return new PdoDriver(
+            $connectionInstance,
+            $statementInstance,
+            $resultInstance,
+            [new SqliteRowCounter()],
+        );
+    }
 }

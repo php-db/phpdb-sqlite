@@ -17,7 +17,12 @@ use PhpDb\Adapter\Driver\StatementInterface;
 use PhpDb\Adapter\Platform\PlatformInterface;
 use PhpDb\Adapter\Profiler\Profiler;
 use PhpDb\Adapter\Profiler\ProfilerInterface;
+use PhpDb\Container\AdapterAbstractServiceFactory;
 use PhpDb\Container\AdapterManager;
+use PhpDb\Container\ConnectionInterfaceFactoryFactoryInterface;
+use PhpDb\Container\DriverInterfaceFactoryFactoryInterface;
+use PhpDb\Container\MetadataFactory;
+use PhpDb\Container\PlatformInterfaceFactoryFactoryInterface;
 use PhpDb\Metadata\MetadataInterface;
 use PhpDb\ResultSet;
 
@@ -34,6 +39,9 @@ final class ConfigProvider
     public function getDependencies(): array
     {
         return [
+            'abstract_factories' => [
+                AdapterAbstractServiceFactory::class,
+            ],
             'aliases'    => [
                 MetadataInterface::class => Metadata\Source\SqliteMetadata::class,
             ],
@@ -68,6 +76,9 @@ final class ConfigProvider
                 ResultInterface::class              => Result::class,
                 ResultSet\ResultSetInterface::class => ResultSet\ResultSet::class,
                 StatementInterface::class           => Statement::class,
+                ConnectionInterfaceFactoryFactoryInterface::class => Container\ConnectionInterfaceFactoryFactory::class,
+                DriverInterfaceFactoryFactoryInterface::class     => Container\DriverInterfaceFactoryFactory::class,
+                PlatformInterfaceFactoryFactoryInterface::class   => Container\PlatformInterfaceFactoryFactory::class,
             ],
             'factories' => [
                 AdapterInterface::class      => Container\AdapterFactory::class,
@@ -78,6 +89,14 @@ final class ConfigProvider
                 Platform\Sqlite::class       => Container\PlatformInterfaceFactory::class,
                 Profiler::class              => InvokableFactory::class,
                 ResultSet\ResultSet::class   => InvokableFactory::class,
+            ],
+            'invokables' => [
+                Container\ConnectionInterfaceFactoryFactory::class
+                    => Container\ConnectionInterfaceFactoryFactory::class,
+                Container\DriverInterfaceFactoryFactory::class
+                    => Container\DriverInterfaceFactoryFactory::class,
+                Container\PlatformInterfaceFactoryFactory::class
+                    => Container\PlatformInterfaceFactoryFactory::class,
             ],
         ];
     }

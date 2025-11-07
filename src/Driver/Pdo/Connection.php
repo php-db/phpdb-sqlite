@@ -22,6 +22,7 @@ use function strtolower;
 class Connection extends AbstractPdoConnection
 {
     public final const CURRENT_SCHEMA = 'main';
+
     /**
      * {@inheritDoc}
      */
