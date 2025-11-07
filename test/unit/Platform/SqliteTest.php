@@ -5,7 +5,6 @@ namespace PhpDbTest\Adapter\Sqlite\Sqlite\Platform;
 use Override;
 use PDO;
 use PhpDb\Adapter\Sqlite\Container\PdoDriverFactory;
-use PhpDb\Adapter\Sqlite\Driver\Pdo\Connection;
 use PhpDb\Adapter\Sqlite\Platform\Sqlite;
 use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\TestCase;
