@@ -6,13 +6,10 @@ namespace PhpDbTest\Adapter\Sqlite\Driver\Pdo;
 
 use Exception;
 use Override;
-use PhpDb\Adapter\Exception\InvalidConnectionParametersException;
 use PhpDb\Adapter\Sqlite\Driver\Pdo\Connection;
 use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
-
-use function realpath;
 
 #[CoversMethod(Connection::class, 'getResource')]
 #[CoversMethod(Connection::class, 'getDsn')]

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace PhpDbTest\Adapter\Sqlite;
 
+use Exception;
 use Override;
 use PhpDb\Adapter\Adapter;
 use PhpDb\Adapter\Driver\DriverInterface;
@@ -18,7 +19,6 @@ use PhpDb\Adapter\Sqlite\Platform\Sqlite as SqlitePlatform;
 use PhpDb\ResultSet\ResultSetInterface;
 use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\Attributes\TestDox;
-use PHPUnit\Framework\MockObject\Exception;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
@@ -48,7 +48,7 @@ final class AdapterTest extends TestCase
     protected Adapter $adapter;
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     #[Override]
     protected function setUp(): void
@@ -105,7 +105,7 @@ final class AdapterTest extends TestCase
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     #[TestDox('unit test: Test query() in prepare mode produces a statement object')]
     public function testQueryWhenPreparedProducesStatement(): void
@@ -115,7 +115,7 @@ final class AdapterTest extends TestCase
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     #[TestDox('unit test: Test query() in prepare mode, with array of parameters, produces a result object')]
     public function testQueryWhenPreparedWithParameterArrayProducesResult(): void

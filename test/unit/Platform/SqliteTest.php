@@ -10,7 +10,11 @@ use PhpDb\Adapter\Sqlite\Platform\Sqlite;
 use PhpDb\Adapter\Sqlite\Sql\Platform\Sqlite as SqlPlatformDecorator;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
-use ReflectionClass;
+
+use function restore_error_handler;
+use function set_error_handler;
+
+use const E_USER_NOTICE;
 
 #[CoversClass(Sqlite::class)]
 final class SqliteTest extends TestCase
@@ -19,7 +23,7 @@ final class SqliteTest extends TestCase
 
     protected function setUp(): void
     {
-        $pdoMock       = $this->createMock(PDO::class);
+        $pdoMock        = $this->createMock(PDO::class);
         $this->platform = new Sqlite($pdoMock);
     }
 
