@@ -75,46 +75,6 @@ final class ConnectionIntegrationTest extends TestCase
         self::assertFalse($connection->isConnected());
     }
 
-    /**
-     * @todo   Implement testBeginTransaction().
-     */
-    // public function testBeginTransaction(): never
-    // {
-    //     // Remove the following lines when you implement this test.
-    //     $this->markTestIncomplete(
-    //         'This test has not been implemented yet.'
-    //     );
-    // }
-
-    /**
-     * @todo   Implement testCommit().
-     */
-    // public function testCommit(): never
-    // {
-    //     // Remove the following lines when you implement this test.
-    //     $this->markTestIncomplete(
-    //         'This test has not been implemented yet.'
-    //     );
-    // }
-
-    /**
-     * @todo   Implement testRollback().
-     */
-    // public function testRollback(): never
-    // {
-    //     // Remove the following lines when you implement this test.
-    //     $this->markTestIncomplete(
-    //         'This test has not been implemented yet.'
-    //     );
-    // }
-
-    // public function testGetLastGeneratedValue(): never
-    // {
-    //     $this->markTestIncomplete('Need to create a temporary sequence.');
-    //     //$connection = new Connection($this->variables);
-    //     //$connection->getLastGeneratedValue();
-    // }
-
     public function testConnectReturnsConnectionWhenResourceSet(): void
     {
         /** @var PDO $resource */
@@ -129,4 +89,35 @@ final class ConnectionIntegrationTest extends TestCase
         unset($connection);
         unset($resource);
     }
+
+    // public function testBeginTransaction(): never
+    // {
+    //     // Remove the following lines when you implement this test.
+    //     $this->markTestIncomplete(
+    //         'This test has not been implemented yet.'
+    //     );
+    // }
+
+    // public function testCommit(): never
+    // {
+    //     // Remove the following lines when you implement this test.
+    //     $this->markTestIncomplete(
+    //         'This test has not been implemented yet.'
+    //     );
+    // }
+
+    // public function testRollback(): never
+    // {
+    //     // Remove the following lines when you implement this test.
+    //     $this->markTestIncomplete(
+    //         'This test has not been implemented yet.'
+    //     );
+    // }
+
+    // public function testGetLastGeneratedValue(): never
+    // {
+    //     $this->markTestIncomplete('Need to create a temporary sequence.');
+    //     //$connection = new Connection($this->variables);
+    //     //$connection->getLastGeneratedValue();
+    // }
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PhpDb\Adapter\Sqlite\Sql\Platform;
 
 use PhpDb\Adapter\Driver\DriverInterface;
