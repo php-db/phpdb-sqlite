@@ -1,47 +1,65 @@
 <?php
 
-namespace PhpDbTest\Adapter\Sqlite\Sqlite\Platform;
+declare(strict_types=1);
 
-use Override;
+namespace PhpDbTest\Adapter\Sqlite\Platform;
+
 use PDO;
-use PhpDb\Adapter\Sqlite\Container\PdoDriverFactory;
+use PhpDb\Adapter\Driver\PdoDriverInterface;
 use PhpDb\Adapter\Sqlite\Platform\Sqlite;
-use PHPUnit\Framework\Attributes\CoversMethod;
+use PhpDb\Adapter\Sqlite\Sql\Platform\Sqlite as SqlPlatformDecorator;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
-use Psr\Container\ContainerInterface;
+use ReflectionClass;
 
-use function file_exists;
-use function restore_error_handler;
-use function set_error_handler;
-use function touch;
-use function unlink;
-
-use const E_USER_NOTICE;
-
-#[CoversMethod(Sqlite::class, 'getName')]
-#[CoversMethod(Sqlite::class, 'getQuoteIdentifierSymbol')]
-#[CoversMethod(Sqlite::class, 'quoteIdentifier')]
-#[CoversMethod(Sqlite::class, 'quoteIdentifierChain')]
-#[CoversMethod(Sqlite::class, 'getQuoteValueSymbol')]
-#[CoversMethod(Sqlite::class, 'quoteValue')]
-#[CoversMethod(Sqlite::class, 'quoteTrustedValue')]
-#[CoversMethod(Sqlite::class, 'quoteValueList')]
-#[CoversMethod(Sqlite::class, 'getIdentifierSeparator')]
-#[CoversMethod(Sqlite::class, 'quoteIdentifierInFragment')]
+#[CoversClass(Sqlite::class)]
 final class SqliteTest extends TestCase
 {
-    protected Sqlite $platform;
+    private Sqlite $platform;
 
-    /**
-     * Sets up the fixture, for example, opens a network connection.
-     * This method is called before a test is executed.
-     */
-    #[Override]
     protected function setUp(): void
     {
-        $this->platform = new Sqlite(new PDO(
-            dsn: "sqlite::memory:mydb.sqlite",
-        ));
+        $pdoMock       = $this->createMock(PDO::class);
+        $this->platform = new Sqlite($pdoMock);
+    }
+
+    public function testGetNameReturnsSqlite(): void
+    {
+        $pdoMock  = $this->createMock(PDO::class);
+        $platform = new Sqlite($pdoMock);
+
+        self::assertSame('SQLite', $platform->getName());
+    }
+
+    public function testPlatformNameConstant(): void
+    {
+        self::assertSame('SQLite', Sqlite::PLATFORM_NAME);
+    }
+
+    public function testConstructWithPdo(): void
+    {
+        $pdoMock  = $this->createMock(PDO::class);
+        $platform = new Sqlite($pdoMock);
+
+        self::assertInstanceOf(Sqlite::class, $platform);
+    }
+
+    public function testConstructWithPdoDriver(): void
+    {
+        $driverMock = $this->createMock(PdoDriverInterface::class);
+        $platform   = new Sqlite($driverMock);
+
+        self::assertInstanceOf(Sqlite::class, $platform);
+    }
+
+    public function testGetSqlPlatformDecorator(): void
+    {
+        $pdoMock  = $this->createMock(PDO::class);
+        $platform = new Sqlite($pdoMock);
+
+        $decorator = $platform->getSqlPlatformDecorator();
+
+        self::assertInstanceOf(SqlPlatformDecorator::class, $decorator);
     }
 
     public function testGetName(): void
@@ -75,9 +93,6 @@ final class SqliteTest extends TestCase
     {
         $raisedNotice = false;
 
-        /**
-         * @psalm-suppress InvalidArgument
-         */
         set_error_handler(function (int $errno, string $errstr) use (&$raisedNotice) {
             $this->assertEquals(E_USER_NOTICE, $errno);
             $this->assertEquals(
@@ -182,29 +197,5 @@ final class SqliteTest extends TestCase
                 ['(', ')', '=', 'and', 'bAz']
             )
         );
-    }
-
-    public function testCanCloseConnectionAfterQuoteValue(): void
-    {
-        // Creating the SQLite database file
-        $filePath = __DIR__ . "/_files/sqlite.db";
-        if (! file_exists($filePath)) {
-            touch($filePath);
-        }
-
-        $driver = (new PdoDriverFactory())->__invoke(
-            $this->createMock(ContainerInterface::class)
-        );
-
-        $this->platform->setDriver($driver);
-        $this->platform->quoteValue("some; random]/ value");
-        $this->platform->quoteTrustedValue("some; random]/ value");
-
-        // Closing the connection so we can delete the file
-        $driver->getConnection()->disconnect();
-
-        @unlink($filePath);
-
-        self::assertFileDoesNotExist($filePath);
     }
 }

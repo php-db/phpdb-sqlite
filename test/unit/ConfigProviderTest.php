@@ -19,93 +19,195 @@ use PhpDb\Adapter\Profiler\Profiler;
 use PhpDb\Adapter\Profiler\ProfilerInterface;
 use PhpDb\Adapter\Sqlite\ConfigProvider;
 use PhpDb\Adapter\Sqlite\Container;
-use PhpDb\Adapter\Sqlite\Driver;
-use PhpDb\Adapter\Sqlite\Metadata;
-use PhpDb\Adapter\Sqlite\Platform;
+use PhpDb\Adapter\Sqlite\Driver\Pdo\Connection;
+use PhpDb\Adapter\Sqlite\Driver\Pdo\Pdo;
+use PhpDb\Adapter\Sqlite\Metadata\Source\SqliteMetadata;
+use PhpDb\Adapter\Sqlite\Platform\Sqlite;
+use PhpDb\Container\AdapterAbstractServiceFactory;
 use PhpDb\Container\AdapterManager;
+use PhpDb\Container\ConnectionInterfaceFactoryFactoryInterface;
+use PhpDb\Container\DriverInterfaceFactoryFactoryInterface;
+use PhpDb\Container\PlatformInterfaceFactoryFactoryInterface;
 use PhpDb\Metadata\MetadataInterface;
 use PhpDb\ResultSet;
-use PHPUnit\Framework\Attributes\CoversMethod;
-use PHPUnit\Framework\Attributes\Depends;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-#[CoversMethod(ConfigProvider::class, '__invoke')]
-#[CoversMethod(ConfigProvider::class, 'getDependencies')]
-#[CoversMethod(ConfigProvider::class, 'getAdapterManagerConfig')]
+#[CoversClass(ConfigProvider::class)]
 final class ConfigProviderTest extends TestCase
 {
-    /** @var array<string, array<string, string|array<int,string>>> */
-    private array $config = [
-        'aliases'    => [
-            MetadataInterface::class => Metadata\Source\SqliteMetadata::class,
-        ],
-        'factories'  => [
-            Metadata\Source\SqliteMetadata::class => Container\MetadataInterfaceFactory::class,
-        ],
-        'delegators' => [
-            AdapterManager::class => [
-                Container\AdapterManagerDelegator::class,
-            ],
-        ],
-    ];
+    private ConfigProvider $configProvider;
 
-    private array $adapterManagerConfig = [
-        'aliases'   => [
-            'SQLite'                            => Driver\Pdo\Pdo::class,
-            'Sqlite'                            => Driver\Pdo\Pdo::class,
-            'sqlite'                            => Driver\Pdo\Pdo::class,
-            'pdo'                               => Driver\Pdo\Pdo::class,
-            'pdo_sqlite'                        => Driver\Pdo\Pdo::class,
-            'pdosqlite'                         => Driver\Pdo\Pdo::class,
-            'pdodriver'                         => Driver\Pdo\Pdo::class,
-            ConnectionInterface::class          => Driver\Pdo\Connection::class,
-            PdoConnectionInterface::class       => Driver\Pdo\Connection::class,
-            DriverInterface::class              => Driver\Pdo\Pdo::class,
-            PdoDriverInterface::class           => Driver\Pdo\Pdo::class,
-            PlatformInterface::class            => Platform\Sqlite::class,
+    protected function setUp(): void
+    {
+        $this->configProvider = new ConfigProvider();
+    }
+
+    public function testInvokeReturnsExpectedStructure(): void
+    {
+        $config = ($this->configProvider)();
+
+        self::assertIsArray($config);
+        self::assertArrayHasKey('dependencies', $config);
+        self::assertArrayHasKey(AdapterManager::class, $config);
+    }
+
+    public function testGetDependenciesReturnsCorrectStructure(): void
+    {
+        $dependencies = $this->configProvider->getDependencies();
+
+        self::assertIsArray($dependencies);
+        self::assertArrayHasKey('abstract_factories', $dependencies);
+        self::assertArrayHasKey('aliases', $dependencies);
+        self::assertArrayHasKey('factories', $dependencies);
+        self::assertArrayHasKey('delegators', $dependencies);
+    }
+
+    public function testGetDependenciesContainsAbstractFactories(): void
+    {
+        $dependencies = $this->configProvider->getDependencies();
+
+        self::assertContains(
+            AdapterAbstractServiceFactory::class,
+            $dependencies['abstract_factories']
+        );
+    }
+
+    public function testGetDependenciesContainsMetadataAlias(): void
+    {
+        $dependencies = $this->configProvider->getDependencies();
+
+        self::assertArrayHasKey(MetadataInterface::class, $dependencies['aliases']);
+        self::assertSame(
+            SqliteMetadata::class,
+            $dependencies['aliases'][MetadataInterface::class]
+        );
+    }
+
+    public function testGetDependenciesContainsMetadataFactory(): void
+    {
+        $dependencies = $this->configProvider->getDependencies();
+
+        self::assertArrayHasKey(SqliteMetadata::class, $dependencies['factories']);
+        self::assertSame(
+            Container\MetadataInterfaceFactory::class,
+            $dependencies['factories'][SqliteMetadata::class]
+        );
+    }
+
+    public function testGetDependenciesContainsDelegators(): void
+    {
+        $dependencies = $this->configProvider->getDependencies();
+
+        self::assertArrayHasKey(AdapterManager::class, $dependencies['delegators']);
+        self::assertContains(
+            Container\AdapterManagerDelegator::class,
+            $dependencies['delegators'][AdapterManager::class]
+        );
+    }
+
+    public function testGetAdapterManagerConfigReturnsCorrectStructure(): void
+    {
+        $config = $this->configProvider->getAdapterManagerConfig();
+
+        self::assertIsArray($config);
+        self::assertArrayHasKey('aliases', $config);
+        self::assertArrayHasKey('factories', $config);
+        self::assertArrayHasKey('invokables', $config);
+    }
+
+    public function testGetAdapterManagerConfigContainsDriverAliases(): void
+    {
+        $config = $this->configProvider->getAdapterManagerConfig();
+
+        $expectedAliases = [
+            'SQLite'     => Pdo::class,
+            'Sqlite'     => Pdo::class,
+            'sqlite'     => Pdo::class,
+            'pdo'        => Pdo::class,
+            'pdo_sqlite' => Pdo::class,
+            'pdosqlite'  => Pdo::class,
+            'pdodriver'  => Pdo::class,
+        ];
+
+        foreach ($expectedAliases as $alias => $target) {
+            self::assertArrayHasKey($alias, $config['aliases']);
+            self::assertSame($target, $config['aliases'][$alias]);
+        }
+    }
+
+    public function testGetAdapterManagerConfigContainsInterfaceAliases(): void
+    {
+        $config = $this->configProvider->getAdapterManagerConfig();
+
+        $expectedAliases = [
+            ConnectionInterface::class          => Connection::class,
+            PdoConnectionInterface::class       => Connection::class,
+            DriverInterface::class              => Pdo::class,
+            PdoDriverInterface::class           => Pdo::class,
+            PlatformInterface::class            => Sqlite::class,
             ProfilerInterface::class            => Profiler::class,
             ResultInterface::class              => Result::class,
             ResultSet\ResultSetInterface::class => ResultSet\ResultSet::class,
             StatementInterface::class           => Statement::class,
-        ],
-        'factories' => [
-            AdapterInterface::class      => Container\AdapterFactory::class,
-            Driver\Pdo\Connection::class => Container\PdoConnectionFactory::class,
-            Driver\Pdo\Pdo::class        => Container\PdoDriverFactory::class,
-            Result::class                => Container\PdoResultFactory::class,
-            Statement::class             => Container\PdoStatementFactory::class,
-            Platform\Sqlite::class       => Container\PlatformInterfaceFactory::class,
-            //Profiler::class              => InvokableFactory::class,
+        ];
+
+        foreach ($expectedAliases as $interface => $implementation) {
+            self::assertArrayHasKey($interface, $config['aliases']);
+            self::assertSame($implementation, $config['aliases'][$interface]);
+        }
+    }
+
+    public function testGetAdapterManagerConfigContainsFactoryFactoryAliases(): void
+    {
+        $config = $this->configProvider->getAdapterManagerConfig();
+
+        $expectedAliases = [
+            ConnectionInterfaceFactoryFactoryInterface::class => Container\ConnectionInterfaceFactoryFactory::class,
+            DriverInterfaceFactoryFactoryInterface::class     => Container\DriverInterfaceFactoryFactory::class,
+            PlatformInterfaceFactoryFactoryInterface::class   => Container\PlatformInterfaceFactoryFactory::class,
+        ];
+
+        foreach ($expectedAliases as $interface => $implementation) {
+            self::assertArrayHasKey($interface, $config['aliases']);
+            self::assertSame($implementation, $config['aliases'][$interface]);
+        }
+    }
+
+    public function testGetAdapterManagerConfigContainsFactories(): void
+    {
+        $config = $this->configProvider->getAdapterManagerConfig();
+
+        $expectedFactories = [
+            AdapterInterface::class    => Container\AdapterFactory::class,
+            Connection::class          => Container\PdoConnectionFactory::class,
+            Pdo::class                 => Container\PdoDriverFactory::class,
+            Result::class              => Container\PdoResultFactory::class,
+            Statement::class           => Container\PdoStatementFactory::class,
+            Sqlite::class              => Container\PlatformInterfaceFactory::class,
+            Profiler::class            => InvokableFactory::class,
             ResultSet\ResultSet::class => InvokableFactory::class,
-        ],
-    ];
+        ];
 
-    public function testProvidesExpectedDependencies(): ConfigProvider
-    {
-        $provider = new ConfigProvider();
-        self::assertEquals($this->config, $provider->getDependencies());
-
-        return $provider;
+        foreach ($expectedFactories as $service => $factory) {
+            self::assertArrayHasKey($service, $config['factories']);
+            self::assertSame($factory, $config['factories'][$service]);
+        }
     }
 
-    public function testProvidesExpectedAdapterManagerConfiguration(): void
+    public function testGetAdapterManagerConfigContainsInvokables(): void
     {
-        $provider = new ConfigProvider();
-        self::assertEquals(
-            $this->adapterManagerConfig,
-            $provider->getAdapterManagerConfig()
-        );
-    }
+        $config = $this->configProvider->getAdapterManagerConfig();
 
-    #[Depends('testProvidesExpectedDependencies')]
-    public function testInvocationProvidesDependencyConfiguration(ConfigProvider $provider): void
-    {
-        self::assertEquals(
-            [
-                'dependencies'        => $provider->getDependencies(),
-                AdapterManager::class => $provider->getAdapterManagerConfig(),
-            ],
-            $provider()
-        );
+        $expectedInvokables = [
+            Container\ConnectionInterfaceFactoryFactory::class,
+            Container\DriverInterfaceFactoryFactory::class,
+            Container\PlatformInterfaceFactoryFactory::class,
+        ];
+
+        foreach ($expectedInvokables as $invokable) {
+            self::assertArrayHasKey($invokable, $config['invokables']);
+            self::assertSame($invokable, $config['invokables'][$invokable]);
+        }
     }
 }

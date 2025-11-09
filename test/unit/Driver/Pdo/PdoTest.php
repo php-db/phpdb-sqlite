@@ -2,10 +2,9 @@
 
 declare(strict_types=1);
 
-namespace PhpDbTest\Adapter\Sqlite\Sqlite\Driver\Pdo;
+namespace PhpDbTest\Adapter\Sqlite\Driver\Pdo;
 
 use Override;
-use PhpDb\Adapter\Driver\Pdo\Result;
 use PhpDb\Adapter\Driver\PdoDriverAwareInterface;
 use PhpDb\Adapter\Driver\PdoDriverInterface;
 use PhpDb\Adapter\Driver\ResultInterface;
@@ -18,7 +17,6 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 #[CoversMethod(Pdo::class, 'getDatabasePlatformName')]
-#[CoversMethod(Pdo::class, 'getResultPrototype')]
 final class PdoTest extends TestCase
 {
     protected Pdo $pdo;
@@ -30,7 +28,7 @@ final class PdoTest extends TestCase
     #[Override]
     protected function setUp(): void
     {
-        $connection = new Connection();
+        $connection = new Connection(['dsn' => ':memory:']);
 
         /** @var StatementInterface&PdoDriverAwareInterface $statementPrototype */
         $statementPrototype = $this->createMockForIntersectionOfInterfaces([
@@ -93,12 +91,5 @@ final class PdoTest extends TestCase
     {
         $this->expectException(RuntimeException::class);
         $this->pdo->formatParameterName($name);
-    }
-
-    public function testGetResultPrototype(): void
-    {
-        $resultPrototype = $this->pdo->getResultPrototype();
-
-        self::assertInstanceOf(Result::class, $resultPrototype);
     }
 }

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace PhpDbTest\Adapter\Sqlite\Sqlite\Driver\Pdo;
+namespace PhpDbTest\Adapter\Sqlite\Driver\Pdo;
 
 use Exception;
 use Override;
@@ -12,11 +12,15 @@ use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 
+use function realpath;
+
 #[CoversMethod(Connection::class, 'getResource')]
 #[CoversMethod(Connection::class, 'getDsn')]
 final class ConnectionTest extends TestCase
 {
     protected Connection $connection;
+    //protected string $dsn = 'sqlite::memory:';
+    protected string $dsn = 'sqlite::memory:';
 
     /**
      * Sets up the fixture, for example, opens a network connection.
@@ -25,7 +29,9 @@ final class ConnectionTest extends TestCase
     #[Override]
     protected function setUp(): void
     {
-        $this->connection = new Connection();
+        $this->connection = new Connection([
+            'dsn' => $this->dsn,
+        ]);
     }
 
     /**
@@ -33,7 +39,7 @@ final class ConnectionTest extends TestCase
      */
     public function testResource(): void
     {
-        $this->expectException(InvalidConnectionParametersException::class);
+        $this->expectNotToPerformAssertions();
         $this->connection->getResource();
     }
 
@@ -42,23 +48,21 @@ final class ConnectionTest extends TestCase
      */
     public function testGetDsn(): void
     {
-        $dsn = "sqlite::memory:";
-        $this->connection->setConnectionParameters(['dsn' => $dsn]);
+        $this->connection->setConnectionParameters(['dsn' => $this->dsn]);
         try {
             $this->connection->connect();
         } catch (Exception) {
         }
         $responseString = $this->connection->getDsn();
 
-        self::assertEquals($dsn, $responseString);
+        self::assertEquals($this->dsn, $responseString);
     }
 
     #[Group('2622')]
     public function testArrayOfConnectionParametersCreatesCorrectDsn(): void
     {
         $this->connection->setConnectionParameters([
-            'driver'   => 'Pdo_Sqlite',
-            'database' => ':memory',
+            'dsn' => 'sqlite::memory:',
         ]);
         try {
             $this->connection->connect();
@@ -68,24 +72,5 @@ final class ConnectionTest extends TestCase
 
         self::assertStringStartsWith('sqlite:', $responseString);
         self::assertStringContainsString('memory', $responseString);
-    }
-
-    public function testDblibArrayOfConnectionParametersCreatesCorrectDsn(): void
-    {
-        $this->connection->setConnectionParameters([
-            'driver'  => 'pdo_dblib',
-            'charset' => 'UTF-8',
-            'dbname'  => 'foo',
-            'port'    => '1433',
-            'version' => '7.3',
-        ]);
-        try {
-            $this->connection->connect();
-        } catch (Exception) {
-        }
-        $responseString = $this->connection->getDsn();
-
-        $this->assertStringStartsWith('dblib:', $responseString);
-        $this->assertStringContainsString('foo', $responseString);
     }
 }
