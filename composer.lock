@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8e1e64115b9e15d27f9e22c4189baac6",
+    "content-hash": "373f53734a878eaeebfdde7a145eafda",
     "packages": [
         {
             "name": "brick/varexporter",
@@ -259,22 +259,22 @@
         },
         {
             "name": "php-db/phpdb",
-            "version": "0.2.1",
+            "version": "0.3.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-db/phpdb.git",
-                "reference": "d221b024cb3aea77992f41a962913918301dc92e"
+                "reference": "c777c58f76533a30b387318f56372ed7922b4c36"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-db/phpdb/zipball/d221b024cb3aea77992f41a962913918301dc92e",
-                "reference": "d221b024cb3aea77992f41a962913918301dc92e",
+                "url": "https://api.github.com/repos/php-db/phpdb/zipball/c777c58f76533a30b387318f56372ed7922b4c36",
+                "reference": "c777c58f76533a30b387318f56372ed7922b4c36",
                 "shasum": ""
             },
             "require": {
                 "laminas/laminas-servicemanager": "^4.0.0",
                 "laminas/laminas-stdlib": "^3.20.0",
-                "php": "~8.2.0 || ~8.3.0 || ~8.4.0"
+                "php": "~8.2.0 || ~8.3.0 || ~8.4.0 || ~8.5.0"
             },
             "conflict": {
                 "laminas/laminas-db": "*",
@@ -292,6 +292,7 @@
                 "laminas/laminas-eventmanager": "Laminas\\EventManager component",
                 "laminas/laminas-hydrator": "(^5.0.0) Laminas\\Hydrator component for using HydratingResultSets"
             },
+            "default-branch": true,
             "type": "library",
             "extra": {
                 "laminas": {
@@ -321,7 +322,7 @@
                 "issues": "https://github.com/php-db/phpdb/issues",
                 "source": "https://github.com/php-db/phpdb"
             },
-            "time": "2025-10-07T08:36:48+00:00"
+            "time": "2025-11-06T07:40:45+00:00"
         },
         {
             "name": "psr/container",
