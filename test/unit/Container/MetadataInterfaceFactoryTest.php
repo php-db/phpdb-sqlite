@@ -1,0 +1,40 @@
+<?php
+
+declare(strict_types=1);
+
+namespace PhpDbTest\Adapter\Sqlite\Container;
+
+use PhpDb\Adapter\Adapter;
+use PhpDb\Adapter\AdapterInterface;
+use PhpDb\Adapter\Driver\PdoDriverInterface;
+use PhpDb\Adapter\Platform\PlatformInterface;
+use PhpDb\Adapter\Sqlite\Container\MetadataInterfaceFactory;
+use PhpDb\Adapter\Sqlite\Metadata\Source\SqliteMetadata;
+use PhpDb\ResultSet\ResultSetInterface;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\TestCase;
+use Psr\Container\ContainerInterface;
+
+#[CoversClass(MetadataInterfaceFactory::class)]
+final class MetadataInterfaceFactoryTest extends TestCase
+{
+    public function testInvokeReturnsMetadata(): void
+    {
+        $driverMock   = $this->createMock(PdoDriverInterface::class);
+        $platformMock = $this->createMock(PlatformInterface::class);
+        $platformMock->method('getName')->willReturn('SQLite');
+        $resultSetMock = $this->createMock(ResultSetInterface::class);
+
+        $adapterMock = new Adapter($driverMock, $platformMock, $resultSetMock);
+
+        $containerMock = $this->createMock(ContainerInterface::class);
+        $containerMock->method('get')
+            ->with(AdapterInterface::class)
+            ->willReturn($adapterMock);
+
+        $factory  = new MetadataInterfaceFactory();
+        $metadata = $factory($containerMock);
+
+        self::assertInstanceOf(SqliteMetadata::class, $metadata);
+    }
+}

@@ -1,32 +1,26 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PhpDbTest\Adapter\Sqlite;
 
-use InvalidArgumentException;
+use Exception;
 use Override;
-use PhpDb\Adapter\AdapterInterface;
-use PhpDb\Adapter\Driver\ConnectionInterface;
+use PhpDb\Adapter\Adapter;
 use PhpDb\Adapter\Driver\DriverInterface;
+use PhpDb\Adapter\Driver\Pdo\AbstractPdoConnection;
+use PhpDb\Adapter\Driver\Pdo\Statement;
 use PhpDb\Adapter\Driver\PdoDriverInterface;
 use PhpDb\Adapter\Driver\ResultInterface;
 use PhpDb\Adapter\Driver\StatementInterface;
-use PhpDb\Adapter\ParameterContainer;
 use PhpDb\Adapter\Profiler;
-use PhpDb\Adapter\Sqlite\Adapter;
 use PhpDb\Adapter\Sqlite\Driver\Pdo\Pdo;
-use PhpDb\Adapter\Sqlite\Driver\Pdo\Statement;
 use PhpDb\Adapter\Sqlite\Platform\Sqlite as SqlitePlatform;
-use PhpDb\ResultSet\ResultSet;
 use PhpDb\ResultSet\ResultSetInterface;
-use PhpDbTest\Adapter\Sqlite\TestAsset\TemporaryResultSet;
 use PHPUnit\Framework\Attributes\CoversMethod;
-use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\TestDox;
-use PHPUnit\Framework\MockObject\Exception;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-
-use function extension_loaded;
 
 #[CoversMethod(Adapter::class, 'setProfiler')]
 #[CoversMethod(Adapter::class, 'getProfiler')]
@@ -45,47 +39,50 @@ final class AdapterTest extends TestCase
 
     protected SqlitePlatform $mockPlatform;
 
-    protected ConnectionInterface&MockObject $mockConnection;
+    protected AbstractPdoConnection&MockObject $mockConnection;
 
     protected StatementInterface&MockObject $mockStatement;
 
+    protected ResultSetInterface&MockObject $mockResultSet;
+
     protected Adapter $adapter;
+
+    /**
+     * @throws Exception
+     */
+    #[Override]
+    protected function setUp(): void
+    {
+        $this->mockConnection = $this->createMock(AbstractPdoConnection::class);
+        $this->mockPlatform   = new SqlitePlatform($this->createMock(PdoDriverInterface::class));
+        $this->mockStatement  = $this->getMockBuilder(Statement::class)->getMock();
+        $this->mockResultSet  = $this->getMockBuilder(ResultSetInterface::class)->getMock();
+        $resultInterface      = $this->getMockBuilder(ResultInterface::class)->getMock();
+        $this->mockDriver     = $this->getMockBuilder(Pdo::class)
+            ->setConstructorArgs([
+                $this->mockConnection,
+                $this->mockStatement,
+                $resultInterface,
+            ])
+            ->getMock();
+
+        $this->mockDriver->method('getDatabasePlatformName')->willReturn('Sqlite');
+        $this->mockDriver->method('checkEnvironment')->willReturn(true);
+        $this->mockDriver->method('getConnection')->willReturn($this->mockConnection);
+        $this->mockDriver->method('createStatement')->willReturn($this->mockStatement);
+
+        $this->adapter = new Adapter(
+            $this->mockDriver,
+            $this->mockPlatform,
+            $this->mockResultSet
+        );
+    }
 
     #[TestDox('unit test: Test setProfiler() will store profiler')]
     public function testSetProfiler(): void
     {
         $ret = $this->adapter->setProfiler(new Profiler\Profiler());
         self::assertSame($this->adapter, $ret);
-    }
-
-    #[TestDox('unit test: Test getProfiler() will store profiler')]
-    public function testGetProfiler(): void
-    {
-        $this->adapter->setProfiler($profiler = new Profiler\Profiler());
-        self::assertSame($profiler, $this->adapter->getProfiler());
-
-        $adapter = new Adapter(['driver' => $this->mockDriver, 'profiler' => true], $this->mockPlatform);
-        self::assertInstanceOf(Profiler\Profiler::class, $adapter->getProfiler());
-    }
-
-    #[TestDox('unit test: Test createDriverFromParameters() will create proper driver type')]
-    public function testCreateDriver(): void
-    {
-        if (extension_loaded('pdo')) {
-            $adapter = new Adapter(['driver' => 'pdo_sqlite'], $this->mockPlatform);
-            self::assertInstanceOf(Pdo::class, $adapter->driver);
-            unset($adapter);
-        }
-    }
-
-    #[TestDox('unit test: Test createPlatformFromDriver() will create proper platform from driver')]
-    public function testCreatePlatform(): void
-    {
-        $driver = clone $this->mockDriver;
-        $driver->expects($this->any())->method('getDatabasePlatformName')->willReturn('Sqlite');
-        $adapter = new Adapter($driver);
-        self::assertInstanceOf(SqlitePlatform::class, $adapter->platform);
-        unset($adapter, $driver);
     }
 
     #[TestDox('unit test: Test getDriver() will return driver object')]
@@ -100,12 +97,6 @@ final class AdapterTest extends TestCase
         self::assertSame($this->mockPlatform, $this->adapter->getPlatform());
     }
 
-    #[TestDox('unit test: Test getPlatform() returns platform object')]
-    public function testGetQueryResultSetPrototype(): void
-    {
-        self::assertInstanceOf(ResultSetInterface::class, $this->adapter->getQueryResultSetPrototype());
-    }
-
     #[TestDox('unit test: Test getCurrentSchema() returns current schema from connection object')]
     public function testGetCurrentSchema(): void
     {
@@ -114,7 +105,7 @@ final class AdapterTest extends TestCase
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     #[TestDox('unit test: Test query() in prepare mode produces a statement object')]
     public function testQueryWhenPreparedProducesStatement(): void
@@ -125,29 +116,6 @@ final class AdapterTest extends TestCase
 
     /**
      * @throws Exception
-     * @throws \Exception
-     */
-    #[Group('#210')]
-    public function testProducedResultSetPrototypeIsDifferentForEachQuery(): void
-    {
-        $statement = $this->createMock(StatementInterface::class);
-        $result    = $this->createMock(ResultInterface::class);
-
-        $this->mockDriver->method('createStatement')
-            ->willReturn($statement);
-        $this->mockStatement->method('execute')
-            ->willReturn($result);
-        $result->method('isQueryResult')
-            ->willReturn(true);
-
-        self::assertNotSame(
-            $this->adapter->query('SELECT foo', []),
-            $this->adapter->query('SELECT foo', [])
-        );
-    }
-
-    /**
-     * @throws \Exception
      */
     #[TestDox('unit test: Test query() in prepare mode, with array of parameters, produces a result object')]
     public function testQueryWhenPreparedWithParameterArrayProducesResult(): void
@@ -164,101 +132,9 @@ final class AdapterTest extends TestCase
         self::assertSame($result, $r);
     }
 
-    /**
-     * @throws \Exception
-     */
-    #[TestDox('unit test: Test query() in prepare mode, with ParameterContainer, produces a result object')]
-    public function testQueryWhenPreparedWithParameterContainerProducesResult(): void
-    {
-        $sql                = 'SELECT foo';
-        $parameterContainer = $this->getMockBuilder(ParameterContainer::class)->getMock();
-        $result             = $this->getMockBuilder(ResultInterface::class)->getMock();
-        $this->mockDriver->expects($this->any())->method('createStatement')
-            ->with($sql)->willReturn($this->mockStatement);
-        $this->mockStatement->expects($this->any())->method('execute')->willReturn($result);
-        $result->expects($this->any())->method('isQueryResult')->willReturn(true);
-
-        $r = $this->adapter->query($sql, $parameterContainer);
-        self::assertInstanceOf(ResultSet::class, $r);
-    }
-
-    /**
-     * @throws \Exception
-     */
-    #[TestDox('unit test: Test query() in execute mode produces a driver result object')]
-    public function testQueryWhenExecutedProducesAResult(): void
-    {
-        $sql    = 'SELECT foo';
-        $result = $this->getMockBuilder(ResultInterface::class)->getMock();
-        $this->mockConnection->expects($this->any())->method('execute')->with($sql)->willReturn($result);
-
-        $r = $this->adapter->query($sql, AdapterInterface::QUERY_MODE_EXECUTE);
-        self::assertSame($result, $r);
-    }
-
-    /**
-     * @throws \Exception
-     */
-    #[TestDox('unit test: Test query() in execute mode produces a resultset object')]
-    public function testQueryWhenExecutedProducesAResultSetObjectWhenResultIsQuery(): void
-    {
-        $sql = 'SELECT foo';
-
-        $result = $this->getMockBuilder(ResultInterface::class)->getMock();
-        $this->mockConnection->expects($this->any())->method('execute')->with($sql)->willReturn($result);
-        $result->expects($this->any())->method('isQueryResult')->willReturn(true);
-
-        $r = $this->adapter->query($sql, AdapterInterface::QUERY_MODE_EXECUTE);
-        self::assertInstanceOf(ResultSet::class, $r);
-
-        $r = $this->adapter->query($sql, AdapterInterface::QUERY_MODE_EXECUTE, new TemporaryResultSet());
-        self::assertInstanceOf(TemporaryResultSet::class, $r);
-    }
-
     #[TestDox('unit test: Test createStatement() produces a statement object')]
     public function testCreateStatement(): void
     {
         self::assertSame($this->mockStatement, $this->adapter->createStatement());
-    }
-
-    public function testMagicGet(): void
-    {
-        // @codingStandardsIgnoreEnd
-        self::assertSame($this->mockDriver, $this->adapter->driver);
-        /** @psalm-suppress UndefinedMagicPropertyFetch */
-        self::assertSame($this->mockDriver, $this->adapter->DrivER);
-        /** @psalm-suppress UndefinedMagicPropertyFetch */
-        self::assertSame($this->mockPlatform, $this->adapter->PlatForm);
-        self::assertSame($this->mockPlatform, $this->adapter->platform);
-
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Invalid magic');
-        $this->adapter->foo;
-    }
-
-    // @codingStandardsIgnoreStart
-
-    /**
-     * @throws Exception
-     */
-    #[Override]
-    protected function setUp(): void
-    {
-        $this->mockConnection = $this->createMock(ConnectionInterface::class);
-        $this->mockPlatform   = new SqlitePlatform($this->createMock(PdoDriverInterface::class));
-        $this->mockStatement  = $this->getMockBuilder(Statement::class)->getMock();
-        $this->mockDriver     = $this->getMockBuilder(Pdo::class)
-            ->setConstructorArgs([
-                $this->mockConnection,
-                $this->mockStatement,
-            ])
-            ->getMock();
-
-        $this->mockDriver->method('getDatabasePlatformName')->willReturn('Sqlite');
-        $this->mockDriver->method('checkEnvironment')->willReturn(true);
-        $this->mockDriver->method('getConnection')->willReturn($this->mockConnection);
-        $this->mockDriver->method('createStatement')->willReturn($this->mockStatement);
-
-        $this->adapter = new Adapter($this->mockDriver, $this->mockPlatform);
     }
 }
