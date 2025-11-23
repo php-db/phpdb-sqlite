@@ -8,16 +8,12 @@ use PDO;
 use PhpDb\Adapter\Driver\PdoDriverInterface;
 use PhpDb\Adapter\Platform\PlatformInterface;
 use PhpDb\Adapter\Sqlite\Platform\Sqlite;
-use PhpDb\Container\AdapterManager;
 use Psr\Container\ContainerInterface;
 
 final class PlatformInterfaceFactory
 {
     public function __invoke(ContainerInterface $container): PlatformInterface&Sqlite
     {
-        /** @var AdapterManager $adapterManager */
-        $adapterManager = $container->get(AdapterManager::class);
-
         /** @var array $config */
         $config = $container->get('config');
 
@@ -28,7 +24,7 @@ final class PlatformInterfaceFactory
         $driver = $dbConfig['driver'];
 
         /** @var PdoDriverInterface|PDO $driverInstance */
-        $driverInstance = $adapterManager->get($driver);
+        $driverInstance = $container->get($driver);
 
         return new Sqlite($driverInstance);
     }
