@@ -24,7 +24,6 @@ use PhpDb\Adapter\Sqlite\Driver\Pdo\Pdo;
 use PhpDb\Adapter\Sqlite\Metadata\Source\SqliteMetadata;
 use PhpDb\Adapter\Sqlite\Platform\Sqlite;
 use PhpDb\Container\AdapterAbstractServiceFactory;
-use PhpDb\Container\AdapterManager;
 use PhpDb\Container\ConnectionInterfaceFactoryFactoryInterface;
 use PhpDb\Container\DriverInterfaceFactoryFactoryInterface;
 use PhpDb\Container\PlatformInterfaceFactoryFactoryInterface;
@@ -49,7 +48,6 @@ final class ConfigProviderTest extends TestCase
 
         self::assertIsArray($config);
         self::assertArrayHasKey('dependencies', $config);
-        self::assertArrayHasKey(AdapterManager::class, $config);
     }
 
     public function testGetDependenciesReturnsCorrectStructure(): void
@@ -60,7 +58,7 @@ final class ConfigProviderTest extends TestCase
         self::assertArrayHasKey('abstract_factories', $dependencies);
         self::assertArrayHasKey('aliases', $dependencies);
         self::assertArrayHasKey('factories', $dependencies);
-        self::assertArrayHasKey('delegators', $dependencies);
+        self::assertArrayHasKey('invokables', $dependencies);
     }
 
     public function testGetDependenciesContainsAbstractFactories(): void
@@ -95,20 +93,9 @@ final class ConfigProviderTest extends TestCase
         );
     }
 
-    public function testGetDependenciesContainsDelegators(): void
+    public function testConfigReturnsCorrectStructure(): void
     {
-        $dependencies = $this->configProvider->getDependencies();
-
-        self::assertArrayHasKey(AdapterManager::class, $dependencies['delegators']);
-        self::assertContains(
-            Container\AdapterManagerDelegator::class,
-            $dependencies['delegators'][AdapterManager::class]
-        );
-    }
-
-    public function testGetAdapterManagerConfigReturnsCorrectStructure(): void
-    {
-        $config = $this->configProvider->getAdapterManagerConfig();
+        $config = $this->configProvider->getDependencies();
 
         self::assertIsArray($config);
         self::assertArrayHasKey('aliases', $config);
@@ -116,9 +103,9 @@ final class ConfigProviderTest extends TestCase
         self::assertArrayHasKey('invokables', $config);
     }
 
-    public function testGetAdapterManagerConfigContainsDriverAliases(): void
+    public function testGetDependenciesContainsDriverAliases(): void
     {
-        $config = $this->configProvider->getAdapterManagerConfig();
+        $config = $this->configProvider->getDependencies();
 
         $expectedAliases = [
             'SQLite'     => Pdo::class,
@@ -136,9 +123,9 @@ final class ConfigProviderTest extends TestCase
         }
     }
 
-    public function testGetAdapterManagerConfigContainsInterfaceAliases(): void
+    public function testGetDependenciesContainsInterfaceAliases(): void
     {
-        $config = $this->configProvider->getAdapterManagerConfig();
+        $config = $this->configProvider->getDependencies();
 
         $expectedAliases = [
             ConnectionInterface::class          => Connection::class,
@@ -158,9 +145,9 @@ final class ConfigProviderTest extends TestCase
         }
     }
 
-    public function testGetAdapterManagerConfigContainsFactoryFactoryAliases(): void
+    public function testConfigContainsFactoryFactoryAliases(): void
     {
-        $config = $this->configProvider->getAdapterManagerConfig();
+        $config = $this->configProvider->getDependencies();
 
         $expectedAliases = [
             ConnectionInterfaceFactoryFactoryInterface::class => Container\ConnectionInterfaceFactoryFactory::class,
@@ -174,9 +161,9 @@ final class ConfigProviderTest extends TestCase
         }
     }
 
-    public function testGetAdapterManagerConfigContainsFactories(): void
+    public function testConfigContainsFactories(): void
     {
-        $config = $this->configProvider->getAdapterManagerConfig();
+        $config = $this->configProvider->getDependencies();
 
         $expectedFactories = [
             AdapterInterface::class    => Container\AdapterFactory::class,
@@ -195,9 +182,9 @@ final class ConfigProviderTest extends TestCase
         }
     }
 
-    public function testGetAdapterManagerConfigContainsInvokables(): void
+    public function testConfigContainsInvokables(): void
     {
-        $config = $this->configProvider->getAdapterManagerConfig();
+        $config = $this->configProvider->getDependencies();
 
         $expectedInvokables = [
             Container\ConnectionInterfaceFactoryFactory::class,
