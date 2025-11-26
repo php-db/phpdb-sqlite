@@ -22,7 +22,7 @@ final class DriverInterfaceFactoryFactoryTest extends TestCase
             [
                 'config',
                 [
-                    'dependencies'        => [
+                    'dependencies' => [
                         'aliases'   => [
                             'sqlite' => Pdo::class,
                         ],
@@ -30,7 +30,7 @@ final class DriverInterfaceFactoryFactoryTest extends TestCase
                             Pdo::class => PdoDriverFactory::class,
                         ],
                     ],
-                    'db'                  => [
+                    'db'           => [
                         'adapters' => [
                             'test_adapter' => [
                                 'driver' => 'sqlite',
@@ -54,7 +54,7 @@ final class DriverInterfaceFactoryFactoryTest extends TestCase
             [
                 'config',
                 [
-                    'dependencies'        => [
+                    'dependencies' => [
                         'aliases'   => [
                             'sqlite' => Pdo::class,
                         ],
@@ -62,7 +62,7 @@ final class DriverInterfaceFactoryFactoryTest extends TestCase
                             Pdo::class => PdoDriverFactory::class,
                         ],
                     ],
-                    'db'                  => [
+                    'db'           => [
                         'adapters' => [
                             'test_adapter' => [
                                 'driver' => 'sqlite',
@@ -110,7 +110,7 @@ final class DriverInterfaceFactoryFactoryTest extends TestCase
             [
                 'config',
                 [
-                    'dependencies'        => [
+                    'dependencies' => [
                         'aliases'   => [
                             'sqlite' => Pdo::class,
                         ],
@@ -118,7 +118,7 @@ final class DriverInterfaceFactoryFactoryTest extends TestCase
                             Pdo::class => PdoDriverFactory::class,
                         ],
                     ],
-                    'db'                  => [
+                    'db'           => [
                         'adapters' => [
                             'test_adapter' => [
                                 'driver' => Pdo::class,

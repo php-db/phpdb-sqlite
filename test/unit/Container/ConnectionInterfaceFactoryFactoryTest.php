@@ -27,7 +27,7 @@ final class ConnectionInterfaceFactoryFactoryTest extends TestCase
                             'sqlite' => Pdo::class,
                         ],
                     ],
-                    'db'                  => [
+                    'db'           => [
                         'adapters' => [
                             'test_adapter' => [
                                 'driver' => 'sqlite',
@@ -56,7 +56,7 @@ final class ConnectionInterfaceFactoryFactoryTest extends TestCase
                             'sqlite' => Pdo::class,
                         ],
                     ],
-                    'db'                  => [
+                    'db'           => [
                         'adapters' => [
                             'test_adapter' => [
                                 'driver' => 'sqlite',
@@ -109,7 +109,7 @@ final class ConnectionInterfaceFactoryFactoryTest extends TestCase
                             'sqlite' => Pdo::class,
                         ],
                     ],
-                    'db'                  => [
+                    'db'           => [
                         'adapters' => [
                             'test_adapter' => [
                                 'driver' => 'unknown',

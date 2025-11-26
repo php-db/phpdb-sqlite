@@ -19,7 +19,6 @@ final class PdoDriverFactory
 {
     public function __invoke(ContainerInterface $container): PdoDriverInterface&PdoDriver
     {
-
         /** @var ConnectionInterface&Connection $connectionInstance */
         $connectionInstance = $container->get(Connection::class);
 
@@ -41,7 +40,6 @@ final class PdoDriverFactory
         ContainerInterface $container,
         string $requestedName,
     ): PdoDriverInterface&PdoDriver {
-
         $connectionFactory = (
             $container->get(ConnectionInterfaceFactoryFactory::class)
         )($container, $requestedName);
