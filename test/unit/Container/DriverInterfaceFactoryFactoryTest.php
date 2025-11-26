@@ -7,7 +7,6 @@ namespace PhpDbTest\Adapter\Sqlite\Container;
 use PhpDb\Adapter\Sqlite\Container\DriverInterfaceFactoryFactory;
 use PhpDb\Adapter\Sqlite\Container\PdoDriverFactory;
 use PhpDb\Adapter\Sqlite\Driver\Pdo\Pdo;
-use PhpDb\Container\AdapterManager;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
@@ -23,19 +22,19 @@ final class DriverInterfaceFactoryFactoryTest extends TestCase
             [
                 'config',
                 [
-                    'db'                  => [
-                        'adapters' => [
-                            'test_adapter' => [
-                                'driver' => 'sqlite',
-                            ],
-                        ],
-                    ],
-                    AdapterManager::class => [
+                    'dependencies' => [
                         'aliases'   => [
                             'sqlite' => Pdo::class,
                         ],
                         'factories' => [
                             Pdo::class => PdoDriverFactory::class,
+                        ],
+                    ],
+                    'db'           => [
+                        'adapters' => [
+                            'test_adapter' => [
+                                'driver' => 'sqlite',
+                            ],
                         ],
                     ],
                 ],
@@ -55,19 +54,19 @@ final class DriverInterfaceFactoryFactoryTest extends TestCase
             [
                 'config',
                 [
-                    'db'                  => [
-                        'adapters' => [
-                            'test_adapter' => [
-                                'driver' => 'sqlite',
-                            ],
-                        ],
-                    ],
-                    AdapterManager::class => [
+                    'dependencies' => [
                         'aliases'   => [
                             'sqlite' => Pdo::class,
                         ],
                         'factories' => [
                             Pdo::class => PdoDriverFactory::class,
+                        ],
+                    ],
+                    'db'           => [
+                        'adapters' => [
+                            'test_adapter' => [
+                                'driver' => 'sqlite',
+                            ],
                         ],
                     ],
                 ],
@@ -111,17 +110,19 @@ final class DriverInterfaceFactoryFactoryTest extends TestCase
             [
                 'config',
                 [
-                    'db'                  => [
+                    'dependencies' => [
+                        'aliases'   => [
+                            'sqlite' => Pdo::class,
+                        ],
+                        'factories' => [
+                            Pdo::class => PdoDriverFactory::class,
+                        ],
+                    ],
+                    'db'           => [
                         'adapters' => [
                             'test_adapter' => [
                                 'driver' => Pdo::class,
                             ],
-                        ],
-                    ],
-                    AdapterManager::class => [
-                        'aliases'   => [],
-                        'factories' => [
-                            Pdo::class => PdoDriverFactory::class,
                         ],
                     ],
                 ],

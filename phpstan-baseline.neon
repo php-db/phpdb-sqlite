@@ -7,12 +7,6 @@ parameters:
 			path: src/Container/DriverInterfaceFactoryFactory.php
 
 		-
-			message: '#^Cannot call static method createFromConfig\(\) on callable\.$#'
-			identifier: staticMethod.nonObject
-			count: 1
-			path: src/Container/PdoDriverFactory.php
-
-		-
 			message: '#^Parameter \#1 \$name \(string\) of method PhpDb\\Adapter\\Sqlite\\Driver\\Pdo\\Connection\:\:getLastGeneratedValue\(\) should be compatible with parameter \$name \(null\) of method PhpDb\\Adapter\\Driver\\ConnectionInterface\:\:getLastGeneratedValue\(\)$#'
 			identifier: method.childParameterType
 			count: 2

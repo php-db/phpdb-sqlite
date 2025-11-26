@@ -12,7 +12,6 @@ use PhpDb\Adapter\Driver\DriverInterface;
 use PhpDb\Adapter\Sqlite\ConfigProvider;
 use PhpDb\Adapter\Sqlite\Driver\Pdo\Pdo;
 use PhpDb\ConfigProvider as LaminasDbConfigProvider;
-use PhpDb\Container\AdapterManager;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use Psr\Container\ContainerInterface;
 
@@ -30,8 +29,6 @@ trait SetupTrait
     protected array $config = ['db' => []];
 
     protected ?AdapterInterface $adapter;
-
-    protected AdapterManager $adapterManager;
 
     protected ContainerInterface $container;
 
@@ -85,10 +82,9 @@ trait SetupTrait
             ]
         );
 
-        $this->config         = $serviceManagerConfig;
-        $this->container      = new ServiceManager($this->config);
-        $this->adapterManager = $this->container->get(AdapterManager::class);
-        $this->adapter        = $this->adapterManager->get(AdapterInterface::class);
+        $this->config    = $serviceManagerConfig;
+        $this->container = new ServiceManager($this->config);
+        $this->adapter   = $this->container->get(AdapterInterface::class);
 
         return $this->adapter;
     }

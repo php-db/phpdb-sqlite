@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace PhpDb\Adapter\Sqlite\Container;
 
 use PhpDb\Adapter\Sqlite\Driver\Pdo\Pdo;
-use PhpDb\Container\AdapterManager;
 use PhpDb\Container\ConnectionInterfaceFactoryFactoryInterface as FactoryFactoryInterface;
 use Psr\Container\ContainerInterface;
 use RuntimeException;
@@ -26,7 +25,7 @@ final class ConnectionInterfaceFactoryFactory implements FactoryFactoryInterface
                 $requestedName
             ));
         }
-        $adapterServices  = $container->get('config')[AdapterManager::class];
+        $adapterServices  = $container->get('config')['dependencies'];
         $configuredDriver = $adapterConfig[$requestedName]['driver'];
         if (array_key_exists($configuredDriver, $adapterServices['aliases'])) {
             $aliasTo = $adapterServices['aliases'][$configuredDriver];

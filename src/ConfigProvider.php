@@ -18,7 +18,6 @@ use PhpDb\Adapter\Platform\PlatformInterface;
 use PhpDb\Adapter\Profiler\Profiler;
 use PhpDb\Adapter\Profiler\ProfilerInterface;
 use PhpDb\Container\AdapterAbstractServiceFactory;
-use PhpDb\Container\AdapterManager;
 use PhpDb\Container\ConnectionInterfaceFactoryFactoryInterface;
 use PhpDb\Container\DriverInterfaceFactoryFactoryInterface;
 use PhpDb\Container\PlatformInterfaceFactoryFactoryInterface;
@@ -30,8 +29,7 @@ final class ConfigProvider
     public function __invoke(): array
     {
         return [
-            'dependencies'        => $this->getDependencies(),
-            AdapterManager::class => $this->getAdapterManagerConfig(),
+            'dependencies' => $this->getDependencies(),
         ];
     }
 
@@ -42,23 +40,6 @@ final class ConfigProvider
                 AdapterAbstractServiceFactory::class,
             ],
             'aliases'            => [
-                MetadataInterface::class => Metadata\Source\SqliteMetadata::class,
-            ],
-            'factories'          => [
-                Metadata\Source\SqliteMetadata::class => Container\MetadataInterfaceFactory::class,
-            ],
-            'delegators'         => [
-                AdapterManager::class => [
-                    Container\AdapterManagerDelegator::class,
-                ],
-            ],
-        ];
-    }
-
-    public function getAdapterManagerConfig(): array
-    {
-        return [
-            'aliases'    => [
                 'SQLite'                                          => Driver\Pdo\Pdo::class,
                 'Sqlite'                                          => Driver\Pdo\Pdo::class,
                 'sqlite'                                          => Driver\Pdo\Pdo::class,
@@ -78,18 +59,20 @@ final class ConfigProvider
                 ConnectionInterfaceFactoryFactoryInterface::class => Container\ConnectionInterfaceFactoryFactory::class,
                 DriverInterfaceFactoryFactoryInterface::class     => Container\DriverInterfaceFactoryFactory::class,
                 PlatformInterfaceFactoryFactoryInterface::class   => Container\PlatformInterfaceFactoryFactory::class,
+                MetadataInterface::class                          => Metadata\Source\SqliteMetadata::class,
             ],
-            'factories'  => [
-                AdapterInterface::class      => Container\AdapterFactory::class,
-                Driver\Pdo\Connection::class => Container\PdoConnectionFactory::class,
-                Driver\Pdo\Pdo::class        => Container\PdoDriverFactory::class,
-                Result::class                => Container\PdoResultFactory::class,
-                Statement::class             => Container\PdoStatementFactory::class,
-                Platform\Sqlite::class       => Container\PlatformInterfaceFactory::class,
-                Profiler::class              => InvokableFactory::class,
-                ResultSet\ResultSet::class   => InvokableFactory::class,
+            'factories'          => [
+                AdapterInterface::class               => Container\AdapterFactory::class,
+                Driver\Pdo\Connection::class          => Container\PdoConnectionFactory::class,
+                Driver\Pdo\Pdo::class                 => Container\PdoDriverFactory::class,
+                Result::class                         => Container\PdoResultFactory::class,
+                Statement::class                      => Container\PdoStatementFactory::class,
+                Platform\Sqlite::class                => Container\PlatformInterfaceFactory::class,
+                Profiler::class                       => InvokableFactory::class,
+                ResultSet\ResultSet::class            => InvokableFactory::class,
+                Metadata\Source\SqliteMetadata::class => Container\MetadataInterfaceFactory::class,
             ],
-            'invokables' => [
+            'invokables'         => [
                 Container\ConnectionInterfaceFactoryFactory::class
                     => Container\ConnectionInterfaceFactoryFactory::class,
                 Container\DriverInterfaceFactoryFactory::class

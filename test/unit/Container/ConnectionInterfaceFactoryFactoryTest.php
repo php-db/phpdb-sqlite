@@ -7,7 +7,6 @@ namespace PhpDbTest\Adapter\Sqlite\Container;
 use PhpDb\Adapter\Sqlite\Container\ConnectionInterfaceFactoryFactory;
 use PhpDb\Adapter\Sqlite\Container\PdoConnectionFactory;
 use PhpDb\Adapter\Sqlite\Driver\Pdo\Pdo;
-use PhpDb\Container\AdapterManager;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
@@ -23,16 +22,16 @@ final class ConnectionInterfaceFactoryFactoryTest extends TestCase
             [
                 'config',
                 [
-                    'db'                  => [
+                    'dependencies' => [
+                        'aliases' => [
+                            'sqlite' => Pdo::class,
+                        ],
+                    ],
+                    'db'           => [
                         'adapters' => [
                             'test_adapter' => [
                                 'driver' => 'sqlite',
                             ],
-                        ],
-                    ],
-                    AdapterManager::class => [
-                        'aliases' => [
-                            'sqlite' => Pdo::class,
                         ],
                     ],
                 ],
@@ -52,16 +51,16 @@ final class ConnectionInterfaceFactoryFactoryTest extends TestCase
             [
                 'config',
                 [
-                    'db'                  => [
+                    'dependencies' => [
+                        'aliases' => [
+                            'sqlite' => Pdo::class,
+                        ],
+                    ],
+                    'db'           => [
                         'adapters' => [
                             'test_adapter' => [
                                 'driver' => 'sqlite',
                             ],
-                        ],
-                    ],
-                    AdapterManager::class => [
-                        'aliases' => [
-                            'sqlite' => Pdo::class,
                         ],
                     ],
                 ],
@@ -105,15 +104,17 @@ final class ConnectionInterfaceFactoryFactoryTest extends TestCase
             [
                 'config',
                 [
-                    'db'                  => [
+                    'dependencies' => [
+                        'aliases' => [
+                            'sqlite' => Pdo::class,
+                        ],
+                    ],
+                    'db'           => [
                         'adapters' => [
                             'test_adapter' => [
                                 'driver' => 'unknown',
                             ],
                         ],
-                    ],
-                    AdapterManager::class => [
-                        'aliases' => [],
                     ],
                 ],
             ],
