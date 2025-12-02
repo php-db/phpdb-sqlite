@@ -1,3 +1,3 @@
-# laminas-db-adapter-sqlite
+# phpdb-adapter-sqlite
 
-This package provides SQLite support for Laminas Db.
+This package provides SQLite support for php-db.
