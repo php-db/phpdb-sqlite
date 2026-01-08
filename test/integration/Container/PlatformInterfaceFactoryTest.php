@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace PhpDbIntegrationTest\Adapter\Sqlite\Container;
 
 use PhpDb\Adapter\Platform\PlatformInterface;
+use PhpDb\Adapter\Sqlite\AdapterPlatform;
 use PhpDb\Adapter\Sqlite\Container\PlatformInterfaceFactory;
-use PhpDb\Adapter\Sqlite\Platform\Sqlite;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\Attributes\Group;
@@ -25,6 +25,6 @@ final class PlatformInterfaceFactoryTest extends TestCase
         $factory  = new PlatformInterfaceFactory();
         $instance = $factory($this->container);
         self::assertInstanceOf(PlatformInterface::class, $instance);
-        self::assertInstanceOf(Sqlite::class, $instance);
+        self::assertInstanceOf(AdapterPlatform::class, $instance);
     }
 }

@@ -7,7 +7,7 @@ namespace PhpDbIntegrationTest\Adapter\Sqlite\Container;
 use PhpDb\Adapter\Driver\ConnectionInterface;
 use PhpDb\Adapter\Driver\PdoConnectionInterface;
 use PhpDb\Adapter\Sqlite\Container\PdoConnectionFactory;
-use PhpDb\Adapter\Sqlite\Driver\Pdo\Connection;
+use PhpDb\Adapter\Sqlite\Pdo\Connection;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\Attributes\Group;

@@ -12,7 +12,7 @@ use PhpDb\Adapter\Driver\ResultInterface;
 use PhpDb\Adapter\Driver\StatementInterface;
 use PhpDb\Adapter\Sqlite\Driver\Pdo\Connection;
 use PhpDb\Adapter\Sqlite\Driver\Pdo\Feature\SqliteRowCounter;
-use PhpDb\Adapter\Sqlite\Driver\Pdo\Pdo as PdoDriver;
+use PhpDb\Adapter\Sqlite\Pdo\Driver as PdoDriver;
 use Psr\Container\ContainerInterface;
 
 final class PdoDriverFactory

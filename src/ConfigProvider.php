@@ -17,10 +17,7 @@ use PhpDb\Adapter\Driver\StatementInterface;
 use PhpDb\Adapter\Platform\PlatformInterface;
 use PhpDb\Adapter\Profiler\Profiler;
 use PhpDb\Adapter\Profiler\ProfilerInterface;
-use PhpDb\Container\AdapterAbstractServiceFactory;
-use PhpDb\Container\ConnectionInterfaceFactoryFactoryInterface;
-use PhpDb\Container\DriverInterfaceFactoryFactoryInterface;
-use PhpDb\Container\PlatformInterfaceFactoryFactoryInterface;
+use PhpDb\Container\AbstractAdapterInterfaceFactory;
 use PhpDb\Metadata\MetadataInterface;
 use PhpDb\ResultSet;
 
@@ -37,48 +34,37 @@ final class ConfigProvider
     {
         return [
             'abstract_factories' => [
-                AdapterAbstractServiceFactory::class,
+                AbstractAdapterInterfaceFactory::class,
             ],
             'aliases'            => [
-                'SQLite'                                          => Driver\Pdo\Pdo::class,
-                'Sqlite'                                          => Driver\Pdo\Pdo::class,
-                'sqlite'                                          => Driver\Pdo\Pdo::class,
-                'pdo'                                             => Driver\Pdo\Pdo::class,
-                'pdo_sqlite'                                      => Driver\Pdo\Pdo::class,
-                'pdosqlite'                                       => Driver\Pdo\Pdo::class,
-                'pdodriver'                                       => Driver\Pdo\Pdo::class,
-                ConnectionInterface::class                        => Driver\Pdo\Connection::class,
-                PdoConnectionInterface::class                     => Driver\Pdo\Connection::class,
-                DriverInterface::class                            => Driver\Pdo\Pdo::class,
-                PdoDriverInterface::class                         => Driver\Pdo\Pdo::class,
-                PlatformInterface::class                          => Platform\Sqlite::class,
-                ProfilerInterface::class                          => Profiler::class,
-                ResultInterface::class                            => Result::class,
-                ResultSet\ResultSetInterface::class               => ResultSet\ResultSet::class,
-                StatementInterface::class                         => Statement::class,
-                ConnectionInterfaceFactoryFactoryInterface::class => Container\ConnectionInterfaceFactoryFactory::class,
-                DriverInterfaceFactoryFactoryInterface::class     => Container\DriverInterfaceFactoryFactory::class,
-                PlatformInterfaceFactoryFactoryInterface::class   => Container\PlatformInterfaceFactoryFactory::class,
-                MetadataInterface::class                          => Metadata\Source\SqliteMetadata::class,
+                'SQLite'                            => Pdo\Driver::class,
+                'Sqlite'                            => Pdo\Driver::class,
+                'sqlite'                            => Pdo\Driver::class,
+                'pdo'                               => Pdo\Driver::class,
+                'pdo_sqlite'                        => Pdo\Driver::class,
+                'pdosqlite'                         => Pdo\Driver::class,
+                'pdodriver'                         => Pdo\Driver::class,
+                ConnectionInterface::class          => Pdo\Connection::class,
+                PdoConnectionInterface::class       => Pdo\Connection::class,
+                DriverInterface::class              => Pdo\Driver::class,
+                PdoDriverInterface::class           => Pdo\Driver::class,
+                PlatformInterface::class            => AdapterPlatform::class,
+                ProfilerInterface::class            => Profiler::class,
+                ResultInterface::class              => Result::class,
+                ResultSet\ResultSetInterface::class => ResultSet\ResultSet::class,
+                StatementInterface::class           => Statement::class,
+                MetadataInterface::class            => Metadata\Source::class,
             ],
             'factories'          => [
-                AdapterInterface::class               => Container\AdapterFactory::class,
-                Driver\Pdo\Connection::class          => Container\PdoConnectionFactory::class,
-                Driver\Pdo\Pdo::class                 => Container\PdoDriverFactory::class,
-                Result::class                         => Container\PdoResultFactory::class,
-                Statement::class                      => Container\PdoStatementFactory::class,
-                Platform\Sqlite::class                => Container\PlatformInterfaceFactory::class,
-                Profiler::class                       => InvokableFactory::class,
-                ResultSet\ResultSet::class            => InvokableFactory::class,
-                Metadata\Source\SqliteMetadata::class => Container\MetadataInterfaceFactory::class,
-            ],
-            'invokables'         => [
-                Container\ConnectionInterfaceFactoryFactory::class
-                    => Container\ConnectionInterfaceFactoryFactory::class,
-                Container\DriverInterfaceFactoryFactory::class
-                    => Container\DriverInterfaceFactoryFactory::class,
-                Container\PlatformInterfaceFactoryFactory::class
-                    => Container\PlatformInterfaceFactoryFactory::class,
+                AdapterInterface::class    => Container\AdapterInterfaceFactory::class,
+                Pdo\Connection::class      => Container\PdoConnectionFactory::class,
+                Pdo\Driver::class          => Container\PdoDriverFactory::class,
+                Result::class              => Container\PdoResultFactory::class,
+                Statement::class           => Container\PdoStatementFactory::class,
+                AdapterPlatform::class     => Container\PlatformInterfaceFactory::class,
+                Profiler::class            => InvokableFactory::class,
+                ResultSet\ResultSet::class => InvokableFactory::class,
+                Metadata\Source::class     => Container\MetadataInterfaceFactory::class,
             ],
         ];
     }

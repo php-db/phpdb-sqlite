@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace PhpDbTest\Adapter\Sqlite\Container;
 
 use PhpDb\Adapter\Sqlite\Container\PdoConnectionFactory;
-use PhpDb\Adapter\Sqlite\Driver\Pdo\Connection;
+use PhpDb\Adapter\Sqlite\Pdo\Connection;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;

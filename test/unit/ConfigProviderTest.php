@@ -17,16 +17,13 @@ use PhpDb\Adapter\Driver\StatementInterface;
 use PhpDb\Adapter\Platform\PlatformInterface;
 use PhpDb\Adapter\Profiler\Profiler;
 use PhpDb\Adapter\Profiler\ProfilerInterface;
+use PhpDb\Adapter\Sqlite\AdapterPlatform;
 use PhpDb\Adapter\Sqlite\ConfigProvider;
 use PhpDb\Adapter\Sqlite\Container;
-use PhpDb\Adapter\Sqlite\Driver\Pdo\Connection;
-use PhpDb\Adapter\Sqlite\Driver\Pdo\Pdo;
-use PhpDb\Adapter\Sqlite\Metadata\Source\SqliteMetadata;
-use PhpDb\Adapter\Sqlite\Platform\Sqlite;
-use PhpDb\Container\AdapterAbstractServiceFactory;
-use PhpDb\Container\ConnectionInterfaceFactoryFactoryInterface;
-use PhpDb\Container\DriverInterfaceFactoryFactoryInterface;
-use PhpDb\Container\PlatformInterfaceFactoryFactoryInterface;
+use PhpDb\Adapter\Sqlite\Metadata;
+use PhpDb\Adapter\Sqlite\Pdo\Connection;
+use PhpDb\Adapter\Sqlite\Pdo\Driver;
+use PhpDb\Container\AbstractAdapterInterfaceFactory;
 use PhpDb\Metadata\MetadataInterface;
 use PhpDb\ResultSet;
 use PHPUnit\Framework\Attributes\CoversClass;
@@ -46,7 +43,6 @@ final class ConfigProviderTest extends TestCase
     {
         $config = ($this->configProvider)();
 
-        self::assertIsArray($config);
         self::assertArrayHasKey('dependencies', $config);
     }
 
@@ -58,7 +54,6 @@ final class ConfigProviderTest extends TestCase
         self::assertArrayHasKey('abstract_factories', $dependencies);
         self::assertArrayHasKey('aliases', $dependencies);
         self::assertArrayHasKey('factories', $dependencies);
-        self::assertArrayHasKey('invokables', $dependencies);
     }
 
     public function testGetDependenciesContainsAbstractFactories(): void
@@ -66,7 +61,7 @@ final class ConfigProviderTest extends TestCase
         $dependencies = $this->configProvider->getDependencies();
 
         self::assertContains(
-            AdapterAbstractServiceFactory::class,
+            AbstractAdapterInterfaceFactory::class,
             $dependencies['abstract_factories']
         );
     }
@@ -77,7 +72,7 @@ final class ConfigProviderTest extends TestCase
 
         self::assertArrayHasKey(MetadataInterface::class, $dependencies['aliases']);
         self::assertSame(
-            SqliteMetadata::class,
+            Metadata\Source::class,
             $dependencies['aliases'][MetadataInterface::class]
         );
     }
@@ -86,10 +81,10 @@ final class ConfigProviderTest extends TestCase
     {
         $dependencies = $this->configProvider->getDependencies();
 
-        self::assertArrayHasKey(SqliteMetadata::class, $dependencies['factories']);
+        self::assertArrayHasKey(Metadata\Source::class, $dependencies['factories']);
         self::assertSame(
             Container\MetadataInterfaceFactory::class,
-            $dependencies['factories'][SqliteMetadata::class]
+            $dependencies['factories'][Metadata\Source::class]
         );
     }
 
@@ -97,10 +92,8 @@ final class ConfigProviderTest extends TestCase
     {
         $config = $this->configProvider->getDependencies();
 
-        self::assertIsArray($config);
         self::assertArrayHasKey('aliases', $config);
         self::assertArrayHasKey('factories', $config);
-        self::assertArrayHasKey('invokables', $config);
     }
 
     public function testGetDependenciesContainsDriverAliases(): void
@@ -108,13 +101,13 @@ final class ConfigProviderTest extends TestCase
         $config = $this->configProvider->getDependencies();
 
         $expectedAliases = [
-            'SQLite'     => Pdo::class,
-            'Sqlite'     => Pdo::class,
-            'sqlite'     => Pdo::class,
-            'pdo'        => Pdo::class,
-            'pdo_sqlite' => Pdo::class,
-            'pdosqlite'  => Pdo::class,
-            'pdodriver'  => Pdo::class,
+            'SQLite'     => Driver::class,
+            'Sqlite'     => Driver::class,
+            'sqlite'     => Driver::class,
+            'pdo'        => Driver::class,
+            'pdo_sqlite' => Driver::class,
+            'pdosqlite'  => Driver::class,
+            'pdodriver'  => Driver::class,
         ];
 
         foreach ($expectedAliases as $alias => $target) {
@@ -130,29 +123,13 @@ final class ConfigProviderTest extends TestCase
         $expectedAliases = [
             ConnectionInterface::class          => Connection::class,
             PdoConnectionInterface::class       => Connection::class,
-            DriverInterface::class              => Pdo::class,
-            PdoDriverInterface::class           => Pdo::class,
-            PlatformInterface::class            => Sqlite::class,
+            DriverInterface::class              => Driver::class,
+            PdoDriverInterface::class           => Driver::class,
+            PlatformInterface::class            => AdapterPlatform::class,
             ProfilerInterface::class            => Profiler::class,
             ResultInterface::class              => Result::class,
             ResultSet\ResultSetInterface::class => ResultSet\ResultSet::class,
             StatementInterface::class           => Statement::class,
-        ];
-
-        foreach ($expectedAliases as $interface => $implementation) {
-            self::assertArrayHasKey($interface, $config['aliases']);
-            self::assertSame($implementation, $config['aliases'][$interface]);
-        }
-    }
-
-    public function testConfigContainsFactoryFactoryAliases(): void
-    {
-        $config = $this->configProvider->getDependencies();
-
-        $expectedAliases = [
-            ConnectionInterfaceFactoryFactoryInterface::class => Container\ConnectionInterfaceFactoryFactory::class,
-            DriverInterfaceFactoryFactoryInterface::class     => Container\DriverInterfaceFactoryFactory::class,
-            PlatformInterfaceFactoryFactoryInterface::class   => Container\PlatformInterfaceFactoryFactory::class,
         ];
 
         foreach ($expectedAliases as $interface => $implementation) {
@@ -166,12 +143,12 @@ final class ConfigProviderTest extends TestCase
         $config = $this->configProvider->getDependencies();
 
         $expectedFactories = [
-            AdapterInterface::class    => Container\AdapterFactory::class,
+            AdapterInterface::class    => Container\AdapterInterfaceFactory::class,
             Connection::class          => Container\PdoConnectionFactory::class,
-            Pdo::class                 => Container\PdoDriverFactory::class,
+            Driver::class              => Container\PdoDriverFactory::class,
             Result::class              => Container\PdoResultFactory::class,
             Statement::class           => Container\PdoStatementFactory::class,
-            Sqlite::class              => Container\PlatformInterfaceFactory::class,
+            AdapterPlatform::class     => Container\PlatformInterfaceFactory::class,
             Profiler::class            => InvokableFactory::class,
             ResultSet\ResultSet::class => InvokableFactory::class,
         ];
@@ -179,22 +156,6 @@ final class ConfigProviderTest extends TestCase
         foreach ($expectedFactories as $service => $factory) {
             self::assertArrayHasKey($service, $config['factories']);
             self::assertSame($factory, $config['factories'][$service]);
-        }
-    }
-
-    public function testConfigContainsInvokables(): void
-    {
-        $config = $this->configProvider->getDependencies();
-
-        $expectedInvokables = [
-            Container\ConnectionInterfaceFactoryFactory::class,
-            Container\DriverInterfaceFactoryFactory::class,
-            Container\PlatformInterfaceFactoryFactory::class,
-        ];
-
-        foreach ($expectedInvokables as $invokable) {
-            self::assertArrayHasKey($invokable, $config['invokables']);
-            self::assertSame($invokable, $config['invokables'][$invokable]);
         }
     }
 }

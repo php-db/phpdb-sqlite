@@ -6,7 +6,7 @@ namespace PhpDbIntegrationTest\Adapter\Sqlite\Container;
 
 use PhpDb\Adapter\Driver\PdoDriverInterface;
 use PhpDb\Adapter\Sqlite\Container\PdoDriverFactory;
-use PhpDb\Adapter\Sqlite\Driver\Pdo\Pdo;
+use PhpDb\Adapter\Sqlite\Pdo\Driver;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\Attributes\Group;
@@ -26,6 +26,6 @@ final class PdoDriverFactoryTest extends TestCase
         $instance = $factory($this->container);
 
         self::assertInstanceOf(PdoDriverInterface::class, $instance);
-        self::assertInstanceOf(Pdo::class, $instance);
+        self::assertInstanceOf(Driver::class, $instance);
     }
 }

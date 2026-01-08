@@ -31,7 +31,7 @@
     },
     "require": {
         "php": "~8.2.0 || ~8.3.0 || ~8.4.0 || ~8.5.0",
-        "php-db/phpdb": "^0.3.2",
+        "php-db/phpdb": "^0.6.0",
         "webmozart/assert": "^1.11"
     },
     "require-dev": {
@@ -59,7 +59,7 @@
     "scripts": {
         "check": [
             "@cs-check",
-            "@static-analysis",
+            "@sa",
             "@test",
             "@test-integration"
         ],
@@ -68,8 +68,9 @@
         "test": "phpunit --colors=always --testsuite \"unit test\"",
         "test-coverage": "phpunit --colors=always --coverage-clover clover.xml",
         "test-integration": "phpunit --colors=always --testsuite \"integration test\"",
-        "static-analysis": "vendor/bin/phpstan analyse --memory-limit=256M",
-        "sa-generate-baseline": "vendor/bin/phpstan analyse --memory-limit=256M --generate-baseline",
+        "sa": "vendor/bin/phpstan analyse --memory-limit=256M",
+        "sa-gen-baseline": "vendor/bin/phpstan analyse --memory-limit=256M --generate-baseline",
+        "sa-verbose": "vendor/bin/phpstan analyse --memory-limit=256M -vv",
         "upload-coverage": "coveralls -v"
     }
 }

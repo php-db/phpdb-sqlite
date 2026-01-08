@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace PhpDbTest\Adapter\Sqlite\Container;
 
 use PhpDb\Adapter\Driver\PdoDriverInterface;
+use PhpDb\Adapter\Sqlite\AdapterPlatform;
 use PhpDb\Adapter\Sqlite\Container\PlatformInterfaceFactory;
-use PhpDb\Adapter\Sqlite\Platform\Sqlite;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
@@ -19,6 +19,6 @@ final class PlatformInterfaceFactoryTest extends TestCase
 
         $platform = PlatformInterfaceFactory::fromDriver($driverMock);
 
-        self::assertInstanceOf(Sqlite::class, $platform);
+        self::assertInstanceOf(AdapterPlatform::class, $platform);
     }
 }

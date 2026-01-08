@@ -7,12 +7,12 @@ namespace PhpDb\Adapter\Sqlite\Container;
 use PDO;
 use PhpDb\Adapter\Driver\PdoDriverInterface;
 use PhpDb\Adapter\Platform\PlatformInterface;
-use PhpDb\Adapter\Sqlite\Platform\Sqlite;
+use PhpDb\Adapter\Sqlite\AdapterPlatform;
 use Psr\Container\ContainerInterface;
 
 final class PlatformInterfaceFactory
 {
-    public function __invoke(ContainerInterface $container): PlatformInterface&Sqlite
+    public function __invoke(ContainerInterface $container): PlatformInterface&AdapterPlatform
     {
         /** @var array $config */
         $config = $container->get('config');
@@ -26,11 +26,11 @@ final class PlatformInterfaceFactory
         /** @var PdoDriverInterface|PDO $driverInstance */
         $driverInstance = $container->get($driver);
 
-        return new Sqlite($driverInstance);
+        return new AdapterPlatform($driverInstance);
     }
 
-    public static function fromDriver(PdoDriverInterface $driverInstance): PlatformInterface&Sqlite
+    public static function fromDriver(PdoDriverInterface $driverInstance): PlatformInterface&AdapterPlatform
     {
-        return new Sqlite($driverInstance);
+        return new AdapterPlatform($driverInstance);
     }
 }
