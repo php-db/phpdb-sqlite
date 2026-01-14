@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace PhpDb\Adapter\Sqlite\Container;
 
+use PhpDb\Adapter\AdapterInterface;
 use PhpDb\Adapter\Driver\ConnectionInterface;
-use PhpDb\Adapter\Sqlite\Driver\Pdo\Connection;
+use PhpDb\Adapter\Sqlite\Pdo\Connection;
 use Psr\Container\ContainerInterface;
 
 final class PdoConnectionFactory
@@ -16,19 +17,11 @@ final class PdoConnectionFactory
         $config = $container->get('config');
 
         /** @var array $dbConfig */
-        $dbConfig = $config['db'] ?? [];
+        $dbConfig = $config[AdapterInterface::class] ?? [];
 
         /** @var array $connectionConfig */
         $connectionConfig = $dbConfig['connection'] ?? [];
 
         return new Connection($connectionConfig);
-    }
-
-    public static function createFromConfig(
-        ContainerInterface $container,
-        string $requestedName
-    ): ConnectionInterface&Connection {
-        $adapterConfig = $container->get('config')['db']['adapters'][$requestedName] ?? [];
-        return new Connection($adapterConfig['connection'] ?? []);
     }
 }

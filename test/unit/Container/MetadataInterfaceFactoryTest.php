@@ -9,7 +9,7 @@ use PhpDb\Adapter\AdapterInterface;
 use PhpDb\Adapter\Driver\PdoDriverInterface;
 use PhpDb\Adapter\Platform\PlatformInterface;
 use PhpDb\Adapter\Sqlite\Container\MetadataInterfaceFactory;
-use PhpDb\Adapter\Sqlite\Metadata\Source\SqliteMetadata;
+use PhpDb\Adapter\Sqlite\Metadata;
 use PhpDb\ResultSet\ResultSetInterface;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
@@ -35,6 +35,6 @@ final class MetadataInterfaceFactoryTest extends TestCase
         $factory  = new MetadataInterfaceFactory();
         $metadata = $factory($containerMock);
 
-        self::assertInstanceOf(SqliteMetadata::class, $metadata);
+        self::assertInstanceOf(Metadata\Source::class, $metadata);
     }
 }

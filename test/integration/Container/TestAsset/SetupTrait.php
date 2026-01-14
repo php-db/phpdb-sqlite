@@ -10,7 +10,7 @@ use Override;
 use PhpDb\Adapter\AdapterInterface;
 use PhpDb\Adapter\Driver\DriverInterface;
 use PhpDb\Adapter\Sqlite\ConfigProvider;
-use PhpDb\Adapter\Sqlite\Driver\Pdo\Pdo;
+use PhpDb\Adapter\Sqlite\Pdo\Driver;
 use PhpDb\ConfigProvider as LaminasDbConfigProvider;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use Psr\Container\ContainerInterface;
@@ -26,11 +26,11 @@ use Psr\Container\ContainerInterface;
 #[RequiresPhpExtension('pdo_sqlite')]
 trait SetupTrait
 {
-    protected array $config = ['db' => []];
+    protected array $config = [AdapterInterface::class => []];
 
     protected ?AdapterInterface $adapter;
 
-    protected ContainerInterface $container;
+    protected ContainerInterface&ServiceManager $container;
 
     protected DriverInterface|string|null $driver;
 
@@ -44,8 +44,8 @@ trait SetupTrait
     protected function getAdapter(array $config = []): AdapterInterface
     {
         $connectionConfig = [
-            'db' => [
-                'driver'     => $this->driver ?? Pdo::class,
+            AdapterInterface::class => [
+                'driver'     => $this->driver ?? Driver::class,
                 'connection' => [
                     'dsn'            => 'sqlite::memory:',
                     'charset'        => 'utf8',
@@ -57,7 +57,7 @@ trait SetupTrait
             ],
         ];
 
-        // merge service config from both PhpDb and PhpDb\Adapter\Mysql
+        // merge service config from both PhpDb and PhpDb\Adapter\Sqlite
         $serviceManagerConfig = ArrayUtils::merge(
             (new LaminasDbConfigProvider())()['dependencies'],
             (new ConfigProvider())()['dependencies']
