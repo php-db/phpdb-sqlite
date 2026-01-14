@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace PhpDbTest\Adapter\Sqlite\Driver\Pdo\TestAsset;
+namespace PhpDbTest\Adapter\Sqlite\Pdo\TestAsset;
 
 use Override;
 use PDO;

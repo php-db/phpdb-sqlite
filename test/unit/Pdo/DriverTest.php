@@ -14,6 +14,7 @@ use PhpDb\Adapter\Sqlite\Pdo\Driver;
 use PhpDb\Exception\RuntimeException;
 use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 #[CoversMethod(Driver::class, 'getDatabasePlatformName')]
@@ -30,7 +31,7 @@ final class DriverTest extends TestCase
     {
         $connection = new Connection(['dsn' => ':memory:']);
 
-        /** @var StatementInterface&PdoDriverAwareInterface $statementPrototype */
+        /** @var StatementInterface&PdoDriverAwareInterface&MockObject $statementPrototype */
         $statementPrototype = $this->createMockForIntersectionOfInterfaces([
             StatementInterface::class,
             PdoDriverAwareInterface::class,

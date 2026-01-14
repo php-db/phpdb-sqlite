@@ -19,7 +19,7 @@ class Driver extends AbstractPdo implements DriverFeatureProviderInterface
     use DriverFeatureProviderTrait;
 
     /**
-     * @param PDOStatement $resource
+     * @param PDOStatement|resource $resource
      * @param mixed $context
      */
     #[Override]

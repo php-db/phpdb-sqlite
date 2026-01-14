@@ -28,6 +28,9 @@ final class Source extends AbstractSource
         $this->prepareDataHierarchy('schemas');
 
         $results = $this->fetchPragma('database_list');
+        // proposed phpstan fix
+        $schemas = $results !== [] ? [] : null;
+        // end proposed fix
         foreach ($results as $row) {
             $schemas[] = $row['name'];
         }

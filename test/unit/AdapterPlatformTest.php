@@ -6,15 +6,11 @@ namespace PhpDbTest\Adapter\Sqlite;
 
 use PDO;
 use PhpDb\Adapter\Driver\PdoDriverInterface;
+use PhpDb\Adapter\Exception\VunerablePlatformQuoteException;
 use PhpDb\Adapter\Sqlite\AdapterPlatform;
 use PhpDb\Adapter\Sqlite\Sql\Platform as SqlPlatformDecorator;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
-
-use function restore_error_handler;
-use function set_error_handler;
-
-use const E_USER_NOTICE;
 
 #[CoversClass(AdapterPlatform::class)]
 final class AdapterPlatformTest extends TestCase
@@ -93,32 +89,21 @@ final class AdapterPlatformTest extends TestCase
         self::assertEquals("'", $this->platform->getQuoteValueSymbol());
     }
 
-    public function testQuoteValueRaisesNoticeWithoutPlatformSupport(): void
+    public function testQuoteValueThrowsExeceptionWithoutDriverSupport(): void
     {
-        $raisedNotice = false;
+        $platform = new AdapterPlatform();
+        //$this->expectNotToPerformAssertions();
+        $this->expectException(VunerablePlatformQuoteException::class);
+        $platform->quoteValue('value');
+    }
 
-        set_error_handler(
-            function (
-                int $errno,
-                string $errstr,
-                ?string $errfile = null,
-                ?int $errline = null
-            ) use (&$raisedNotice) {
-                $this->assertEquals(E_USER_NOTICE, $errno);
-                $this->assertEquals(
-                    $errstr,
-                // phpcs:ignore Generic.Files.LineLength
-                    'Attempting to quote a value in PhpDb\Adapter\Sqlite\Platform without extension/driver support can '
-                    . 'introduce security vulnerabilities in a production environment'
-                );
-                $raisedNotice = true;
-            }
-        );
-
-        $this->platform->quoteValue('value');
-        self::assertTrue($raisedNotice);
-
-        restore_error_handler();
+    public function testQuoteValueList(): void
+    {
+        $expected = "'Foo O\\'Bar'";
+        $platform = new AdapterPlatform();
+        $this->expectException(VunerablePlatformQuoteException::class);
+        $actual = $platform->quoteValueList("Foo O'Bar");
+        self::assertEquals($expected, $actual);
     }
 
     public function testQuoteValue(): void
@@ -149,30 +134,6 @@ final class AdapterPlatformTest extends TestCase
             "'\\\\\\'; DELETE FROM some_table; -- '",
             $this->platform->quoteTrustedValue('\\\'; DELETE FROM some_table; -- ')
         );
-    }
-
-    public function testQuoteValueList(): void
-    {
-        $raisedNotice = false;
-
-        /**
-         * @psalm-suppress InvalidArgument
-         */
-        set_error_handler(function ($errno, $errstr) use (&$raisedNotice) {
-            $this->assertEquals(E_USER_NOTICE, $errno);
-            $this->assertEquals(
-                $errstr,
-                // phpcs:ignore Generic.Files.LineLength
-                'Attempting to quote a value in PhpDb\Adapter\Sqlite\Platform\Sqlite without extension/driver support can '
-                    . 'introduce security vulnerabilities in a production environment'
-            );
-            $raisedNotice = true;
-        });
-
-        self::assertEquals("'Foo O\\'Bar'", $this->platform->quoteValueList("Foo O'Bar"));
-        self::assertTrue($raisedNotice);
-
-        restore_error_handler();
     }
 
     public function testGetIdentifierSeparator(): void

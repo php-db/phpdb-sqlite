@@ -59,42 +59,4 @@ final class PdoConnectionFactoryTest extends TestCase
 
         self::assertInstanceOf(Connection::class, $connection);
     }
-
-    public function testCreateFromConfigReturnsConnection(): void
-    {
-        $containerMock = $this->createMock(ContainerInterface::class);
-        $containerMock->method('get')
-            ->with('config')
-            ->willReturn([
-                'db' => [
-                    'adapters' => [
-                        'test_adapter' => [
-                            'connection' => [
-                                'dsn' => 'sqlite::memory:',
-                            ],
-                        ],
-                    ],
-                ],
-            ]);
-
-        $connection = PdoConnectionFactory::createFromConfig($containerMock, 'test_adapter');
-
-        self::assertInstanceOf(Connection::class, $connection);
-    }
-
-    public function testCreateFromConfigWithoutAdapterConfig(): void
-    {
-        $containerMock = $this->createMock(ContainerInterface::class);
-        $containerMock->method('get')
-            ->with('config')
-            ->willReturn([
-                'db' => [
-                    'adapters' => [],
-                ],
-            ]);
-
-        $connection = PdoConnectionFactory::createFromConfig($containerMock, 'unknown_adapter');
-
-        self::assertInstanceOf(Connection::class, $connection);
-    }
 }

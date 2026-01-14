@@ -4,33 +4,27 @@ declare(strict_types=1);
 
 namespace PhpDb\Adapter\Sqlite\Container;
 
-use PDO;
-use PhpDb\Adapter\Driver\PdoDriverInterface;
 use PhpDb\Adapter\Platform\PlatformInterface;
 use PhpDb\Adapter\Sqlite\AdapterPlatform;
+use PhpDb\Adapter\Sqlite\Pdo\Driver;
+use PhpDb\Exception\ContainerException;
 use Psr\Container\ContainerInterface;
 
 final class PlatformInterfaceFactory
 {
-    public function __invoke(ContainerInterface $container): PlatformInterface&AdapterPlatform
-    {
-        /** @var array $config */
-        $config = $container->get('config');
-
-        /** @var array $dbConfig */
-        $dbConfig = $config['db'] ?? [];
-
-        /** @var string $driver */
-        $driver = $dbConfig['driver'];
-
-        /** @var PdoDriverInterface|PDO $driverInstance */
-        $driverInstance = $container->get($driver);
-
-        return new AdapterPlatform($driverInstance);
-    }
-
-    public static function fromDriver(PdoDriverInterface $driverInstance): PlatformInterface&AdapterPlatform
-    {
+    public function __invoke(
+        ContainerInterface $container,
+        string $requestedName,
+        ?array $options = null
+    ): PlatformInterface&AdapterPlatform {
+        $driverInstance = $options['driver'] ?? null;
+        if (! $driverInstance instanceof Driver) {
+            throw ContainerException::forService(
+                AdapterPlatform::class,
+                self::class,
+                'Invalid or missing driver provided recieved: '
+            );
+        }
         return new AdapterPlatform($driverInstance);
     }
 }

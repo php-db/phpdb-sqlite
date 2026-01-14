@@ -27,7 +27,7 @@ class AdapterPlatform extends AbstractPlatform
     protected string $quoteIdentifierTo = '\'';
 
     public function __construct(
-        protected readonly PdoDriverInterface|PDO $driver
+        protected readonly PdoDriverInterface|PDO|null $driver = null
     ) {
     }
 

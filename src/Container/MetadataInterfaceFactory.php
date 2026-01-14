@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace PhpDb\Adapter\Sqlite\Container;
 
 use PhpDb\Adapter\AdapterInterface;
+use PhpDb\Adapter\SchemaAwareInterface;
 use PhpDb\Adapter\Sqlite\Metadata;
 use PhpDb\Metadata\MetadataInterface;
 use Psr\Container\ContainerInterface;

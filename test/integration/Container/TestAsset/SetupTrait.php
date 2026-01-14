@@ -26,11 +26,11 @@ use Psr\Container\ContainerInterface;
 #[RequiresPhpExtension('pdo_sqlite')]
 trait SetupTrait
 {
-    protected array $config = ['db' => []];
+    protected array $config = [AdapterInterface::class => []];
 
     protected ?AdapterInterface $adapter;
 
-    protected ContainerInterface $container;
+    protected ContainerInterface&ServiceManager $container;
 
     protected DriverInterface|string|null $driver;
 
@@ -44,7 +44,7 @@ trait SetupTrait
     protected function getAdapter(array $config = []): AdapterInterface
     {
         $connectionConfig = [
-            'db' => [
+            AdapterInterface::class => [
                 'driver'     => $this->driver ?? Driver::class,
                 'connection' => [
                     'dsn'            => 'sqlite::memory:',

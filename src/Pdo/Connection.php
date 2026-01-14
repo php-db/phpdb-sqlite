@@ -119,7 +119,7 @@ class Connection extends AbstractPdoConnection
      * @param string $name
      */
     #[Override]
-    public function getLastGeneratedValue($name = null): string|int|bool|null
+    public function getLastGeneratedValue($name = null): string|int|false|null
     {
         try {
             return $this->resource->lastInsertId($name);
