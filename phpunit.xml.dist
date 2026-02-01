@@ -10,11 +10,6 @@
          failOnDeprecation="true"
          failOnWarning="true">
 
-    <coverage pathCoverage="true">
-        <report>
-            <html outputDirectory="test/coverage/html"/>
-        </report>
-    </coverage>
     <testsuites>
         <testsuite name="unit test">
             <directory>./test/unit</directory>
