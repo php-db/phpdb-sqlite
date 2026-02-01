@@ -29,7 +29,7 @@ class Driver extends AbstractPdo implements DriverFeatureProviderInterface
         $result = clone $this->resultPrototype;
         /** @var Feature\SqliteRowCounter $sqliteRowCounter */
         $sqliteRowCounter = $this->getFeature(Feature\SqliteRowCounter::class);
-        $rowCount         = null;
+        $rowCount         = 0;
 
         if ($sqliteRowCounter && $resource->columnCount() > 0) {
             $rowCount = $sqliteRowCounter->getRowCountClosure($context);

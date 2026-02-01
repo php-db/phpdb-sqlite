@@ -9,19 +9,20 @@ use PhpDb\Adapter\Driver\Feature\AbstractFeature;
 use PhpDb\Adapter\Driver\Pdo;
 use PhpDb\Adapter\Driver\Pdo\Statement;
 
-use function stripos;
+use function str_contains;
+use function strtolower;
 
 /**
  * SqliteRowCounter
  */
 class SqliteRowCounter extends AbstractFeature
 {
-    public function getCountForStatement(Pdo\Statement $statement): ?int
+    public function getCountForStatement(Pdo\Statement $statement): int
     {
         $countStmt = clone $statement;
         $sql       = $statement->getSql();
-        if ($sql === '' || $sql === null || stripos($sql, 'select') === false) {
-            return null;
+        if (empty($sql) || ! str_contains(strtolower($sql), 'select')) {
+            return 0;
         }
         $countSql = 'SELECT COUNT(*) as "count" FROM (' . $sql . ')';
         $countStmt->prepare($countSql);
@@ -29,13 +30,13 @@ class SqliteRowCounter extends AbstractFeature
         $countRow = $result->getResource()->fetch(\PDO::FETCH_ASSOC);
         unset($statement, $result);
 
-        return $countRow['count'];
+        return (int) $countRow['count'];
     }
 
-    public function getCountForSql(string $sql): ?int
+    public function getCountForSql(string $sql): int
     {
-        if (stripos($sql, 'select') === false) {
-            return null;
+        if (empty($sql) || ! str_contains(strtolower($sql), 'select')) {
+            return 0;
         }
         $countSql = 'SELECT COUNT(*) as count FROM (' . $sql . ')';
         /** @var \PDO $pdo */
@@ -43,12 +44,12 @@ class SqliteRowCounter extends AbstractFeature
         $result   = $pdo->query($countSql);
         $countRow = $result->fetch(\PDO::FETCH_ASSOC);
 
-        return $countRow['count'];
+        return (int) $countRow['count'];
     }
 
     public function getRowCountClosure(Statement|string|null $context): Closure
     {
-        return function () use ($context) {
+        return function () use ($context): int {
             return $context instanceof Pdo\Statement
                 ? $this->getCountForStatement($context)
                 : $this->getCountForSql($context);
