@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace PhpDb\Adapter\Sqlite\Container;
+namespace PhpDb\Sqlite\Container;
 
 use Laminas\ServiceManager\ServiceManager;
 use PhpDb\Adapter\Driver\Pdo\Result;
 use PhpDb\Adapter\Driver\Pdo\Statement;
 use PhpDb\Adapter\Driver\PdoDriverInterface;
 use PhpDb\Adapter\Driver\ResultInterface;
-use PhpDb\Adapter\Sqlite\Pdo;
+use PhpDb\Sqlite\Pdo;
 use Psr\Container\ContainerInterface;
 
 final class PdoDriverInterfaceFactory
@@ -29,7 +29,8 @@ final class PdoDriverInterfaceFactory
 
         /** @var Pdo\Connection $connectionInstance */
         $connectionInstance = $container->build(
-            Pdo\Connection::class, ['connection' => $options['connection'] ?? []]
+            Pdo\Connection::class,
+            ['connection' => $options['connection'] ?? []]
         );
 
         /** @var ResultInterface&Result $resultInstance */

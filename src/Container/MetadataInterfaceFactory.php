@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace PhpDb\Adapter\Sqlite\Container;
+namespace PhpDb\Sqlite\Container;
 
 use PhpDb\Adapter\AdapterInterface;
 use PhpDb\Adapter\SchemaAwareInterface;
-use PhpDb\Adapter\Sqlite\Metadata;
 use PhpDb\Metadata\MetadataInterface;
+use PhpDb\Sqlite\Metadata;
 use Psr\Container\ContainerInterface;
 
 final class MetadataInterfaceFactory

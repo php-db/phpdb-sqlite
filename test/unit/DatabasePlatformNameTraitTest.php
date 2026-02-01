@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace PhpDbTest\Adapter\Sqlite;
+namespace PhpDbTest\Sqlite;
 
 use PhpDb\Adapter\Driver\DriverInterface;
 use PhpDb\Adapter\Exception\InvalidArgumentException;
-use PhpDb\Adapter\Sqlite\DatabasePlatformNameTrait;
+use PhpDb\Sqlite\DatabasePlatformNameTrait;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 

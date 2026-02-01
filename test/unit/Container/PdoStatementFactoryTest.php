@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace PhpDbTest\Adapter\Sqlite\Container;
+namespace PhpDbTest\Sqlite\Container;
 
 use PhpDb\Adapter\Driver\Pdo\Statement;
-use PhpDb\Adapter\Sqlite\Container\PdoStatementFactory;
+use PhpDb\Sqlite\Container\PdoStatementFactory;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;

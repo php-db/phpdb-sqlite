@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace PhpDbIntegrationTest\Adapter\Sqlite\Container\TestAsset;
+namespace PhpDbIntegrationTest\Sqlite\Container\TestAsset;
 
 use Laminas\ServiceManager\ServiceManager;
 use Laminas\Stdlib\ArrayUtils;
 use Override;
 use PhpDb\Adapter\AdapterInterface;
 use PhpDb\Adapter\Driver\DriverInterface;
-use PhpDb\Adapter\Sqlite\ConfigProvider;
-use PhpDb\Adapter\Sqlite\Pdo\Driver;
 use PhpDb\ConfigProvider as LaminasDbConfigProvider;
+use PhpDb\Sqlite\ConfigProvider;
+use PhpDb\Sqlite\Pdo\Driver;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use Psr\Container\ContainerInterface;
 
@@ -57,7 +57,7 @@ trait SetupTrait
             ],
         ];
 
-        // merge service config from both PhpDb and PhpDb\Adapter\Sqlite
+        // merge service config from both PhpDb and PhpDb\Sqlite
         $serviceManagerConfig = ArrayUtils::merge(
             (new LaminasDbConfigProvider())()['dependencies'],
             (new ConfigProvider())()['dependencies']

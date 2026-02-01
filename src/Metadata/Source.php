@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace PhpDb\Adapter\Sqlite\Metadata;
+namespace PhpDb\Sqlite\Metadata;
 
 use Override;
 use PhpDb\Adapter\AdapterInterface;

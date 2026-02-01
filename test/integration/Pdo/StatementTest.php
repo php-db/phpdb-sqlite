@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace PhpDbIntegrationTest\Adapter\Sqlite\Pdo;
+namespace PhpDbIntegrationTest\Sqlite\Pdo;
 
 use PDO;
 use PDOStatement;
 use PhpDb\Adapter\Driver\Pdo\Result;
 use PhpDb\Adapter\Driver\Pdo\Statement;
 use PhpDb\Adapter\Driver\StatementInterface;
-use PhpDbIntegrationTest\Adapter\Sqlite\Container\TestAsset\SetupTrait;
+use PhpDbIntegrationTest\Sqlite\Container\TestAsset\SetupTrait;
 use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\TestCase;
 

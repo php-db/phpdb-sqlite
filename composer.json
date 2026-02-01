@@ -1,5 +1,5 @@
 {
-    "name": "php-db/phpdb-adapter-sqlite",
+    "name": "php-db/phpdb-sqlite",
     "description": "SQLite support for php-db",
     "license": "BSD-3-Clause",
     "keywords": [
@@ -7,11 +7,11 @@
         "sqlite",
         "db"
     ],
-    "homepage": "https://github.com/php-db/phpdb-adapter-sqlite/discussions",
+    "homepage": "https://github.com/php-db/phpdb-sqlite/discussions",
     "support": {
-        "issues": "https://github.com/php-db/phpdb-adapter-sqlite/issues",
-        "source": "https://github.com/php-db/phpdb-adapter-sqlite",
-        "forum": "https://github.com/php-db/phpdb-adapter-sqlite/discussions"
+        "issues": "https://github.com/php-db/phpdb-sqlite/issues",
+        "source": "https://github.com/php-db/phpdb-sqlite",
+        "forum": "https://github.com/php-db/phpdb-sqlite/discussions"
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
@@ -26,7 +26,7 @@
     },
     "extra": {
         "laminas": {
-            "config-provider": "PhpDb\\Adapter\\Sqlite\\ConfigProvider"
+            "config-provider": "PhpDb\\Sqlite\\ConfigProvider"
         }
     },
     "require": {
@@ -47,13 +47,13 @@
     },
     "autoload": {
         "psr-4": {
-            "PhpDb\\Adapter\\Sqlite\\": "src/"
+            "PhpDb\\Sqlite\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "PhpDbTest\\Adapter\\Sqlite\\": "test/unit/",
-            "PhpDbIntegrationTest\\Adapter\\Sqlite\\": "test/integration/"
+            "PhpDbTest\\Sqlite\\": "test/unit/",
+            "PhpDbIntegrationTest\\Sqlite\\": "test/integration/"
         }
     },
     "scripts": {

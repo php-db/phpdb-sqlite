@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace PhpDb\Adapter\Sqlite\Sql;
+namespace PhpDb\Sqlite\Sql;
 
 use PhpDb\Sql\Ddl\AlterTable;
 use PhpDb\Sql\Ddl\CreateTable;

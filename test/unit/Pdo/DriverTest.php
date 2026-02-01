@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace PhpDbTest\Adapter\Sqlite\Pdo;
+namespace PhpDbTest\Sqlite\Pdo;
 
 use Override;
 use PhpDb\Adapter\Driver\PdoDriverAwareInterface;
 use PhpDb\Adapter\Driver\PdoDriverInterface;
 use PhpDb\Adapter\Driver\ResultInterface;
 use PhpDb\Adapter\Driver\StatementInterface;
-use PhpDb\Adapter\Sqlite\Pdo\Connection;
-use PhpDb\Adapter\Sqlite\Pdo\Driver;
 use PhpDb\Exception\RuntimeException;
+use PhpDb\Sqlite\Pdo\Connection;
+use PhpDb\Sqlite\Pdo\Driver;
 use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;

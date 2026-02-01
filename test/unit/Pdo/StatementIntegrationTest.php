@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace PhpDbTest\Adapter\Sqlite\Driver\Pdo;
+namespace PhpDbTest\Sqlite\Driver\Pdo;
 
 use Override;
 use PDO;
 use PDOStatement;
 use PhpDb\Adapter\Driver\Pdo\Statement;
-use PhpDb\Adapter\Sqlite\Pdo\Driver;
-use PhpDbTest\Adapter\Sqlite\Pdo\TestAsset\CtorlessPdo;
+use PhpDb\Sqlite\Pdo\Driver;
+use PhpDbTest\Sqlite\Pdo\TestAsset\CtorlessPdo;
 use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
