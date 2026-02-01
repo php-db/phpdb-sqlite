@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace PhpDb\Adapter\Sqlite;
+namespace PhpDb\Sqlite;
 
 use Override;
 use PDO;
 use PhpDb\Adapter\Driver\PdoDriverInterface;
 use PhpDb\Adapter\Platform\AbstractPlatform;
-use PhpDb\Adapter\Sqlite\Sql\Platform;
 use PhpDb\Sql\Platform\PlatformDecoratorInterface;
+use PhpDb\Sqlite\Sql\Platform;
 
 class AdapterPlatform extends AbstractPlatform
 {

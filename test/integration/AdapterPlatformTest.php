@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace PhpDbIntegrationTest\Adapter\Sqlite;
+namespace PhpDbIntegrationTest\Sqlite;
 
-use PhpDb\Adapter\Sqlite\AdapterPlatform;
-use PhpDbIntegrationTest\Adapter\Sqlite\Container\TestAsset\SetupTrait;
+use PhpDb\Sqlite\AdapterPlatform;
+use PhpDbIntegrationTest\Sqlite\Container\TestAsset\SetupTrait;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\Attributes\Group;

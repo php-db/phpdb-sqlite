@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace PhpDbTest\Adapter\Sqlite;
+namespace PhpDbTest\Sqlite;
 
 use PDO;
 use PhpDb\Adapter\Driver\PdoDriverInterface;
 use PhpDb\Adapter\Exception\VunerablePlatformQuoteException;
-use PhpDb\Adapter\Sqlite\AdapterPlatform;
-use PhpDb\Adapter\Sqlite\Sql\Platform as SqlPlatformDecorator;
+use PhpDb\Sqlite\AdapterPlatform;
+use PhpDb\Sqlite\Sql\Platform as SqlPlatformDecorator;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 

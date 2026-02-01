@@ -9,6 +9,9 @@
          failOnNotice="true"
          failOnDeprecation="true"
          failOnWarning="true">
+
+    <coverage pathCoverage="true">
+    </coverage>
     <testsuites>
         <testsuite name="unit test">
             <directory>./test/unit</directory>

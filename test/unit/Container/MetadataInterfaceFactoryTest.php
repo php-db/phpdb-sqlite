@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace PhpDbTest\Adapter\Sqlite\Container;
+namespace PhpDbTest\Sqlite\Container;
 
 use PhpDb\Adapter\Adapter;
 use PhpDb\Adapter\AdapterInterface;
 use PhpDb\Adapter\Driver\PdoDriverInterface;
 use PhpDb\Adapter\Platform\PlatformInterface;
-use PhpDb\Adapter\Sqlite\Container\MetadataInterfaceFactory;
-use PhpDb\Adapter\Sqlite\Metadata;
 use PhpDb\ResultSet\ResultSetInterface;
+use PhpDb\Sqlite\Container\MetadataInterfaceFactory;
+use PhpDb\Sqlite\Metadata;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;

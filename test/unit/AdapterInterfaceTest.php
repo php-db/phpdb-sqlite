@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace PhpDbTest\Adapter\Sqlite;
+namespace PhpDbTest\Sqlite;
 
 use Exception;
 use Override;
@@ -14,9 +14,9 @@ use PhpDb\Adapter\Driver\PdoDriverInterface;
 use PhpDb\Adapter\Driver\ResultInterface;
 use PhpDb\Adapter\Driver\StatementInterface;
 use PhpDb\Adapter\Profiler;
-use PhpDb\Adapter\Sqlite\AdapterPlatform as SqlitePlatform;
-use PhpDb\Adapter\Sqlite\Pdo\Driver;
 use PhpDb\ResultSet\ResultSetInterface;
+use PhpDb\Sqlite\AdapterPlatform as SqlitePlatform;
+use PhpDb\Sqlite\Pdo\Driver;
 use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\Attributes\TestDox;
 use PHPUnit\Framework\MockObject\MockObject;

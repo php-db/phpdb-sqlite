@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace PhpDb\Adapter\Sqlite;
+namespace PhpDb\Sqlite;
 
 use PhpDb\Adapter\Driver\DriverInterface;
 use PhpDb\Adapter\Exception;

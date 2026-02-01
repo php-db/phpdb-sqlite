@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace PhpDbIntegrationTest\Adapter\Sqlite\Container;
+namespace PhpDbIntegrationTest\Sqlite\Container;
 
-use PhpDb\Adapter\Sqlite\Container\MetadataInterfaceFactory;
-use PhpDb\Adapter\Sqlite\Metadata;
 use PhpDb\Metadata\MetadataInterface;
+use PhpDb\Sqlite\Container\MetadataInterfaceFactory;
+use PhpDb\Sqlite\Metadata;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\TestCase;

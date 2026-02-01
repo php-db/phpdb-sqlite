@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace PhpDbTest\Adapter\Sqlite\Pdo;
+namespace PhpDbTest\Sqlite\Pdo;
 
 use Exception;
 use Override;
-use PhpDb\Adapter\Sqlite\Pdo\Connection;
+use PhpDb\Sqlite\Pdo\Connection;
 use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;

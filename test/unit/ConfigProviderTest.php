@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace PhpDbTest\Adapter\Sqlite;
+namespace PhpDbTest\Sqlite;
 
 use PhpDb\Adapter\Driver\Pdo\Result;
 use PhpDb\Adapter\Driver\Pdo\Statement;
@@ -11,12 +11,12 @@ use PhpDb\Adapter\Driver\PdoDriverInterface;
 use PhpDb\Adapter\Driver\ResultInterface;
 use PhpDb\Adapter\Driver\StatementInterface;
 use PhpDb\Adapter\Platform\PlatformInterface;
-use PhpDb\Adapter\Sqlite\AdapterPlatform;
-use PhpDb\Adapter\Sqlite\ConfigProvider;
-use PhpDb\Adapter\Sqlite\Container;
-use PhpDb\Adapter\Sqlite\Metadata;
-use PhpDb\Adapter\Sqlite\Pdo;
 use PhpDb\Metadata\MetadataInterface;
+use PhpDb\Sqlite\AdapterPlatform;
+use PhpDb\Sqlite\ConfigProvider;
+use PhpDb\Sqlite\Container;
+use PhpDb\Sqlite\Metadata;
+use PhpDb\Sqlite\Pdo;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 

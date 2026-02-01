@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace PhpDb\Adapter\Sqlite\Pdo;
+namespace PhpDb\Sqlite\Pdo;
 
 use Override;
 use PDO;

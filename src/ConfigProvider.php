@@ -2,9 +2,8 @@
 
 declare(strict_types=1);
 
-namespace PhpDb\Adapter\Sqlite;
+namespace PhpDb\Sqlite;
 
-use PhpDb\Adapter\AdapterInterface;
 use PhpDb\Adapter\Driver\Pdo\Result;
 use PhpDb\Adapter\Driver\Pdo\Statement;
 use PhpDb\Adapter\Driver\PdoConnectionInterface;

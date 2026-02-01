@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace PhpDb\Adapter\Sqlite\Container;
+namespace PhpDb\Sqlite\Container;
 
 use PhpDb\Adapter\AdapterInterface;
 use PhpDb\Adapter\Driver\ConnectionInterface;
-use PhpDb\Adapter\Sqlite\Pdo\Connection;
+use PhpDb\Sqlite\Pdo\Connection;
 use Psr\Container\ContainerInterface;
 
 final class PdoConnectionFactory

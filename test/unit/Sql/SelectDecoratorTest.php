@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace PhpDbTest\Adapter\Sqlite\Sql\Platform;
+namespace PhpDbTest\Sqlite\Sql\Platform;
 
 use PhpDb\Adapter\Driver\DriverInterface;
 use PhpDb\Adapter\ParameterContainer;
 use PhpDb\Adapter\Platform\PlatformInterface;
-use PhpDb\Adapter\Sqlite\Sql\SelectDecorator;
 use PhpDb\Sql\Select;
+use PhpDb\Sqlite\Sql\SelectDecorator;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;

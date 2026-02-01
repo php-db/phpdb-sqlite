@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace PhpDbTest\Adapter\Sqlite\Pdo\Feature;
+namespace PhpDbTest\Sqlite\Pdo\Feature;
 
-use PhpDb\Adapter\Sqlite\Pdo\Feature\SqliteRowCounter;
+use PhpDb\Sqlite\Pdo\Feature\SqliteRowCounter;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 

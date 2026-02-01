@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace PhpDb\Adapter\Sqlite\Pdo\Feature;
+namespace PhpDb\Sqlite\Pdo\Feature;
 
 use Closure;
 use PhpDb\Adapter\Driver\Feature\AbstractFeature;
@@ -46,7 +46,7 @@ class SqliteRowCounter extends AbstractFeature
         return $countRow['count'];
     }
 
-    public function getRowCountClosure(Statement|string $context): Closure
+    public function getRowCountClosure(Statement|string|null $context): Closure
     {
         return function () use ($context) {
             return $context instanceof Pdo\Statement

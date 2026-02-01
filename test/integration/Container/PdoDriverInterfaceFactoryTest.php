@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace PhpDbIntegrationTest\Adapter\Sqlite\Container;
+namespace PhpDbIntegrationTest\Sqlite\Container;
 
 use PhpDb\Adapter\AdapterInterface;
 use PhpDb\Adapter\Driver\PdoDriverInterface;
-use PhpDb\Adapter\Sqlite\Container\PdoDriverInterfaceFactory;
-use PhpDb\Adapter\Sqlite\Pdo\Driver;
+use PhpDb\Sqlite\Container\PdoDriverInterfaceFactory;
+use PhpDb\Sqlite\Pdo\Driver;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\Attributes\Group;

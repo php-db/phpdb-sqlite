@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace PhpDb\Adapter\Sqlite\Pdo;
+namespace PhpDb\Sqlite\Pdo;
 
 use Override;
 use PDOStatement;
@@ -10,8 +10,9 @@ use PhpDb\Adapter\Driver\Feature\DriverFeatureProviderInterface;
 use PhpDb\Adapter\Driver\Feature\DriverFeatureProviderTrait;
 use PhpDb\Adapter\Driver\Pdo\AbstractPdo;
 use PhpDb\Adapter\Driver\Pdo\Result;
+use PhpDb\Adapter\Driver\Pdo\Statement;
 use PhpDb\Adapter\Driver\ResultInterface;
-use PhpDb\Adapter\Sqlite\DatabasePlatformNameTrait;
+use PhpDb\Sqlite\DatabasePlatformNameTrait;
 
 class Driver extends AbstractPdo implements DriverFeatureProviderInterface
 {
@@ -20,10 +21,9 @@ class Driver extends AbstractPdo implements DriverFeatureProviderInterface
 
     /**
      * @param PDOStatement|resource $resource
-     * @param mixed $context
      */
     #[Override]
-    public function createResult($resource, $context = null): ResultInterface
+    public function createResult($resource, Statement|string|null $context = null): ResultInterface
     {
         /** @var ResultInterface&Result $result */
         $result = clone $this->resultPrototype;

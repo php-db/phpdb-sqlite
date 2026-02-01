@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace PhpDbTest\Adapter\Sqlite\Sql\Ddl;
+namespace PhpDbTest\Sqlite\Sql\Ddl;
 
-use PhpDb\Adapter\Sqlite\Sql\Ddl\CreateTableDecorator;
 use PhpDb\Sql\Ddl\CreateTable;
+use PhpDb\Sqlite\Sql\Ddl\CreateTableDecorator;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;

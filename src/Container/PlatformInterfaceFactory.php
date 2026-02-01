@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace PhpDb\Adapter\Sqlite\Container;
+namespace PhpDb\Sqlite\Container;
 
 use PhpDb\Adapter\Platform\PlatformInterface;
-use PhpDb\Adapter\Sqlite\AdapterPlatform;
-use PhpDb\Adapter\Sqlite\Pdo\Driver;
 use PhpDb\Exception\ContainerException;
+use PhpDb\Sqlite\AdapterPlatform;
+use PhpDb\Sqlite\Pdo\Driver;
 use Psr\Container\ContainerInterface;
 
 final class PlatformInterfaceFactory
