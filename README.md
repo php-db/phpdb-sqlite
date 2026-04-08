@@ -28,15 +28,13 @@ This section outlines specifics for php-db.
 
 ### Test suites
 
-The `phpunit.xml.dist` file defines two test suites, "unit test" and "integration test".
-You can run one or the other using the `--testsuite` option to `phpunit`:
+To run the project's test suite, run the command below:
 
 ```bash
-./vendor/bin/phpunit --testsuite "unit test" # unit tests only
-./vendor/bin/phpunit --testsuite "integration test" # integration tests only
+composer check
 ```
 
-Unit tests do not require additional functionality beyond having the appropriate database extensions present and loaded in your PHP binary.
+This [Composer script][composer-scripts] runs both the unit and integration tests, as well as code style and static analysis.
 
 ---
 
@@ -44,6 +42,7 @@ Unit tests do not require additional functionality beyond having the appropriate
 - Documentation is at <https://docs.php-db.dev>
 
 [composer]: https://getcomposer.org
+[composer-scripts]: https://getcomposer.org/doc/articles/scripts.md
 [laminas-db]: https://docs.laminas.dev/laminas-db/
 [php-db]: https://github.com/php-db/phpdb
 [php-pdo-extension]: https://www.php.net/manual/en/pdo.installation.php
