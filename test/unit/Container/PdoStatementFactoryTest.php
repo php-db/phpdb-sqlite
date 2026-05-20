@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace PhpDbTest\Sqlite\Container;
 
+use PhpDb\Adapter\AdapterInterface;
 use PhpDb\Adapter\Driver\Pdo\Statement;
 use PhpDb\Sqlite\Container\PdoStatementFactory;
 use PHPUnit\Framework\Attributes\CoversClass;
@@ -19,7 +20,7 @@ final class PdoStatementFactoryTest extends TestCase
         $containerMock->method('get')
             ->with('config')
             ->willReturn([
-                'db' => [
+                AdapterInterface::class => [
                     'options' => [],
                 ],
             ]);
@@ -36,7 +37,7 @@ final class PdoStatementFactoryTest extends TestCase
         $containerMock->method('get')
             ->with('config')
             ->willReturn([
-                'db' => [],
+                AdapterInterface::class => [],
             ]);
 
         $factory   = new PdoStatementFactory();
