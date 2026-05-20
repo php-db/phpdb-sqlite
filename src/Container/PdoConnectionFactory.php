@@ -9,6 +9,8 @@ use PhpDb\Adapter\Exception\InvalidConnectionParametersException;
 use PhpDb\Sqlite\Pdo\Connection;
 use Psr\Container\ContainerInterface;
 
+use function is_array;
+
 final class PdoConnectionFactory
 {
     public function __invoke(
