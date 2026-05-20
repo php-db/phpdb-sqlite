@@ -4,24 +4,26 @@ declare(strict_types=1);
 
 namespace PhpDb\Sqlite\Container;
 
-use PhpDb\Adapter\AdapterInterface;
-use PhpDb\Adapter\Driver\ConnectionInterface;
+use PhpDb\Adapter\Driver\PdoConnectionInterface;
+use PhpDb\Adapter\Exception\InvalidConnectionParametersException;
 use PhpDb\Sqlite\Pdo\Connection;
 use Psr\Container\ContainerInterface;
 
 final class PdoConnectionFactory
 {
-    public function __invoke(ContainerInterface $container): ConnectionInterface&Connection
-    {
-        /** @var array $config */
-        $config = $container->get('config');
+    public function __invoke(
+        ContainerInterface $container,
+        string $requestedName,
+        ?array $options = null
+    ): PdoConnectionInterface&Connection {
+        $conn = $options['connection'] ?? [];
+        if (! is_array($conn) || $conn === []) {
+            throw new InvalidConnectionParametersException(
+                'Connection configuration must be an array of parameters passed via $options["connection"]',
+                $conn
+            );
+        }
 
-        /** @var array $dbConfig */
-        $dbConfig = $config[AdapterInterface::class] ?? [];
-
-        /** @var array $connectionConfig */
-        $connectionConfig = $dbConfig['connection'] ?? [];
-
-        return new Connection($connectionConfig);
+        return new Connection($conn);
     }
 }
