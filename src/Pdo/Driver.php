@@ -16,11 +16,9 @@ use PhpDb\Adapter\Driver\PdoConnectionInterface;
 use PhpDb\Adapter\Driver\PdoDriverAwareInterface;
 use PhpDb\Adapter\Driver\ResultInterface;
 use PhpDb\Adapter\Driver\StatementInterface;
-use PhpDb\Sqlite\DatabasePlatformNameTrait;
 
 class Driver extends AbstractPdo implements DriverFeatureProviderInterface
 {
-    use DatabasePlatformNameTrait;
     use DriverFeatureProviderTrait;
 
     public function __construct(

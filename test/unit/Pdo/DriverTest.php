@@ -44,13 +44,6 @@ final class DriverTest extends TestCase
         );
     }
 
-    public function testGetDatabasePlatformName(): void
-    {
-        $this->pdo->getConnection()->setConnectionParameters(['pdodriver' => 'pdo_sqlite']);
-        self::assertEquals('Sqlite', $this->pdo->getDatabasePlatformName());
-        self::assertEquals('SQLite', $this->pdo->getDatabasePlatformName(PdoDriverInterface::NAME_FORMAT_NATURAL));
-    }
-
     /** @psalm-return array<array-key, array{0: int|string, 1: null|string, 2: string}> */
     public static function getParamsAndType(): array
     {
