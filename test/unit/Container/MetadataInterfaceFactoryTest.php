@@ -33,7 +33,7 @@ final class MetadataInterfaceFactoryTest extends TestCase
             ->willReturn($adapterMock);
 
         $factory  = new MetadataInterfaceFactory();
-        $metadata = $factory($containerMock);
+        $metadata = $factory($containerMock, Metadata\Source::class);
 
         self::assertInstanceOf(Metadata\Source::class, $metadata);
     }

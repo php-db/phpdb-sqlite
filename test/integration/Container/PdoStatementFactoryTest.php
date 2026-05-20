@@ -23,7 +23,7 @@ final class PdoStatementFactoryTest extends TestCase
     public function testInvokeReturnsPdoStatement(): void
     {
         $factory   = new PdoStatementFactory();
-        $statement = $factory($this->container);
+        $statement = $factory($this->container, Statement::class, []);
         self::assertInstanceOf(StatementInterface::class, $statement);
         self::assertInstanceOf(Statement::class, $statement);
     }

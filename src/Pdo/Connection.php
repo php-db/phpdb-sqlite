@@ -14,6 +14,7 @@ use Webmozart\Assert\Assert;
 
 use function array_diff_key;
 use function assert;
+use function is_array;
 use function is_int;
 use function is_string;
 use function str_starts_with;
@@ -22,6 +23,16 @@ use function strtolower;
 class Connection extends AbstractPdoConnection
 {
     public final const CURRENT_SCHEMA = 'main';
+
+    public function __construct(
+        PDO|array $connectionParameters
+    ) {
+        if (is_array($connectionParameters)) {
+            $this->setConnectionParameters($connectionParameters);
+        } elseif ($connectionParameters instanceof PDO) {
+            $this->setResource($connectionParameters);
+        }
+    }
 
     /**
      * {@inheritDoc}

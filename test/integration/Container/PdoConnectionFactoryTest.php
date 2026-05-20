@@ -24,7 +24,7 @@ final class PdoConnectionFactoryTest extends TestCase
     public function testInvokeReturnsPdoConnection(): void
     {
         $factory  = new PdoConnectionFactory();
-        $instance = $factory($this->container);
+        $instance = $factory($this->container, Connection::class, ['connection' => ['dsn' => 'sqlite::memory:']]);
         self::assertInstanceOf(ConnectionInterface::class, $instance);
         self::assertInstanceOf(PdoConnectionInterface::class, $instance);
         self::assertInstanceOf(Connection::class, $instance);

@@ -20,7 +20,7 @@ final class SqliteMetadataFactoryTest extends TestCase
     public function testFactoryReturnsMysqlMetadata(): void
     {
         $factory  = new MetadataInterfaceFactory();
-        $metadata = $factory($this->container);
+        $metadata = $factory($this->container, Metadata\Source::class);
         self::assertInstanceOf(MetadataInterface::class, $metadata);
         self::assertInstanceOf(Metadata\Source::class, $metadata);
     }

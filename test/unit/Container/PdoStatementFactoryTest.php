@@ -13,47 +13,22 @@ use Psr\Container\ContainerInterface;
 #[CoversClass(PdoStatementFactory::class)]
 final class PdoStatementFactoryTest extends TestCase
 {
-    public function testInvokeReturnsStatement(): void
+    public function testInvokeReturnsStatementWithOptions(): void
     {
         $containerMock = $this->createMock(ContainerInterface::class);
-        $containerMock->method('get')
-            ->with('config')
-            ->willReturn([
-                'db' => [
-                    'options' => [],
-                ],
-            ]);
 
         $factory   = new PdoStatementFactory();
-        $statement = $factory($containerMock);
+        $statement = $factory($containerMock, Statement::class, ['key' => 'value']);
 
         self::assertInstanceOf(Statement::class, $statement);
     }
 
-    public function testInvokeWithoutOptionsConfig(): void
+    public function testInvokeReturnsStatementWithEmptyOptions(): void
     {
         $containerMock = $this->createMock(ContainerInterface::class);
-        $containerMock->method('get')
-            ->with('config')
-            ->willReturn([
-                'db' => [],
-            ]);
 
         $factory   = new PdoStatementFactory();
-        $statement = $factory($containerMock);
-
-        self::assertInstanceOf(Statement::class, $statement);
-    }
-
-    public function testInvokeWithoutDbConfig(): void
-    {
-        $containerMock = $this->createMock(ContainerInterface::class);
-        $containerMock->method('get')
-            ->with('config')
-            ->willReturn([]);
-
-        $factory   = new PdoStatementFactory();
-        $statement = $factory($containerMock);
+        $statement = $factory($containerMock, Statement::class, []);
 
         self::assertInstanceOf(Statement::class, $statement);
     }

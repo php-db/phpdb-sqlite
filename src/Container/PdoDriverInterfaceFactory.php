@@ -19,18 +19,10 @@ final class PdoDriverInterfaceFactory
         string $requestedName,
         ?array $options = null
     ): PdoDriverInterface&Pdo\Driver {
-        // if (! $container->has('config')) {
-        //     throw ContainerException::forService(
-        //         Pdo\Driver::class,
-        //         self::class,
-        //         'Container is missing config service'
-        //     );
-        // }
-
         /** @var Pdo\Connection $connectionInstance */
         $connectionInstance = $container->build(
             Pdo\Connection::class,
-            ['connection' => $options['connection'] ?? []]
+            $options
         );
 
         /** @var ResultInterface&Result $resultInstance */

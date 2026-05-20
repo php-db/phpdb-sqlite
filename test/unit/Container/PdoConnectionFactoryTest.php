@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace PhpDbTest\Sqlite\Container;
 
+use PhpDb\Adapter\Exception\InvalidConnectionParametersException;
 use PhpDb\Sqlite\Container\PdoConnectionFactory;
 use PhpDb\Sqlite\Pdo\Connection;
 use PHPUnit\Framework\Attributes\CoversClass;
@@ -16,47 +17,30 @@ final class PdoConnectionFactoryTest extends TestCase
     public function testInvokeReturnsConnection(): void
     {
         $containerMock = $this->createMock(ContainerInterface::class);
-        $containerMock->method('get')
-            ->with('config')
-            ->willReturn([
-                'db' => [
-                    'connection' => [
-                        'dsn' => 'sqlite::memory:',
-                    ],
-                ],
-            ]);
 
         $factory    = new PdoConnectionFactory();
-        $connection = $factory($containerMock);
+        $connection = $factory($containerMock, Connection::class, ['connection' => ['dsn' => 'sqlite::memory:']]);
 
         self::assertInstanceOf(Connection::class, $connection);
     }
 
-    public function testInvokeWithoutConnectionConfig(): void
+    public function testInvokeWithoutConnectionConfigThrows(): void
     {
         $containerMock = $this->createMock(ContainerInterface::class);
-        $containerMock->method('get')
-            ->with('config')
-            ->willReturn([
-                'db' => [],
-            ]);
 
-        $factory    = new PdoConnectionFactory();
-        $connection = $factory($containerMock);
+        $this->expectException(InvalidConnectionParametersException::class);
 
-        self::assertInstanceOf(Connection::class, $connection);
+        $factory = new PdoConnectionFactory();
+        $factory($containerMock, Connection::class, []);
     }
 
-    public function testInvokeWithoutDbConfig(): void
+    public function testInvokeWithNullOptionsThrows(): void
     {
         $containerMock = $this->createMock(ContainerInterface::class);
-        $containerMock->method('get')
-            ->with('config')
-            ->willReturn([]);
 
-        $factory    = new PdoConnectionFactory();
-        $connection = $factory($containerMock);
+        $this->expectException(InvalidConnectionParametersException::class);
 
-        self::assertInstanceOf(Connection::class, $connection);
+        $factory = new PdoConnectionFactory();
+        $factory($containerMock, Connection::class, null);
     }
 }
