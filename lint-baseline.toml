@@ -136,7 +136,7 @@ count = 2
 file = "src/Pdo/Feature/SqliteRowCounter.php"
 code = "no-fully-qualified-global-class-like"
 message = "Fully-qualified class-like reference detected."
-count = 2
+count = 1
 
 [[issues]]
 file = "src/Pdo/Feature/SqliteRowCounter.php"
@@ -616,18 +616,6 @@ count = 1
 file = "test/unit/Pdo/DriverTest.php"
 code = "prefer-test-attribute"
 message = "Use `#[Test]` attribute instead of `test` prefix on method `testFormatParameterName`."
-count = 1
-
-[[issues]]
-file = "test/unit/Pdo/Feature/SqliteRowCounterTest.php"
-code = "assertion-style"
-message = "Inconsistent assertions style."
-count = 1
-
-[[issues]]
-file = "test/unit/Pdo/Feature/SqliteRowCounterTest.php"
-code = "prefer-test-attribute"
-message = "Use `#[Test]` attribute instead of `test` prefix on method `testRowCounterExists`."
 count = 1
 
 [[issues]]

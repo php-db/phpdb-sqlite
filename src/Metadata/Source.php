@@ -107,7 +107,7 @@ final class Source extends AbstractSource
         $columns = [];
 
         foreach ($results as $row) {
-            $columns[$row['name']] = [
+            $columns[(string) $row['name']] = [
                 // cid appears to be zero-based, ordinal position needs to be one-based
                 'ordinal_position'         => $row['cid'] + 1,
                 'column_default'           => $row['dflt_value'],
@@ -171,7 +171,7 @@ final class Source extends AbstractSource
                 $constraint['constraint_type'] = 'PRIMARY KEY';
                 $primaryKey                    = null;
             }
-            $constraints[$constraint['constraint_name']] = $constraint;
+            $constraints[(string) $constraint['constraint_name']] = $constraint;
         }
 
         if (null !== $primaryKey) {
@@ -268,7 +268,7 @@ final class Source extends AbstractSource
                     $table = array_merge($table, $data);
                 }
             }
-            $tables[$row['name']] = $table;
+            $tables[(string) $row['name']] = $table;
         }
         $this->data['table_names'][$schema] = $tables;
     }
@@ -314,7 +314,7 @@ final class Source extends AbstractSource
             if (null !== ($data = $this->parseTrigger($row['sql']))) {
                 $trigger = array_merge($trigger, $data);
             }
-            $triggers[$trigger['trigger_name']] = $trigger;
+            $triggers[(string) $trigger['trigger_name']] = $trigger;
         }
 
         $this->data['triggers'][$schema] = $triggers;
