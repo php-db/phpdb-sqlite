@@ -628,13 +628,13 @@ count = 1
 file = "src/Pdo/Feature/SqliteRowCounter.php"
 code = "mixed-array-access"
 message = "Unsafe array access on type `mixed`."
-count = 2
+count = 1
 
 [[issues]]
 file = "src/Pdo/Feature/SqliteRowCounter.php"
 code = "mixed-assignment"
 message = "Assigning `mixed` type to a variable may lead to unexpected behavior."
-count = 2
+count = 1
 
 [[issues]]
 file = "src/Pdo/Feature/SqliteRowCounter.php"
@@ -657,19 +657,7 @@ count = 1
 [[issues]]
 file = "src/Pdo/Feature/SqliteRowCounter.php"
 code = "unhandled-thrown-type"
-message = 'Potentially unhandled exception `PDOException` in `PhpDb\Sqlite\Pdo\Feature\SqliteRowCounter::getCountForSql`.'
-count = 1
-
-[[issues]]
-file = "src/Pdo/Feature/SqliteRowCounter.php"
-code = "unhandled-thrown-type"
 message = 'Potentially unhandled exception `PhpDb\Adapter\Exception\InvalidQueryException` in `PhpDb\Sqlite\Pdo\Feature\SqliteRowCounter::getCountForStatement`.'
-count = 1
-
-[[issues]]
-file = "src/Pdo/Feature/SqliteRowCounter.php"
-code = "unhandled-thrown-type"
-message = 'Potentially unhandled exception `PhpDb\Adapter\Exception\RuntimeException` in `PhpDb\Sqlite\Pdo\Feature\SqliteRowCounter::getCountForStatement`.'
 count = 1
 
 [[issues]]
