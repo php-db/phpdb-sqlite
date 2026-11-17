@@ -10,12 +10,34 @@ use PhpDb\Adapter\Exception\VunerablePlatformQuoteException;
 use PhpDb\Sqlite\AdapterPlatform;
 use PhpDb\Sqlite\Sql\Platform as SqlPlatformDecorator;
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 #[CoversClass(AdapterPlatform::class)]
 final class AdapterPlatformTest extends TestCase
 {
     private AdapterPlatform $platform;
+
+    /**
+     * @return array<string, array{string, string}>
+     */
+    public static function identifiersWithEmbeddedQuotes(): array
+    {
+        return [
+            'quote inside a name'    => ['my"col', '"my""col"'],
+            'quote only'             => ['"', '""""'],
+            'adjacent quotes'        => ['a""b', '"a""""b"'],
+            'single quote unchanged' => ["it's", "\"it's\""],
+        ];
+    }
+
+    #[DataProvider('identifiersWithEmbeddedQuotes')]
+    #[Test]
+    public function quoteIdentifierDoublesEmbeddedQuoteCharacters(string $identifier, string $expected): void
+    {
+        static::assertSame($expected, $this->platform->quoteIdentifier($identifier));
+    }
 
     public function testConstructWithPdo(): void
     {

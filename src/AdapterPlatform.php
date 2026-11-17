@@ -21,10 +21,8 @@ class AdapterPlatform extends AbstractPlatform
 
     protected PdoDriverInterface|PDO|null $resource = null;
 
-    /**
-     * {@inheritDoc}
-     */
-    protected string $quoteIdentifierTo = '\'';
+    /** Replacement for a quote character inside an identifier; SQLite doubles it */
+    protected string $quoteIdentifierTo = '""';
 
     public function __construct(
         protected readonly PdoDriverInterface|PDO|null $driver = null,
