@@ -6,7 +6,7 @@ namespace PhpDbTest\Sqlite;
 
 use PDO;
 use PhpDb\Adapter\Driver\PdoDriverInterface;
-use PhpDb\Adapter\Exception\VunerablePlatformQuoteException;
+use PhpDb\Adapter\Exception\RuntimeException;
 use PhpDb\Sqlite\AdapterPlatform;
 use PhpDb\Sqlite\Sql\Platform as SqlPlatformDecorator;
 use PHPUnit\Framework\Attributes\CoversClass;
@@ -152,7 +152,8 @@ final class AdapterPlatformTest extends TestCase
     {
         $expected = "'Foo O\\'Bar'";
         $platform = new AdapterPlatform();
-        $this->expectException(VunerablePlatformQuoteException::class);
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('without extension/driver support can introduce security vulnerabilities');
         $actual = $platform->quoteValueList("Foo O'Bar");
         self::assertEquals($expected, $actual);
     }
@@ -161,7 +162,8 @@ final class AdapterPlatformTest extends TestCase
     {
         $platform = new AdapterPlatform();
         //$this->expectNotToPerformAssertions();
-        $this->expectException(VunerablePlatformQuoteException::class);
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('without extension/driver support can introduce security vulnerabilities');
         $platform->quoteValue('value');
     }
 
